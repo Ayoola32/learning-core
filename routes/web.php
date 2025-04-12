@@ -9,9 +9,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('admin/dashboard', function () {
-    return view('admin.dashboard');
-})->middleware(['auth:admin', 'verified'])->name('admin.dashboard');
 
 Route::group(['middleware' => ['auth:web', 'verified', 'check_role:student'], 'prefix' => 'student', 'as' => 'student.'], function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
