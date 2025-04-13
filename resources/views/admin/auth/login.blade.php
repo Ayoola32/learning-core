@@ -37,6 +37,7 @@
             </div>
             <div class="card card-md">
                 <div class="card-body">
+                    <x-auth-session-status class="mb-4" :status="session('status')" />
                     <h2 class="h2 text-center mb-4">Admin Login</h2>
                     <form method="POST" action="{{ route('admin.login.store') }}">
                         @csrf
