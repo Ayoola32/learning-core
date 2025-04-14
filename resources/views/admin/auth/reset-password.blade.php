@@ -23,6 +23,7 @@
             font-feature-settings: "cv03", "cv04", "cv11";
         }
     </style>
+    @vite(['resources/js/admin/login.js'])
 </head>
 
 <body class=" d-flex flex-column">
@@ -46,8 +47,9 @@
                         {{-- Email --}}
                         <div class="mb-3">
                             <label class="form-label">Email</label>
-                            <input type="email" name="email" value="{{ old('email', $request->email) }}" class="form-control"
-                                placeholder="your@email.com" autocomplete="username" autofocus required>
+                            <input type="email" name="email" value="{{ old('email', $request->email) }}"
+                                class="form-control" placeholder="your@email.com" autocomplete="username" autofocus
+                                required>
                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
                         </div>
 
@@ -58,9 +60,10 @@
                                 Password
                             </label>
                             <div class="input-group input-group-flat">
-                                <input type="password" name="password" class="form-control" placeholder="New password"
-                                    autocomplete="password" required>
-                                <span class="input-group-text">
+                                <input type="password" name="password" class="form-control password" placeholder="New password" 
+                                autocomplete="new-password" required>
+
+                                <span class="input-group-text toggle-password">
                                     <a href="#" class="link-secondary" title="Show password"
                                         data-bs-toggle="tooltip"><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
@@ -77,15 +80,15 @@
                             <x-input-error :messages="$errors->get('password')" class="mt-2" />
                         </div>
 
-                        {{--Confirm Password --}}
+                        {{-- Confirm Password --}}
                         <div class="mb-2">
                             <label for="password_confirmation" class="form-label">
                                 Confirm Password
                             </label>
                             <div class="input-group input-group-flat">
-                                <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm password"
-                                    autocomplete="new-password" required>
-                                <span class="input-group-text">
+                                <input type="password" name="password_confirmation" class="form-control password"
+                                    placeholder="Confirm password" autocomplete="new-password" required>
+                                <span class="input-group-text toggle-password">
                                     <a href="#" class="link-secondary" title="Show password"
                                         data-bs-toggle="tooltip"><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
@@ -123,4 +126,3 @@
 </body>
 
 </html>
-
