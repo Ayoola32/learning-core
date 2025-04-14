@@ -78,11 +78,10 @@
                 </div>
             </div>
         </div>
-        <a class="back_btn" href="index.html">Back to Home</a>
     </section>
     <!--===========================
         SIGN IN END
     ============================-->
 
-    
+
 @endsection
