@@ -36,11 +36,11 @@
 
 
     <!--============ PRELOADER START ===========-->
-    <div id="preloader">
+    {{-- <div id="preloader">
         <div class="preloader_icon">
             <img src="{{ asset('frontend/assets/images/preloader.png') }}" alt="Preloader" class="img-fluid">
         </div>
-    </div>
+    </div> --}}
     <!--============ PRELOADER START ===========-->
 
     {{-- HEADER START --}}
