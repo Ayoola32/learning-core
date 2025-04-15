@@ -20,11 +20,11 @@
                                 data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
                                 aria-selected="true">Student</button>
                         </li>
-                        {{-- <li class="nav-item" role="presentation">
+                        <li class="nav-item" role="presentation">
                             <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
                                 data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
                                 aria-selected="false">Instructor</button>
-                        </li> --}}
+                        </li>
                     </ul>
 
                     <div class="tab-content" id="pills-tabContent">
@@ -93,46 +93,69 @@
                             </form>
                         </div>
 
-                        {{-- <div class="tab-pane fade" id="pills-profile" role="tabpanel"
+                        <div class="tab-pane fade" id="pills-profile" role="tabpanel"
                             aria-labelledby="pills-profile-tab" tabindex="0">
-                            <form action="#">
-                                <h2>Sign Up<span>!</span></h2>
-                                <p class="new_user">Already have an account? <a href="sign_in.html">Sign In</a></p>
+                            <form action="{{ route('register', ['type' => 'instructor']) }}" method="POST">
+                                @csrf
+                                <h2>Sign up as an Instructor <span>!</span></h2>
+                                <p class="new_user">Already have an account? <a href="{{route('login')}}">Sign In</a></p>
                                 <div class="row">
+
+                                    <!-- Name -->
                                     <div class="col-xl-12">
                                         <div class="wsus__login_form_input">
-                                            <label>First name</label>
-                                            <input type="text" placeholder="First name">
+                                            <label>Name</label>
+                                            <input type="text" name="name" placeholder="Name" value="{{old('name')}}" autofocus autocomplete="name">
+                                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
                                         </div>
                                     </div>
-                                    <div class="col-xl-12">
-                                        <div class="wsus__login_form_input">
-                                            <label>Last name</label>
-                                            <input type="text" placeholder="Last name">
-                                        </div>
-                                    </div>
+
+
+                                    <!-- Email Address -->
                                     <div class="col-xl-12">
                                         <div class="wsus__login_form_input">
                                             <label>Your email</label>
-                                            <input type="email" placeholder="Your email">
+                                            <input type="email" name="email" placeholder="Your email" value="{{old('email')}}" autocomplete="username">
+                                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                         </div>
                                     </div>
+
+
+                                    
+                                    <!-- Password -->
                                     <div class="col-xl-12">
                                         <div class="wsus__login_form_input">
                                             <label>Password</label>
-                                            <input type="password" placeholder="Your password">
+                                            <input type="password" name="password" placeholder="Your password" autocomplete="off">
+                                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                         </div>
                                     </div>
+
+                                    <!-- Confirm Password -->
+                                    <div class="col-xl-12">
+                                        <div class="wsus__login_form_input">
+                                            <label>Confirm Password</label>
+                                            <input type="password" name="password_confirmation" placeholder="Confirm password" autocomplete="off">
+                                            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                                        </div>
+                                    </div>
+
+                                    <!-- Document File -->
+                                    <div class="col-xl-12">
+                                        <div class="wsus__login_form_input">
+                                            <label>Document (Education / Certifications)</label>
+                                            <input type="file" name="document" required>
+                                            <x-input-error :messages="$errors->get('document')" class="mt-2" />
+                                        </div>
+                                    </div>
+
                                     <div class="col-xl-12">
                                         <div class="wsus__login_form_input">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" value=""
-                                                    id="flexCheckDefault1">
-                                                <label class="form-check-label" for="flexCheckDefault1"> By clicking
-                                                    Create
-                                                    account, I agree that I have read and accepted the <a href="#">Terms
-                                                        of
-                                                        Use</a> and <a href="#">Privacy Policy.</a>
+                                                    id="flexCheckDefault" required>
+                                                <label class="form-check-label" for="flexCheckDefault"> By clicking
+                                                    Create account, I agree that I have read and accepted the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy.</a>
                                                 </label>
                                             </div>
                                             <button type="submit" class="common_btn">Sign Up</button>
@@ -140,7 +163,7 @@
                                     </div>
                                 </div>
                             </form>
-                        </div> --}}
+                        </div> 
                     </div>
                 </div>
             </div>
