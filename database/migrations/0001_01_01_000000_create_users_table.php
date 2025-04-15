@@ -13,11 +13,21 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->enum('role', ['instructor', 'student'])->default('student');   
+            $table->string('image')->default('/default-files/avatar.png');
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['instructor', 'student'])->default('student');   
+            $table->string('headline')->nullable();
+            $table->text('bio')->nullable();
+            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('twitter')->nullable();
+            $table->string('linkedin')->nullable();
+            $table->string('github')->nullable();
+            $table->string('website')->nullable();
+            $table->enum('login_as', ['student', 'instructor'])->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

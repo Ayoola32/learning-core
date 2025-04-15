@@ -31,7 +31,7 @@
                         <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                             aria-labelledby="pills-home-tab" tabindex="0">
 
-                            <form action="{{ route('register') }}" method="POST">
+                            <form action="{{ route('register', ['type' => 'student']) }}" method="POST">
                                 @csrf
 
                                 <h2>Sign Up<span>!</span></h2>
