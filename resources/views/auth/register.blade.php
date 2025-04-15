@@ -1,5 +1,3 @@
-</x-guest-layout> --}}
-
 @extends('frontend.layouts.master')
 
 @section('content')

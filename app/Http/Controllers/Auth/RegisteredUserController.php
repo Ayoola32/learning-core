@@ -31,7 +31,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -46,12 +46,13 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
 
-        if($request->user()->role == 'student') {
+        if ($request->user()->role == 'student') {
             return redirect()->intended(route('student.dashboard', absolute: false));
-        } elseif($request->user()->role =='instructor') {
+        } elseif ($request->user()->role == 'instructor') {
             return redirect()->intended(route('instructor.dashboard', absolute: false));
-        } else {
-            return redirect()->intended(route('/', absolute: false));
         }
+
+        // Default redirect if no role matches
+        return redirect()->route('home');
     }
 }
