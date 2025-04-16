@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\InstructorRequestApprrovedMail;
+use App\Mail\InstructorRequestRejectMail;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -72,10 +73,22 @@ class InstructorRequestController extends Controller
             $instructor_request->role = 'student';
         }
 
-        if (config('mail_queue.is_queue')) {
-            Mail::to($instructor_request->email)->queue(new InstructorRequestApprrovedMail());
-        }else{
-            Mail::to($instructor_request->email)->send(new InstructorRequestApprrovedMail());
+        switch ($instructor_request->approval_status) {
+            case 'approved':
+                if (config('mail_queue.is_queue')) {
+                    Mail::to($instructor_request->email)->queue(new InstructorRequestApprrovedMail());
+                } else {
+                    Mail::to($instructor_request->email)->send(new InstructorRequestApprrovedMail());
+                }
+                break;
+
+            case 'rejected':
+                if (config('mail_queue.is_queue')) {
+                    Mail::to($instructor_request->email)->queue(new InstructorRequestRejectMail());
+                } else {
+                    Mail::to($instructor_request->email)->send(new InstructorRequestRejectMail());
+                }
+                break;
         }
 
         $instructor_request->save();
