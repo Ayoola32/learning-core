@@ -73,6 +73,24 @@ class InstructorRequestController extends Controller
             $instructor_request->role = 'student';
         }
 
+        $this->sendNotification($instructor_request);
+
+        $instructor_request->save();
+        return redirect()->back();
+    }
+
+    /**
+     * Request for Download instructor submit file.
+     */
+    public function download(User $user)
+    {
+        return response()->download(public_path($user->document));
+
+    }
+
+    // Send Notification
+    public function sendNotification($instructor_request) : void
+    {
         switch ($instructor_request->approval_status) {
             case 'approved':
                 if (config('mail_queue.is_queue')) {
@@ -90,25 +108,5 @@ class InstructorRequestController extends Controller
                 }
                 break;
         }
-
-        $instructor_request->save();
-        return redirect()->back();
-    }
-
-    /**
-     * Request for Download instructor submit file.
-     */
-    public function download(User $user)
-    {
-        return response()->download(public_path($user->document));
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }
