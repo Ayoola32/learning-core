@@ -74,6 +74,15 @@ class InstructorRequestController extends Controller
     }
 
     /**
+     * Request for Download instructor submit file.
+     */
+    public function download(User $user)
+    {
+        return response()->download(public_path($user->document));
+
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
