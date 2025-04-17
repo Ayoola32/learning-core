@@ -37,7 +37,7 @@
 
 
                 <div class="col-xl-9 col-md-8">
-                    @if (auth()->user()->approval_status == 'pending')
+                    @if (auth()->user()->approval_status !== 'pending')
                         <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
                             <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
                                 <path
@@ -67,15 +67,18 @@
                     @endif
                     
                 
+                    @if (auth()->user()->approval_status !== 'pending')
                         <div class="card mt-5">
                             <div class="card-header">
                                 Become an Instructor
                             </div>
                             <div class="card-body">
-                                <form action="">
+                                <form action="{{route('student.become-instructor.update', auth()->user()->id)}}" method="POST" enctype="multipart/form-data">
+                                    @csrf
                                     <div class="form-group">
                                         <label for="document">Document</label>
                                         <input type="file" name="document" id="">
+                                        <x-input-error :messages="$errors->get('document')" class="mt-2" />
                                     </div>
 
                                     <div class="form-group mt-3">
@@ -84,6 +87,7 @@
                                 </form>
                             </div>
                         </div>
+                    @endif
 
                     </div>
                 </div>
