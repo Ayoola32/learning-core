@@ -87,7 +87,7 @@
                                 <div class="col-xl-6">
                                     <div class="wsus__dashboard_profile_update_info">
                                         <label>Gender</label>
-                                        <select name="gender" id="" class="form-control">
+                                        <select name="gender" id="" class="form-control gender-options">
                                             <option value="">Select</option>
                                             <option value="male">Male</option>
                                             <option value="female">Female</option>
