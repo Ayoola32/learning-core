@@ -26,7 +26,7 @@
             </li>
 
             <li>
-                <a href="dashboard_profile.html">
+                <a href="{{ route('student.profile.index')}}">
                     <div class="img">
                         <img src="{{ asset('frontend/assets/images/dash_icon_1.png') }}" alt="icon"
                             class="img-fluid w-100">
