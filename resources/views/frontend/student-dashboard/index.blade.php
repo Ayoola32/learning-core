@@ -97,7 +97,7 @@
 
                     @if (auth()->user()->approval_status !== 'pending')
                         <div class="text-end">
-                            <a href="{{ route('student.become-instructor') }}" class="btn btn-primary">Become an
+                            <a href="{{ route('student.become-instructor') }}" class="btn btn-primary common_btn">Become an
                                 Instructor</a>
                         </div>
                     @endif

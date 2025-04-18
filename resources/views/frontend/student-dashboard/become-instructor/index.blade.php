@@ -66,6 +66,9 @@
                         </div>
                     @endif
                     
+                    <div class="text-end">
+                        <a href="{{ route('student.dashboard') }}" class="btn btn-primary common_btn"> Back to Dashboard </a>
+                    </div>
                 
                     @if (auth()->user()->approval_status !== 'pending')
                         <div class="card mt-5">
