@@ -60,7 +60,7 @@
                                 <use xlink:href="#info-fill" />
                             </svg>
                             <div>
-                                Hi, {{ auth()->user()->name }}, your Instructor account request is currently pending. You
+                                Hi {{ auth()->user()->first_name }}, your Instructor account request is currently pending. You
                                 will recieve a notification once it is approved.
                             </div>
                         </div>

@@ -65,10 +65,16 @@
 
                         <form action="#" class="wsus__dashboard_profile_update">
                             <div class="row">
-                                <div class="col-xl-12">
+                                <div class="col-xl-6">
                                     <div class="wsus__dashboard_profile_update_info">
-                                        <label>Full Name</label>
-                                        <input type="text" name="name" placeholder="Enter your full name">
+                                        <label>First Name</label>
+                                        <input type="text" name="first_name" placeholder="Enter your First name">
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="wsus__dashboard_profile_update_info">
+                                        <label>Last Name</label>
+                                        <input type="text" name="last_name" placeholder="Enter your Last name">
                                     </div>
                                 </div>
                                 <div class="col-xl-6">
@@ -88,17 +94,11 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-xl-12">
-                                    <div class="wsus__dashboard_profile_update_info">
-                                        <label>Website</label>
-                                        <input type="text" name="website" placeholder="Enter your Website Address">
-                                    </div>
-                                </div>
 
                                 <div class="col-xl-12">
                                     <div class="wsus__dashboard_profile_update_info">
                                         <label>Headline</label>
-                                        <textarea rows="3" name="headline" placeholder="Your Headline here"></textarea>
+                                        <textarea rows="2" name="headline" placeholder="Your Headline here"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-xl-12">
@@ -133,6 +133,12 @@
 
                         <form action="#" class="wsus__dashboard_profile_update">
                             <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="wsus__dashboard_profile_update_info">
+                                        <label>Website</label>
+                                        <input type="text" name="website" placeholder="Enter your Website Address">
+                                    </div>
+                                </div>
                                 <div class="col-xl-6">
                                     <div class="wsus__dashboard_profile_update_info">
                                         <label>Facebook</label>

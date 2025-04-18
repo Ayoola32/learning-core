@@ -11,7 +11,7 @@
                 <img src="{{ asset(auth()->user()->image) }}" alt="profile"
                     class="img-fluid w-100">
             </div>
-            <h4>{{auth()->user()->name}}</h4>
+            <h4>{{auth()->user()->first_name}} {{auth()->user()->last_name}} </h4>
             <p>{{auth()->user()->role}}</p>
         </div>
         <ul class="wsus__dashboard_sidebar_menu">
