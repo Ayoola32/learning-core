@@ -37,7 +37,7 @@
 
 
                 <div class="col-xl-9 col-md-8">
-                    @if (auth()->user()->approval_status !== 'pending')
+                    @if (auth()->user()->approval_status == 'pending')
                         <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
                             <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
                                 <path
