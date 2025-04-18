@@ -16,7 +16,7 @@
         </div>
         <ul class="wsus__dashboard_sidebar_menu">
             <li>
-                <a href="{{route('student.dashboard')}}" class="active">
+                <a href="{{route('student.dashboard')}}" class="">
                     <div class="img">
                         <img src="{{ asset('frontend/assets/images/dash_icon_8.png') }}" alt="icon"
                             class="img-fluid w-100">
