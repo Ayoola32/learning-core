@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\ProfilePasswordUpdateRequest;
+use App\Http\Requests\Frontend\ProfileSocialLinksUpdateRequest;
 use App\Http\Requests\Frontend\ProfileUpdateRequest;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
@@ -77,6 +78,22 @@ class StudentProfileController extends Controller
     {
         $user = Auth::user();
         $user->password = bcrypt($request->password);
+
+        $user->save();
+        return redirect()->back();
+    }
+
+    /**
+     * Update Email/Password.
+     */
+    public function updateSocialLinks(ProfileSocialLinksUpdateRequest $request) : RedirectResponse
+    {
+        $user = Auth::user();
+        $user->website = $request->website;
+        $user->facebook = $request->facebook;
+        $user->twitter = $request->twitter;
+        $user->linkedin = $request->linkedin;
+        $user->github = $request->github;
 
         $user->save();
         return redirect()->back();

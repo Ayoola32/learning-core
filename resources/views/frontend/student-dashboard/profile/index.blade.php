@@ -37,7 +37,7 @@
 
                 <div class="col-xl-9 col-md-8 wow fadeInRight">
                     {{-- PROFILE DETAILS UPDATE --}}
-                    <div class="wsus__dashboard_contant">
+                    <div class="wsus__dashboard_contant bg-light">
 
                         <div class="wsus__dashboard_contant_top d-flex flex-wrap justify-content-between">
                             <div class="wsus__dashboard_heading">
@@ -173,49 +173,52 @@
 
 
                     {{-- SOCIAL LINKS UPDATE --}}
-                    <div class="wsus__dashboard_contant">
+                    <div class="wsus__dashboard_contant bg-light">
 
                         <div class="wsus__dashboard_contant_top d-flex flex-wrap justify-content-between">
                             <div class="wsus__dashboard_heading">
                                 <h5>Update Social Link Infos</h5>
                                 <p>Update and manage your information in real-time.</p>
                             </div>
-                            <div class="wsus__dashboard_profile_delete">
-                                {{-- <a href="#" class="common_btn">Delete Profile</a> --}}
-                            </div>
                         </div>
 
 
-                        <form action="#" class="wsus__dashboard_profile_update">
+                        <form action="{{ route('student.profile.update-social-links')}}" method="POST" class="wsus__dashboard_profile_update">
+                            @csrf
                             <div class="row">
                                 <div class="col-xl-12">
                                     <div class="wsus__dashboard_profile_update_info">
                                         <label>Website</label>
-                                        <input type="text" name="website" placeholder="Enter your Website Address">
+                                        <input type="text" name="website" value="{{auth()->user()->website}}" placeholder="Enter your Website Address">
+                                        <x-input-error :messages="$errors->get('website')" class="mt-2" />
                                     </div>
                                 </div>
                                 <div class="col-xl-6">
                                     <div class="wsus__dashboard_profile_update_info">
                                         <label>Facebook</label>
-                                        <input type="text" name="facebook" placeholder="Facebook Profile URL">
+                                        <input type="text" name="facebook" value= "{{auth()->user()->facebook}}" placeholder="Facebook Profile URL">
+                                        <x-input-error :messages="$errors->get('facebook')" class="mt-2" />
                                     </div>
                                 </div>
                                 <div class="col-xl-6">
                                     <div class="wsus__dashboard_profile_update_info">
                                         <label>X - (Twitter)</label>
-                                        <input type="text" name="twitter" placeholder="Twitter Profile URL">
+                                        <input type="text" name="twitter" value="{{auth()->user()->twitter}}" placeholder="Twitter Profile URL">
+                                        <x-input-error :messages="$errors->get('twitter')" class="mt-2" />
                                     </div>
                                 </div>
                                 <div class="col-xl-6">
                                     <div class="wsus__dashboard_profile_update_info">
                                         <label>LinkedIn</label>
-                                        <input type="text" name="linkedin" placeholder="LinkedIn Profile URL">
+                                        <input type="text" name="linkedin"  value="{{auth()->user()->linkedin}}" placeholder="LinkedIn Profile URL">
+                                        <x-input-error :messages="$errors->get('linkedin')" class="mt-2" />
                                     </div>
                                 </div>
                                 <div class="col-xl-6">
                                     <div class="wsus__dashboard_profile_update_info">
                                         <label>Github</label>
-                                        <input type="text" name="github" placeholder="Github Profile URL">
+                                        <input type="text" name="github" value="{{auth()->user()->github}}" placeholder="Github Profile URL">
+                                        <x-input-error :messages="$errors->get('github')" class="mt-2" />
                                     </div>
                                 </div>
 
