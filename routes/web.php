@@ -19,6 +19,7 @@ Route::group(['middleware' => ['auth:web', 'verified', 'check_role:student'], 'p
     // Profile Controller
     Route::get('/profile', [StudentProfileController::class, 'index'])->name('profile.index');
     Route::post('/profile-update', [StudentProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/update-password', [StudentProfileController::class, 'updatePassword'])->name('profile.update-password');
 });
 
 // Instructor Route

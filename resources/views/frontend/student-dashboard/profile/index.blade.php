@@ -36,6 +36,7 @@
                 @include('frontend.student-dashboard.sidebar')
 
                 <div class="col-xl-9 col-md-8 wow fadeInRight">
+                    {{-- PROFILE DETAILS UPDATE --}}
                     <div class="wsus__dashboard_contant">
 
                         <div class="wsus__dashboard_contant_top d-flex flex-wrap justify-content-between">
@@ -83,7 +84,7 @@
                                 <div class="col-xl-6">
                                     <div class="wsus__dashboard_profile_update_info">
                                         <label>Email</label>
-                                        <input disabled type="email" name="email" value="{{ auth()->user()->email}}" placeholder="Enter your Email">
+                                        <input type="email" name="email" value="{{ auth()->user()->email}}" placeholder="Enter your Email">
                                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                     </div>
                                 </div>
@@ -102,14 +103,14 @@
                                 <div class="col-xl-12">
                                     <div class="wsus__dashboard_profile_update_info">
                                         <label>Headline</label>
-                                        <textarea rows="2" name="headline" placeholder="Your Headline here">{{ auth()->user()->headline}}</textarea>
+                                        <textarea rows="2" name="headline" placeholder="Your Headline here">{{ auth()->user()->headline }}</textarea>
                                         <x-input-error :messages="$errors->get('headline')" class="mt-2" />
                                     </div>
                                 </div>
                                 <div class="col-xl-12">
                                     <div class="wsus__dashboard_profile_update_info">
                                         <label>About Me</label>
-                                        <textarea rows="7" name="bio" placeholder="About Yourself here!">{{ auth()->user()->bio}}</textarea>
+                                        <textarea rows="7" name="bio" placeholder="About Yourself here!">{{ auth()->user()->bio }}</textarea>
                                         <x-input-error :messages="$errors->get('bio')" class="mt-2" />
                                     </div>
                                 </div>
@@ -124,6 +125,54 @@
 
 
 
+                    {{-- PASSWORD UPDATE --}}
+                    <div class="wsus__dashboard_contant bg-light">
+                        <div class="wsus__dashboard_contant_top d-flex flex-wrap justify-content-between">
+                            <div class="wsus__dashboard_heading">
+                                <h5>Update Your Password</h5>
+                                <p>Update and manage your information in real-time.</p>
+                            </div>
+
+                        </div>
+
+                        <form action="{{ route('student.profile.update-password') }}" method="POST"
+                            class="wsus__dashboard_profile_update">
+                            @csrf
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="wsus__dashboard_profile_update_info">
+                                        <label>Current Password</label>
+                                        <input type="password" name="current_password" placeholder="Enter your Current Password" autocomplete="new-password">
+                                        <x-input-error :messages="$errors->get('current_password')" class="mt-2" />
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="wsus__dashboard_profile_update_info">
+                                        <label>New Password</label>
+                                        <input type="password" name="password" placeholder="Enter your New Password" autocomplete="new-password">
+                                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="wsus__dashboard_profile_update_info">
+                                        <label>Confirm Password</label>
+                                        <input type="password" name="password_confirmation" placeholder="Enter your New Password" autocomplete="new-password">
+                                        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-xl-12">
+                                    <div class="wsus__dashboard_profile_update_btn">
+                                        <button type="submit" class="common_btn">Update Password</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    {{-- SOCIAL LINKS UPDATE --}}
                     <div class="wsus__dashboard_contant">
 
                         <div class="wsus__dashboard_contant_top d-flex flex-wrap justify-content-between">
@@ -170,19 +219,19 @@
                                     </div>
                                 </div>
 
-                                    <div class="wsus__dashboard_profile_update_btn">
-                                        <button type="submit" class="common_btn">Update Social Links</button>
-                                    </div>
+                                <div class="wsus__dashboard_profile_update_btn">
+                                    <button type="submit" class="common_btn">Update Social Links</button>
                                 </div>
                             </div>
-                        </form>
                     </div>
+                    </form>
                 </div>
-
             </div>
+
+        </div>
         </div>
     </section>
     <!--===========================
-                    PROFILE OVERVIEW END
-                ============================-->
+                        PROFILE OVERVIEW END
+                    ============================-->
 @endsection

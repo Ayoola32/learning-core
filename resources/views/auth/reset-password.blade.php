@@ -50,7 +50,7 @@
                                         <div class="wsus__login_form_input">
                                             <label>Confirm Password*</label>
                                             <input type="password" name="password_confirmation" placeholder="Password" required autocomplete="new-password">
-                                            <x-input-error :messages="$errors->get('passpassword_confirmationword')" class="mt-2" />
+                                            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                                         </div>
                                     </div>
 
