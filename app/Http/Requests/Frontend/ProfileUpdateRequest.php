@@ -28,7 +28,7 @@ class ProfileUpdateRequest extends FormRequest
             'gender' => ['nullable', 'in:male,female'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email,' . \Illuminate\Support\Facades\Auth::user()->id],
             'bio' => ['nullable', 'string', 'max:7500'],
-
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ];
     }
 }

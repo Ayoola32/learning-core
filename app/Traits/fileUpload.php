@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\File;
 
 trait FileUpload
 {
@@ -10,7 +11,7 @@ trait FileUpload
     function uploadFile(UploadedFile $file, string $directory = 'uploads'): string
     {
         // Generate a unique filename
-        $filename = 'lc_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $filename = 'lc_' . time() . uniqid() . '.' . $file->getClientOriginalExtension();
 
         // check if directory exists, if not create it
         if (!is_dir(public_path($directory))) {
@@ -22,4 +23,16 @@ trait FileUpload
         return '/' . $directory . '/' . $filename;
     }
 
+    /**
+     * Delete a file from the public directory if it exists.
+     */
+    public function deleteFile(string $filePath): bool
+    {
+        $fullPath = public_path($filePath);
+        if (File::exists($fullPath)) {
+            File::delete($fullPath);
+            return true;
+        }
+        return false;
+    }
 }

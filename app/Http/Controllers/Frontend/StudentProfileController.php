@@ -7,6 +7,7 @@ use App\Http\Requests\Frontend\ProfilePasswordUpdateRequest;
 use App\Http\Requests\Frontend\ProfileSocialLinksUpdateRequest;
 use App\Http\Requests\Frontend\ProfileUpdateRequest;
 use App\Models\User;
+use App\Traits\FileUpload;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 class StudentProfileController extends Controller
 {
+    use FileUpload;
     /**
      * Display a listing of the resource.
      */
@@ -23,58 +25,38 @@ class StudentProfileController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(ProfileUpdateRequest $request) : RedirectResponse
+    public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-       $user = Auth::user();
-       $user->first_name = $request->first_name;
-       $user->last_name = $request->last_name;
-       $user->email = $request->email;
-       $user->headline = $request->headline;
-       $user->bio = $request->bio;
-       $user->gender = $request->gender;
+        $user = Auth::user();
 
-       $user->save();
-       return redirect()->back();
+        if ($request->hasFile('image')) {
+            $imagePath = $this->uploadFile($request->file('image'), 'uploads/profile_images');
+            
+            // Delete old image if exists
+            if ($user->image) {
+                $this->deleteFile($user->image);
+            }
+
+            $user->image = $imagePath;
+        }
+
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->headline = $request->headline;
+        $user->bio = $request->bio;
+        $user->gender = $request->gender;
+
+        $user->save();
+        return redirect()->back();
     }
 
     /**
      * Update Email/Password.
      */
-    public function updatePassword(ProfilePasswordUpdateRequest $request) : RedirectResponse
+    public function updatePassword(ProfilePasswordUpdateRequest $request): RedirectResponse
     {
         $user = Auth::user();
         $user->password = bcrypt($request->password);
@@ -86,7 +68,7 @@ class StudentProfileController extends Controller
     /**
      * Update Email/Password.
      */
-    public function updateSocialLinks(ProfileSocialLinksUpdateRequest $request) : RedirectResponse
+    public function updateSocialLinks(ProfileSocialLinksUpdateRequest $request): RedirectResponse
     {
         $user = Auth::user();
         $user->website = $request->website;
