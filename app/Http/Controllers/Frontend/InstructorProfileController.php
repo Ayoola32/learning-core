@@ -50,6 +50,7 @@ class InstructorProfileController extends Controller
         $user->gender = $request->gender;
 
         $user->save();
+        notyf()->success('Your profile has been updated.');
         return redirect()->back();
     }
 
@@ -63,6 +64,7 @@ class InstructorProfileController extends Controller
         $user->password = bcrypt($request->password);
 
         $user->save();
+        notyf()->success('Password Updated Successfully.');
         return redirect()->back();
     }
 
@@ -80,6 +82,7 @@ class InstructorProfileController extends Controller
         $user->github = $request->github;
 
         $user->save();
+        notyf()->success('Social Links Updated Successfully.');
         return redirect()->back();
     }
 }

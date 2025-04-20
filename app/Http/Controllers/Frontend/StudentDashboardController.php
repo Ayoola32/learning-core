@@ -36,6 +36,7 @@ class StudentDashboardController extends Controller
             'document' => $filePath,
         ]);
 
+        notyf()->success('Request Sent Successfully.');
         return redirect()->route('student.dashboard');
 
     }
