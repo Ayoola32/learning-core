@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth:web', 'verified', 'check_role:instructor'],
     Route::get('/profile', [InstructorProfileController::class, 'index'])->name('profile.index');
     Route::post('/profile-update', [InstructorProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile/update-password', [InstructorProfileController::class, 'updatePassword'])->name('profile.update-password');
+    Route::post('/profile/update-social-links', [InstructorProfileController::class, 'updateSocialLinks'])->name('profile.update-social-links');
     
 });
 
