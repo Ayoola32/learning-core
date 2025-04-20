@@ -50,7 +50,7 @@
                             </div>
                         </div>
 
-                        <form action="" method="POST" class="wsus__dashboard_profile_update" enctype="multipart/form-data">
+                        <form action="{{ route('instructor.profile.update') }}" method="POST" class="wsus__dashboard_profile_update" enctype="multipart/form-data">
                             @csrf
 
                             <div class="wsus__dashboard_profile wsus__dashboard_profile_avatar">

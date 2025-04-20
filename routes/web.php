@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth:web', 'verified', 'check_role:instructor'],
 
     // Profile Controller
     Route::get('/profile', [InstructorProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile-update', [InstructorProfileController::class, 'update'])->name('profile.update');
     
 });
 
