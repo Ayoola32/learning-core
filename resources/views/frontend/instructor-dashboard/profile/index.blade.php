@@ -138,7 +138,7 @@
 
                         </div>
 
-                        <form action="" method="POST"
+                        <form action="{{ route('instructor.profile.update-password')}}" method="POST"
                             class="wsus__dashboard_profile_update">
                             @csrf
                             <div class="row">
