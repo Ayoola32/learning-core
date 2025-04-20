@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\InstructorDashboardController;
+use App\Http\Controllers\Frontend\InstructorProfileController;
 use App\Http\Controllers\Frontend\StudentDashboardController;
 use App\Http\Controllers\Frontend\StudentProfileController;
 use App\Http\Controllers\ProfileController;
@@ -26,6 +27,10 @@ Route::group(['middleware' => ['auth:web', 'verified', 'check_role:student'], 'p
 // Instructor Route
 Route::group(['middleware' => ['auth:web', 'verified', 'check_role:instructor'], 'prefix' => 'instructor', 'as' => 'instructor.'], function () {
     Route::get('/dashboard', [InstructorDashboardController::class, 'index'])->name('dashboard');
+
+    // Profile Controller
+    Route::get('/profile', [InstructorProfileController::class, 'index'])->name('profile.index');
+    
 });
 
 require __DIR__.'/auth.php';
