@@ -25,7 +25,7 @@
 
 
                         <div class="card-body border-bottom py-3">
-
+                            {{ $dataTable->table() }}
                         </div>
                     </div>
                 </div>
@@ -33,3 +33,7 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+@endpush

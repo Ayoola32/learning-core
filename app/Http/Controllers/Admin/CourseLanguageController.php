@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\CourseLanguageDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\CourseLanguage;
 use Illuminate\Http\RedirectResponse;
@@ -13,9 +14,9 @@ class CourseLanguageController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(CourseLanguageDataTable $dataTable)
     {
-        return view('admin.course.course-language.index');
+        return $dataTable->render('admin.course.course-language.index');
     }
 
     /**

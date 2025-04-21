@@ -22,7 +22,7 @@
             font-feature-settings: "cv03", "cv04", "cv11";
         }
     </style>
-    @vite(['resources/css/admin.css', 'resources/js/admin/admin.js'])
+    @vite(['resources/css/admin.css', 'resources/js/admin/admin.js', 'resources/css/app.css', 'resources/js/app.js'])
 
 </head>
 
@@ -51,6 +51,7 @@
     <!-- Tabler Core -->
     <script src="{{ asset('admin/assets/dist/js/tabler.min.js?1692870487') }}" defer></script>
     <script src="{{ asset('admin/assets/dist/js/demo.min.js?1692870487') }}" defer></script>
+    @stack('scripts')
 </body>
 
 </html>
