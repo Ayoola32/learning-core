@@ -29,13 +29,15 @@
 
 
 
-                        <form class="card">
+                        <form action="{{ route('admin.course-language.store')}}" method="POST" class="card">
+                            @csrf
                             <div class="card-body">
                                 <div class="mb-3">
                                     <label class="form-label required">Language</label>
                                     <div>
                                         <input type="text" class="form-control" name="name"
                                             placeholder="Enter a new language">
+                                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
                                     </div>
                                 </div>
                                 <div class="text-start">

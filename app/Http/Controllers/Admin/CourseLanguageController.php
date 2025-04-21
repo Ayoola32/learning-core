@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\CourseLanguage;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CourseLanguageController extends Controller
 {
@@ -26,9 +29,17 @@ class CourseLanguageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request) : RedirectResponse
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'max:255', 'unique:course_languages'],
+        ]);
+
+        $language = new CourseLanguage();
+        $language->name = $request->name;
+        $language->slug = Str::slug($request->name);
+        $language->save();
+        return redirect()->route('admin.course-language.index')->with('success', 'Course Language created successfully.');
     }
 
     /**
