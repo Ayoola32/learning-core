@@ -20,7 +20,7 @@ class CourseLanguageController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.course.course-language.create');
     }
 
     /**
