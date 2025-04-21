@@ -1,6 +1,5 @@
 @extends('admin.layouts.master')
 @section('content')
-
     <div class="page-body">
         <div class="container-xl">
             <div class="card">
@@ -10,21 +9,17 @@
                             <h3 class="card-title">Course Languages</h3>
 
                             <!-- Page title actions -->
-                            <div class="col-auto ms-auto d-print-none">
-                                <div class="btn-list">
-                                    <a href="#" class="btn btn-primary d-none d-sm-inline-block"
-                                        data-bs-toggle="modal" data-bs-target="#modal-report">
-                                        <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M12 5l0 14" />
-                                            <path d="M5 12l14 0" />
-                                        </svg>
-                                        Add New Language
-                                    </a>
-                                </div>
+                            <div class="card-actions">
+                                <a href="#" class="btn btn-primary btn-3">
+                                    <!-- Download SVG icon from http://tabler.io/icons/icon/plus -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" class="icon icon-2">
+                                        <path d="M12 5l0 14"></path>
+                                        <path d="M5 12l14 0"></path>
+                                    </svg>
+                                    Add new
+                                </a>
                             </div>
                         </div>
 
