@@ -11,6 +11,9 @@
     <link href="{{ asset('admin/assets/dist/css/tabler.min.css?1692870487') }}" rel="stylesheet" />
     <link href="{{ asset('admin/assets/dist/css/demo.min.css?1692870487') }}" rel="stylesheet" />
 
+    <!-- Vite compiled CSS -->
+    @vite(['resources/css/admin.css', 'resources/css/app.css'])
+
     <style>
         @import url('https://rsms.me/inter/inter.css');
 
@@ -22,7 +25,6 @@
             font-feature-settings: "cv03", "cv04", "cv11";
         }
     </style>
-    @vite(['resources/css/admin.css', 'resources/js/admin/admin.js', 'resources/css/app.css', 'resources/js/app.js'])
 
 </head>
 
@@ -51,6 +53,11 @@
     <!-- Tabler Core -->
     <script src="{{ asset('admin/assets/dist/js/tabler.min.js?1692870487') }}" defer></script>
     <script src="{{ asset('admin/assets/dist/js/demo.min.js?1692870487') }}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Vite compiled JS -->
+    @vite(['resources/js/app.js', 'resources/js/admin/admin.js'])
+
     @stack('scripts')
 </body>
 
