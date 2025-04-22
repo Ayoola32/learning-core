@@ -84,6 +84,11 @@ class CourseLevelController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $level = CourseLevel::findOrFail($id);
+        $level->delete();
+
+        return response()->json([
+            'message' => 'Deleted successfully'
+        ]);
     }
 }
