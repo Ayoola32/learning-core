@@ -73,7 +73,7 @@ class CourseLevelDataTable extends DataTable
         return [
             Column::make('id')->width(60),
             Column::make('name')
-                ->title('Language Name'),
+                ->title('Level Name'),
             Column::make('slug'),
             Column::computed('action')
                 ->exportable(false)

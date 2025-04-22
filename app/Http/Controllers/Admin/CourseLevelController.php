@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\CourseLevelDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\CourseLevel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CourseLevelController extends Controller
 {
@@ -22,7 +24,7 @@ class CourseLevelController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.course.course-level.create');
     }
 
     /**
@@ -30,7 +32,16 @@ class CourseLevelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'max:255', 'unique:course_languages'],
+        ]);
+
+        $level = new CourseLevel();
+        $level->name = $request->name;
+        $level->slug = Str::slug($request->name);
+        $level->save();
+        return redirect()->route('admin.course-level.index')->with('success', 'Course Level created successfully.');
+
     }
 
     /**
