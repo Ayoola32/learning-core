@@ -259,7 +259,7 @@
                             </svg>
                         </span>
                         <span class="nav-link-title">
-                            Courses
+                            Course Management
                         </span>
                     </a>
                     <div class="dropdown-menu">
@@ -267,6 +267,11 @@
                             <div class="dropdown-menu-column">
                                 <a class="dropdown-item" href="{{ route('admin.course-language.index') }}">
                                     Courses Languages
+                                </a>
+                            </div>
+                            <div class="dropdown-menu-column">
+                                <a class="dropdown-item" href="{{ route('admin.course-level.index') }}">
+                                    Courses Levels
                                 </a>
                             </div>
                         </div>
