@@ -81,6 +81,11 @@ class CourseLanguageController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $language = CourseLanguage::findOrFail($id);
+        $language->delete();
+        
+        return response()->json([
+            'message' => 'Deleted successfully'
+        ]);
     }
 }

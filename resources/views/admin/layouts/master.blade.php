@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>LC - Admin Dashboard</title>
 
     <!-- CSS files -->
@@ -50,6 +51,9 @@
         </div>
     </div>
 
+    <!-- Add jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <!-- Tabler Core -->
     <script src="{{ asset('admin/assets/dist/js/tabler.min.js?1692870487') }}" defer></script>
     <script src="{{ asset('admin/assets/dist/js/demo.min.js?1692870487') }}" defer></script>
@@ -57,6 +61,67 @@
 
     <!-- Vite compiled JS -->
     @vite(['resources/js/app.js', 'resources/js/admin/admin.js'])
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('body').on('click', '.delete-item', function(e) {
+                e.preventDefault();
+                const deleteUrl = $(this).attr('href'); // ✅ CORRECT: grabs the actual delete URL
+                const button = $(this);
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: deleteUrl,
+                            data: {_token: "{{ csrf_token() }}"},
+                            success: function(response) {
+                                if (response.status === 'error') {
+                                    Swal.fire({
+                                        title: "Error!",
+                                        text: "Cannot Delete Category, it contains items",
+                                        icon: "error"
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: response.message,
+                                        icon: "success"
+                                    });
+                                }
+                                $('#courselanguage-table').DataTable().ajax.reload(null, false); // ✅ Good: Reloads table
+                            },
+                            error: function(xhr, status, error) {
+                                Swal.fire({
+                                    title: "Error!",
+                                    text: "Something went wrong.",
+                                    icon: "error"
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
 
     @stack('scripts')
 </body>
