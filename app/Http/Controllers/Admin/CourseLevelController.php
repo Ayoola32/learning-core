@@ -55,17 +55,28 @@ class CourseLevelController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $slug)
     {
-        //
+        $level = CourseLevel::where('slug', $slug)->firstOrFail();
+        return view('admin.course.course-level.edit', compact('level'));
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $slug)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'max:255', 'unique:course_levels,name,' . $slug],
+        ]);
+
+        $level = CourseLevel::findOrFail($slug);
+        $level->name = $request->name;
+        $level->slug = Str::slug($request->name);
+        $level->save();
+        return redirect()->route('admin.course-level.index')->with('success', 'Course Level Updated Successfully.');
+
     }
 
     /**
