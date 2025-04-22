@@ -69,7 +69,7 @@ class CourseLanguageController extends Controller
             'name' => ['required', 'string', 'max:255', 'unique:course_languages,name,' . $slug],
         ]);
 
-        $language = CourseLanguage::findOrFail($slug);
+        $language = CourseLanguage::where('slug', $slug)->firstOrFail();
         $language->name = $request->name;
         $language->slug = Str::slug($request->name);
         $language->save();
