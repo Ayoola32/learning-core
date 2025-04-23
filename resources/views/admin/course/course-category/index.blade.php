@@ -49,7 +49,6 @@
                 url: '{{ route('admin.course-category.update-status', ':id') }}'.replace(':id', id),
                 type: 'POST',
                 data: {
-                    _token: '{{ csrf_token() }}',
                     status: status
                 },
                 success: function (response) {
@@ -69,7 +68,6 @@
                 url: '{{ route('admin.course-category.update-show-at-trending', ':id') }}'.replace(':id', id),
                 type: 'POST',
                 data: {
-                    _token: '{{ csrf_token() }}',
                     show_at_trending: show_at_trending
                 },
                 success: function (response) {
