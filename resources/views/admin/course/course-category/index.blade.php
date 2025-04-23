@@ -60,5 +60,25 @@
                 }
             });
         });
+
+        $(document).on('change', '.show_at_trending-select', function () {
+            var id = $(this).data('id');
+            var show_at_trending = $(this).val();
+    
+            $.ajax({
+                url: '{{ route('admin.course-category.update-show-at-trending', ':id') }}'.replace(':id', id),
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    show_at_trending: show_at_trending
+                },
+                success: function (response) {
+                    notyf.success('Status updated successfully');
+                },
+                error: function () {
+                    notyf.error('Failed to update status');
+                }
+            });
+        });
     </script>
 @endpush
