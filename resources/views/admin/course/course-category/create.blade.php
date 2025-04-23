@@ -26,11 +26,24 @@
                             @csrf
                             <div class="card-body">
                                 <div class="mb-3">
-                                    <label class="form-label required">Category</label>
-                                    <div>
-                                        <input type="text" class="form-control" name="name"
-                                            placeholder="Enter a new category">
-                                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label required">Image</label>
+                                            <input type="file" class="form-control" name="image">
+                                            <x-input-error :messages="$errors->get('image')" class="mt-2" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label required">Icon</label>
+                                            <input type="text" class="form-control" name="icon"
+                                                placeholder="Category Icon">
+                                                <x-input-error :messages="$errors->get('icon')" class="mt-2" />
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="form-label required">Name</label>
+                                            <input type="text" class="form-control" name="name"
+                                                placeholder="Enter a new category">
+                                                <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="text-start">
@@ -38,6 +51,8 @@
                                 </div>
                             </div>
                         </form>
+
+                        
 
 
 
