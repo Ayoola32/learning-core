@@ -32,8 +32,8 @@ class CourseCategoryDataTable extends DataTable
 
 
         ->addColumn('status', function ($query) {
-            $selectedDraft = $query->status === '0' ? 'selected' : '';
-            $selectedPublished = $query->status === '1' ? 'selected' : '';
+            $selectedDraft = $query->status == '0' ? 'selected' : '';
+            $selectedPublished = $query->status == '1' ? 'selected' : '';
         
             return '
                 <select class="form-control form-control-sm status-select" data-id="' . $query->id . '" data-value="' . $query->status . '">
