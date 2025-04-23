@@ -75,6 +75,18 @@ class CourseCategoryController extends Controller
     }
 
     /**
+     * Update the status of the specified resource.
+     */
+    public function updateStatus(Request $request, string $id)
+    {
+        $category = CourseCategory::findOrFail($id);
+        $category->status = $request->status;
+        $category->save();
+
+        return response()->json(['success' => 'Status updated successfully.']);
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)

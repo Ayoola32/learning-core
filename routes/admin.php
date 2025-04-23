@@ -66,5 +66,6 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
     Route::resource('/course-language', CourseLanguageController::class);
     Route::resource('/course-level', CourseLevelController::class);
     Route::resource('/course-category', CourseCategoryController::class);
+    Route::post('/course-category/update-status/{id}', [CourseCategoryController::class, 'updateStatus'])->name('course-category.update-status');
 
 });
