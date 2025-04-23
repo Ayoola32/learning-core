@@ -25,6 +25,38 @@ class CourseCategoryDataTable extends DataTable
         ->addColumn('image', function($query){
             return '<img style="width:70px" src="' . asset($query->image) . '"></img>';
         })
+
+        ->addColumn('icon', function($query){
+            return '<i class="' . $query->icon . '"></i>';
+        })->setRowClass('icon-column')
+
+
+        ->addColumn('status', function ($query) {
+            $selectedDraft = $query->status === '0' ? 'selected' : '';
+            $selectedPublished = $query->status === '1' ? 'selected' : '';
+        
+            return '
+                <select class="form-control form-control-sm status-select" data-id="' . $query->id . '" data-value="' . $query->status . '">
+                    <option value="0" ' . $selectedDraft . '>No</option>
+                    <option value="1" ' . $selectedPublished . '>Yes</option>
+                </select>
+            ';
+        })
+
+
+        ->addColumn('show_at_trending', function ($query) {
+            $selectedDraft = $query->show_at_trending == '0' ? 'selected' : '';
+            $selectedPublished = $query->show_at_trending == '1' ? 'selected' : '';
+        
+            return '
+                <select class="form-control form-control-sm show_at_trending-select" data-id="' . $query->id . '" data-value="' . $query->show_at_trending . '">
+                    <option value="0" ' . $selectedDraft . '>No</option>
+                    <option value="1" ' . $selectedPublished . '>Yes</option>
+                </select>
+            ';
+        })
+
+
         ->addColumn('action', function ($query) {
             return '
                 <a href="' . route('admin.course-category.edit', $query->slug) . '" class="btn btn-primary">
@@ -35,7 +67,7 @@ class CourseCategoryDataTable extends DataTable
                 </a>
             ';
         })
-        ->rawColumns(['image', 'action'])
+        ->rawColumns(['image', 'action', 'icon', 'status', 'show_at_trending'])
         ->setRowId('id');
     }
 
@@ -76,9 +108,12 @@ class CourseCategoryDataTable extends DataTable
     {
         return [
             Column::make('id')->width(60),
-            Column::make('image')->width(''),
+            Column::make('icon')->title('Icon')->width(60),
+            Column::make('image'),
             Column::make('name')->title('Category Name'),
             Column::make('slug')->title('Slug'),
+            Column::make('status')->title('Status')->width(60),
+            Column::make('show_at_trending')->title('Show at Trending')->width(60),
             Column::computed('action')
             ->exportable(false)
             ->printable(false)

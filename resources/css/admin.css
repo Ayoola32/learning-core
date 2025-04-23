@@ -3,6 +3,9 @@
     font-size: 1.2rem !important;
 }
 
+.icon-column i {
+    font-size: 1.2rem !important; 
+}
 
 
 @media(min-width: 1400px) {
