@@ -87,6 +87,18 @@ class CourseCategoryController extends Controller
     }
 
     /**
+     * Update the show_at_trending status of the specified resource.
+     */
+    public function updateShowAtTrending(Request $request, string $id)
+    {
+        $category = CourseCategory::findOrFail($id);
+        $category->show_at_trending = $request->show_at_trending;
+        $category->save();
+
+        return response()->json(['success' => 'Show at trending status updated successfully.']);
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
