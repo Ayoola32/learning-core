@@ -22,16 +22,21 @@ class CourseCategoryDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+        ->addColumn('image', function($query){
+            return '<img style="width:70px" src="' . asset($query->image) . '"></img>';
+        })
         ->addColumn('action', function ($query) {
             return '
-            <a href="' . route('admin.course-category.edit', $query->slug) . '" class="btn btn-primary">
-                <i class="ti ti-edit"></i>
-            </a> 
-            <a href="' . route('admin.course-category.destroy', $query->id) . '" class="btn btn-danger delete-item">
-                <i class="ti ti-trash"></i>
-            </a>
-        ';
-        })->setRowId('id');
+                <a href="' . route('admin.course-category.edit', $query->slug) . '" class="btn btn-primary">
+                    <i class="ti ti-edit"></i>
+                </a> 
+                <a href="' . route('admin.course-category.destroy', $query->id) . '" class="btn btn-danger delete-item">
+                    <i class="ti ti-trash"></i>
+                </a>
+            ';
+        })
+        ->rawColumns(['image', 'action'])
+        ->setRowId('id');
     }
 
     /**
@@ -71,6 +76,7 @@ class CourseCategoryDataTable extends DataTable
     {
         return [
             Column::make('id')->width(60),
+            Column::make('image')->width(''),
             Column::make('name')->title('Category Name'),
             Column::make('slug')->title('Slug'),
             Column::computed('action')
