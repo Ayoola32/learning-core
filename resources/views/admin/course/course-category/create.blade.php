@@ -38,12 +38,22 @@
                                                 placeholder="Category Icon">
                                                 <x-input-error :messages="$errors->get('icon')" class="mt-2" />
                                         </div>
-                                        <div class="col-md-12">
+
+                                        <div class="col-md-12 mt-2">
                                             <label class="form-label required">Name</label>
                                             <input type="text" class="form-control" name="name"
                                                 placeholder="Enter a new category">
                                                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                                        </div>
+                                        </div> 
+
+                                        <div class="col-md-6 mt-2">
+                                            <x-input-toggle-block class="col-md-12 mt-3" name="show_at_trending" label="Show at trending" />
+                                        </div>   
+
+                                        <div class="col-md-6 mt-2">
+                                            <x-input-toggle-block class="col-md-12 mt-3" name="status" label="Status" />
+                                        </div>   
+                                        
                                     </div>
                                 </div>
                                 <div class="text-start">
