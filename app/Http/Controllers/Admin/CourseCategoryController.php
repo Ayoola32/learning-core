@@ -4,10 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\CourseCategoryDataTable;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\CourseCategoryStoreRequest;
+use App\Models\CourseCategory;
 use Illuminate\Http\Request;
+use App\Traits\FileUpload;
+use Illuminate\Support\Str;
 
 class CourseCategoryController extends Controller
 {
+    use FileUpload;
     /**
      * Display a listing of the resource.
      */
@@ -27,9 +32,22 @@ class CourseCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CourseCategoryStoreRequest $request)
     {
-        //
+
+        $imagePath = $this->uploadFile($request->file('image'), 'uploads/course-category');
+
+        $category = new CourseCategory();
+        $category->name = $request->name;
+        $category->slug = Str::slug($request->name);
+        $category->icon = $request->icon;
+        $category->status = $request->status;
+        $category->show_at_trending = $request->show_at_trending;
+        $category->image = $imagePath;
+        $category->save();
+
+
+        return redirect()->route('admin.course-category.index')->with('success', 'Course Category Created Successfully');
     }
 
     /**
