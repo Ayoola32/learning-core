@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\CourseSubCategoryDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\CourseCategory;
 use Illuminate\Http\Request;
 
 class CourseSubCategoryController extends Controller
 {
-    public function index(CourseCategory $course_category)
+    public function index(CourseCategory $course_category, CourseSubCategoryDataTable $dataTable)
     {
-        return view('admin.course.course-sub-category.index', compact('course_category'));
+
+        return $dataTable->render('admin.course.course-sub-category.index', compact('course_category'));
     }
 
     /**

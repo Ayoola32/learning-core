@@ -6,7 +6,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Sub Category for <span class="text-blue">{{ $course_category->name}}</span></h3>
+                            <h3 class="card-title">List of Sub-Category for <span class="text-blue">{{ $course_category->name}}</span></h3>
 
                             <!-- Page title actions -->
                             <div class="card-actions">
@@ -19,7 +19,7 @@
 
 
                         <div class="card-body border-bottom py-3">
-                            {{-- {{ $dataTable->table() }} --}}
+                            {{ $dataTable->table() }}
                         </div>
                     </div>
                 </div>
@@ -29,5 +29,5 @@
 @endsection
 
 @push('scripts')
-    {{-- {{ $dataTable->scripts(attributes: ['type' => 'module']) }} --}}
+    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
     @endpush
