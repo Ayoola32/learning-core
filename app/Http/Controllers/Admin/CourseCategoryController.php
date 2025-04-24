@@ -81,6 +81,12 @@ class CourseCategoryController extends Controller
     {
         $category = CourseCategory::findOrFail($id);
         $category->status = $request->status;
+
+        // If status is turned off, also turn off show_at_trending
+        if ($category->status == 0 && $category->show_at_trending == 1) {
+            $category->show_at_trending = 0;
+        }
+
         $category->save();
 
         return response()->json(['success' => 'Status updated successfully.']);
@@ -92,6 +98,14 @@ class CourseCategoryController extends Controller
     public function updateShowAtTrending(Request $request, string $id)
     {
         $category = CourseCategory::findOrFail($id);
+
+        // Prevent enabling show_at_trending if status is off
+        if ($request->show_at_trending == 1 && $category->status == 0) {
+            return response()->json([
+                'error' => 'Cannot enable Show at Trending when Status is off'
+            ], 422);
+        }
+        
         $category->show_at_trending = $request->show_at_trending;
         $category->save();
 
