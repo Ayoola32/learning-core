@@ -59,10 +59,13 @@ class CourseCategoryDataTable extends DataTable
 
         ->addColumn('action', function ($query) {
             return '
-                <a href="' . route('admin.course-category.edit', $query->slug) . '" class="btn btn-primary">
+                <a href="' . route('admin.course-category.edit', $query->slug) . '" class="btn-sm text-info">
+                    <i class="ti ti-list"></i>
+                </a> 
+                <a href="' . route('admin.course-category.edit', $query->slug) . '" class="btn-sm btn-primary">
                     <i class="ti ti-edit"></i>
                 </a> 
-                <a href="' . route('admin.course-category.destroy', $query->slug) . '" class="btn btn-danger delete-item">
+                <a href="' . route('admin.course-category.destroy', $query->slug) . '" class="btn-sm text-red delete-item">
                     <i class="ti ti-trash"></i>
                 </a>
             ';
