@@ -10,7 +10,7 @@
 
                             <!-- Page title actions -->
                             <div class="card-actions">
-                                <a href="" class="btn btn-primary btn-3">
+                                <a href="{{ route('admin.sub-category.index', $course_category->id) }}" class="btn btn-primary btn-3">
                                     <i class="ti ti-arrow-back-up"></i> 
                                     Back 
 
@@ -19,7 +19,7 @@
                         </div>
 
 
-                        <form action="" method="POST" class="card" enctype="multipart/form-data">
+                        <form action="{{ route('admin.sub-category.store', $course_category->id)}}" method="POST" class="card" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
                                 <div class="mb-3">
