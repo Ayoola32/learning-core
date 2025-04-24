@@ -61,9 +61,10 @@ class CourseCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $slug)
     {
-        //
+        $category = CourseCategory::where('slug', $slug)->firstOrFail();
+        return view('admin.course.course-category.edit', compact('category'));
     }
 
     /**
@@ -71,7 +72,7 @@ class CourseCategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        dd($request->all());
     }
 
     /**
