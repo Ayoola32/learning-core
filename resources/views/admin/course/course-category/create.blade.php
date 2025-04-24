@@ -47,11 +47,11 @@
                                         </div> 
 
                                         <div class="col-md-6 mt-2">
-                                            <x-input-toggle-block class="col-md-12 mt-3" name="show_at_trending" label="Show at trending" />
-                                        </div>   
-
-                                        <div class="col-md-6 mt-2">
                                             <x-input-toggle-block class="col-md-12 mt-3" name="status" label="Status" />
+                                        </div>   
+                                        
+                                        <div class="col-md-6 mt-2">
+                                            <x-input-toggle-block class="col-md-12 mt-3" name="show_at_trending" label="Show at trending" />
                                         </div>   
                                         
                                     </div>
