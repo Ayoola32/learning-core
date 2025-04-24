@@ -10,7 +10,7 @@
 
                             <!-- Page title actions -->
                             <div class="card-actions">
-                                <a href="{{ route('admin.course-category.create')}}" class="btn btn-primary btn-3">
+                                <a href="{{ route('admin.sub-category.create', $course_category->id)}}" class="btn btn-primary btn-3">
                                     <i class="ti ti-plus"></i> 
                                     Add new
                                 </a>
