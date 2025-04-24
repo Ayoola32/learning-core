@@ -146,6 +146,13 @@ class CourseCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $category = CourseCategory::findOrFail($id);
+        $this->deleteFile($category->image);
+        $category->delete();
+
+        return response()->json([
+            'message' => 'Deleted successfully'
+        ]);
+
     }
 }
