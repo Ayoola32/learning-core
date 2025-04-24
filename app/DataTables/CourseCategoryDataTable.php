@@ -62,7 +62,7 @@ class CourseCategoryDataTable extends DataTable
                 <a href="' . route('admin.course-category.edit', $query->slug) . '" class="btn btn-primary">
                     <i class="ti ti-edit"></i>
                 </a> 
-                <a href="' . route('admin.course-category.destroy', $query->id) . '" class="btn btn-danger delete-item">
+                <a href="' . route('admin.course-category.destroy', $query->slug) . '" class="btn btn-danger delete-item">
                     <i class="ti ti-trash"></i>
                 </a>
             ';
@@ -113,7 +113,7 @@ class CourseCategoryDataTable extends DataTable
             Column::make('name')->title('Category Name'),
             Column::make('slug')->title('Slug'),
             Column::make('status')->title('Status')->width(60),
-            Column::make('show_at_trending')->title('Show at Trending')->width(60),
+            Column::make('show_at_trending')->title('Trending')->width(60),
             Column::computed('action')
             ->exportable(false)
             ->printable(false)

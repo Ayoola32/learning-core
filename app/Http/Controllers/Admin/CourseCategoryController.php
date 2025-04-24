@@ -144,9 +144,9 @@ class CourseCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $slug)
     {
-        $category = CourseCategory::findOrFail($id);
+        $category = CourseCategory::where('slug', $slug)->firstOrFail();
         $this->deleteFile($category->image);
         $category->delete();
 
