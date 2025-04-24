@@ -44,6 +44,7 @@
                                             <input type="text" class="form-control" name="icon"
                                                 placeholder="Category Icon" value="{{ old('icon', $category->icon) }}">
                                                 <x-input-error :messages="$errors->get('icon')" class="mt-2" />
+                                            <small class="hint">You can get icon classes from: <a href="https://tabler.io/icons" target="_blank">https://tabler.io/icons</a>.</small>
                                         </div>
 
                                         <div class="col-md-12 mt-2">
