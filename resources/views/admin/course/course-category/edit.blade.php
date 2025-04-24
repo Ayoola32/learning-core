@@ -54,17 +54,17 @@
                                         </div> 
 
                                         <div class="col-md-6 mt-2">
-                                            <x-input-toggle-block class="col-md-12 mt-3" name="show_at_trending" label="Show at trending" />
-                                        </div>   
-
-                                        <div class="col-md-6 mt-2">
-                                            <x-input-toggle-block class="col-md-12 mt-3" name="status" label="Status" />
+                                            <x-input-toggle-block class="col-md-12 mt-3" name="status" label="Status" :checked="$category->status" />
+                                            </div>   
+                                            
+                                            <div class="col-md-6 mt-2">
+                                            <x-input-toggle-block class="col-md-12 mt-3" name="show_at_trending" label="Show at trending" :checked="$category->show_at_trending" />
                                         </div>   
                                         
                                     </div>
                                 </div>
                                 <div class="text-start">
-                                    <button type="submit" class="btn btn-primary">Create</button>
+                                    <button type="submit" class="btn btn-primary">Update</button>
                                 </div>
                             </div>
                         </form>

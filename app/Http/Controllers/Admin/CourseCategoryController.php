@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\CourseCategoryDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CourseCategoryStoreRequest;
+use App\Http\Requests\Admin\CourseCategoryUpdateRequest;
 use App\Models\CourseCategory;
 use Illuminate\Http\Request;
 use App\Traits\FileUpload;
@@ -44,6 +45,12 @@ class CourseCategoryController extends Controller
         $category->status = $request->status;
         $category->show_at_trending = $request->show_at_trending;
         $category->image = $imagePath;
+
+        // Prevent enabling show_at_trending if status is off
+        if ($category->status == 0 && $category->show_at_trending == 1) {
+            $category->show_at_trending = 0;
+            session()->flash('warning', 'Show at Trending was turned off because Status is off');
+        }
         $category->save();
 
 
@@ -70,9 +77,30 @@ class CourseCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CourseCategoryUpdateRequest $request, string $id)
     {
-        dd($request->all());
+        $category = CourseCategory::findOrFail($id);
+
+        if ($request->hasFile('image')) {
+            $this->deleteFile($category->image);
+            $imagePath = $this->uploadFile($request->file('image'), 'uploads/course-category');
+            $category->image = $imagePath;
+        }
+
+        $category->name = $request->name;
+        $category->slug = Str::slug($request->name);
+        $category->icon = $request->icon;
+        $category->status = $request->status;
+        $category->show_at_trending = $request->show_at_trending;
+
+        // Prevent enabling show_at_trending if status is off
+        if ($category->status == 0 && $category->show_at_trending == 1) {
+            $category->show_at_trending = 0;
+            session()->flash('warning', 'Show at Trending was turned off because Status is off');
+        }
+
+        $category->save();
+        return redirect()->route('admin.course-category.index')->with('success', 'Course Category Updated Successfully');
     }
 
     /**
