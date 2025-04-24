@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\CourseCategoryController;
 use App\Http\Controllers\Admin\CourseLanguageController;
 use App\Http\Controllers\Admin\CourseLevelController;
+use App\Http\Controllers\Admin\CourseSubCategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InstructorRequestController;
 use Illuminate\Support\Facades\Route;
@@ -68,5 +69,6 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
     Route::resource('/course-category', CourseCategoryController::class);
     Route::post('/course-category/update-status/{id}', [CourseCategoryController::class, 'updateStatus'])->name('course-category.update-status');
     Route::post('/course-category/update-show-at-trending/{id}', [CourseCategoryController::class, 'updateShowAtTrending'])->name('course-category.update-show-at-trending');
+    Route::resource('/{course_category}/sub-category', CourseSubCategoryController::class);
 
 });
