@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Frontend\CourseController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\InstructorDashboardController;
 use App\Http\Controllers\Frontend\InstructorProfileController;
@@ -33,6 +34,9 @@ Route::group(['middleware' => ['auth:web', 'verified', 'check_role:instructor'],
     Route::post('/profile-update', [InstructorProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile/update-password', [InstructorProfileController::class, 'updatePassword'])->name('profile.update-password');
     Route::post('/profile/update-social-links', [InstructorProfileController::class, 'updateSocialLinks'])->name('profile.update-social-links');
+
+    // Course Management
+    Route::resource('/courses', CourseController::class);
     
 });
 
