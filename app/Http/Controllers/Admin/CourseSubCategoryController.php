@@ -16,8 +16,12 @@ class CourseSubCategoryController extends Controller
     use FileUpload;
     public function index(CourseCategory $course_category, CourseSubCategoryDataTable $dataTable)
     {
+        if (!$course_category) {
+            return redirect()->back()->with('error', 'Course category not found.');
+        }
 
-        return $dataTable->render('admin.course.course-sub-category.index', compact('course_category'));
+        return $dataTable->setCategoryId($course_category->id)
+            ->render('admin.course.course-sub-category.index', compact('course_category'));
     }
 
     /**
@@ -35,7 +39,7 @@ class CourseSubCategoryController extends Controller
     {
         $subCategory = new CourseSubCategory();
 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $imagePath = $this->uploadFile($request->file('image'), 'uploads/course-category');
             $subCategory->image = $imagePath;
         }
@@ -51,7 +55,7 @@ class CourseSubCategoryController extends Controller
             $subCategory->show_at_trending = 0;
             session()->flash('warning', 'Show at Trending was turned off because Status is off');
         }
-        
+
         $subCategory->save();
         return redirect()->route('admin.sub-category.index', $course_category->id)->with('success', 'Course Sub Category Created Successfully');
     }

@@ -14,6 +14,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class CourseSubCategoryDataTable extends DataTable
 {
+    protected $category_id;
     /**
      * Build the DataTable class.
      *
@@ -22,7 +23,56 @@ class CourseSubCategoryDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'coursesubcategory.action')
+            ->addColumn('image', function ($query) {
+                if ($query->image) {
+                    return '<img style="width:70px" src="' . asset($query->image) . '"></img>';
+                } else {
+                    return 'No Image';
+                }
+            })
+
+            ->addColumn('icon', function ($query) {
+                return '<i class="' . $query->icon . '"></i>';
+            })->setRowClass('icon-column')
+
+
+            ->addColumn('status', function ($query) {
+                $selectedDraft = $query->status == '0' ? 'selected' : '';
+                $selectedPublished = $query->status == '1' ? 'selected' : '';
+
+                return '
+                    <select class="form-control form-control-sm status-select" data-id="' . $query->id . '" data-value="' . $query->status . '">
+                        <option value="0" ' . $selectedDraft . '>No</option>
+                        <option value="1" ' . $selectedPublished . '>Yes</option>
+                    </select>
+                ';
+            })
+
+
+            ->addColumn('show_at_trending', function ($query) {
+                $selectedDraft = $query->show_at_trending == '0' ? 'selected' : '';
+                $selectedPublished = $query->show_at_trending == '1' ? 'selected' : '';
+
+                return '
+                    <select class="form-control form-control-sm show_at_trending-select" data-id="' . $query->id . '" data-value="' . $query->show_at_trending . '">
+                        <option value="0" ' . $selectedDraft . '>No</option>
+                        <option value="1" ' . $selectedPublished . '>Yes</option>
+                    </select>
+                ';
+            })
+
+
+            ->addColumn('action', function ($query) {
+                return '
+                    <a href="' . route('admin.course-category.edit', $query->slug) . '" class="btn-sm btn-primary">
+                        <i class="ti ti-edit"></i>
+                    </a> 
+                    <a href="' . route('admin.course-category.destroy', $query->slug) . '" class="btn-sm text-red delete-item">
+                        <i class="ti ti-trash"></i>
+                    </a>
+                ';
+            })
+            ->rawColumns(['image', 'action', 'icon', 'status', 'show_at_trending'])
             ->setRowId('id');
     }
 
@@ -31,7 +81,14 @@ class CourseSubCategoryDataTable extends DataTable
      */
     public function query(CourseSubCategory $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->where('category_id', $this->category_id);
+    }
+
+    // Set the category_id for the query
+    public function setCategoryId($category_id)
+    {
+        $this->category_id = $category_id;
+        return $this;
     }
 
     /**
@@ -40,20 +97,20 @@ class CourseSubCategoryDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('coursesubcategory-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('coursesubcategory-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(0)
+            // ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -62,15 +119,18 @@ class CourseSubCategoryDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('id')->width(60),
+            Column::make('icon')->title('Icon')->width(60),
+            Column::make('image'),
+            Column::make('name')->title('Category Name'),
+            Column::make('slug')->title('Slug'),
+            Column::make('status')->title('Status')->width(60),
+            Column::make('show_at_trending')->title('Trending')->width(60),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(160)
+                ->addClass('text-center'),
         ];
     }
 
