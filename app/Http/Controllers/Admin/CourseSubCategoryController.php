@@ -106,6 +106,43 @@ class CourseSubCategoryController extends Controller
     }
 
     /**
+     * Update the status of the specified resource.
+     */
+    public function updateStatus(Request $request, CourseCategory $course_category, CourseSubCategory $sub_category)
+    {
+        $sub_category->status = $request->status;
+
+        // If status is turned off, also turn off show_at_trending
+        if ($sub_category->status == 0 && $sub_category->show_at_trending == 1) {
+            $sub_category->show_at_trending = 0;
+        }
+        $sub_category->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Status updated successfully.'
+        ]);
+    }
+
+    /**
+     * Update the show_at_trending status of the specified resource.
+     */
+    public function updateShowAtTrending(Request $request, CourseCategory $course_category, CourseSubCategory $sub_category)
+    {
+        $sub_category->show_at_trending = $request->show_at_trending;
+
+        // Prevent enabling show_at_trending if status is off
+        if ($request->show_at_trending == 1 && $sub_category->status == 0) {
+            return response()->json([
+                'error' => 'Cannot enable Show at Trending when Status is off'
+            ], 422);
+        }
+        
+        $sub_category->save();
+
+        return response()->json(['success' => 'Show at trending status updated successfully.']);
+    }
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(CourseCategory $course_category, CourseSubCategory $sub_category)

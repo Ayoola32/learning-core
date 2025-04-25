@@ -41,7 +41,7 @@ class CourseSubCategoryDataTable extends DataTable
                 $selectedPublished = $query->status == '1' ? 'selected' : '';
 
                 return '
-                    <select class="form-control form-control-sm status-select" data-id="' . $query->id . '" data-value="' . $query->status . '">
+                    <select class="form-control form-control-sm status-select" data-id="' . $query->id . '" data-category-id="' .  $query->category_id  .'"  data-value="' . $query->status . '">
                         <option value="0" ' . $selectedDraft . '>No</option>
                         <option value="1" ' . $selectedPublished . '>Yes</option>
                     </select>
@@ -54,7 +54,7 @@ class CourseSubCategoryDataTable extends DataTable
                 $selectedPublished = $query->show_at_trending == '1' ? 'selected' : '';
 
                 return '
-                    <select class="form-control form-control-sm show_at_trending-select" data-id="' . $query->id . '" data-value="' . $query->show_at_trending . '">
+                    <select class="form-control form-control-sm show_at_trending-select" data-id="' . $query->id . '" data-category-id="' .  $query->category_id .'" data-value="' . $query->show_at_trending . '">
                         <option value="0" ' . $selectedDraft . '>No</option>
                         <option value="1" ' . $selectedPublished . '>Yes</option>
                     </select>

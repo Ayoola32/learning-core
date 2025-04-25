@@ -70,5 +70,7 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
     Route::post('/course-category/update-status/{id}', [CourseCategoryController::class, 'updateStatus'])->name('course-category.update-status');
     Route::post('/course-category/update-show-at-trending/{id}', [CourseCategoryController::class, 'updateShowAtTrending'])->name('course-category.update-show-at-trending');
     Route::resource('/{course_category}/sub-category', CourseSubCategoryController::class);
+    Route::post('/{course_category}/sub-category/update-status/{sub_category}', [CourseSubCategoryController::class, 'updateStatus'])->name('sub-category.update-status');
+    Route::post('/{course_category}/sub-category/update-show-at-trending/{sub_category}', [CourseSubCategoryController::class, 'updateShowAtTrending'])->name('sub-category.update-show-at-trending');
 
 });
