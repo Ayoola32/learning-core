@@ -71,10 +71,11 @@ class CourseSubCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(CourseCategory $course_category, CourseSubCategory $subCategory)
     {
-        //
+        return view('admin.course.course-sub-category.edit', compact('subCategory', 'course_category'));
     }
+    
 
     /**
      * Update the specified resource in storage.
