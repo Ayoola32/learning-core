@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CourseCategoryStoreRequest;
 use App\Http\Requests\Admin\CourseCategoryUpdateRequest;
 use App\Models\CourseCategory;
+use App\Models\CourseSubCategory;
 use Illuminate\Http\Request;
 use App\Traits\FileUpload;
 use Illuminate\Support\Str;
@@ -147,6 +148,17 @@ class CourseCategoryController extends Controller
     public function destroy(string $slug)
     {
         $category = CourseCategory::where('slug', $slug)->firstOrFail();
+
+        // Check if there are any associated course sub-category before deletion
+        $hasItem  = CourseSubCategory::where('category_id', $category->id)->exists();
+    
+        if ($hasItem) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Cannot delete category with associated sub categories.'
+            ]);
+        }
+
         $this->deleteFile($category->image);
         $category->delete();
 
