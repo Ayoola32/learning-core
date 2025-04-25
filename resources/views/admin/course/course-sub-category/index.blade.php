@@ -6,7 +6,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">List of Sub-Category for <span class="text-blue">{{ $course_category->name}}</span></h3>
+                            <h3 class="card-title">List of Sub-Category for <span class="text-blue"><a href="{{ route('admin.course-category.index')}}">{{ $course_category->name}}</a></span></h3>
 
                             <!-- Page title actions -->
                             <div class="card-actions">
