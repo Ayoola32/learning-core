@@ -112,6 +112,7 @@
                                 $('#courselanguage-table').DataTable().ajax.reload(null, false); // ✅ Good: Reloads table
                                 $('#courselevel-table').DataTable().ajax.reload(null, false); // ✅ Good: Reloads table
                                 $('#coursecategory-table').DataTable().ajax.reload(null, false); // ✅ Good: Reloads table
+                                $('#coursesubcategory-table').DataTable().ajax.reload(null, false); // ✅ Good: Reloads table
                             },
                             error: function(xhr, status, error) {
                                 Swal.fire({

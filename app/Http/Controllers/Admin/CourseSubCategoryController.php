@@ -108,8 +108,18 @@ class CourseSubCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(CourseCategory $course_category, CourseSubCategory $sub_category)
     {
-        //
+        // Check if the image exists before attempting to delete it
+        if ($sub_category->image) {
+            $this->deleteFile($sub_category->image);
+        }
+
+        $sub_category->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Subcategory deleted successfully.'
+        ]);
     }
 }
