@@ -3,11 +3,19 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Frontend\CourseBasicInfoCreateRequest;
+use App\Models\Course;
+use App\Traits\FileUpload;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
+
 
 class CourseController extends Controller
 {
+    use FileUpload;
     /**
      * Display a listing of the resource.
      */
@@ -27,9 +35,32 @@ class CourseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CourseBasicInfoCreateRequest $request)
     {
-        dd($request->all());
+        $thumbnailPath = $this->uploadFile($request->file('thumbnail'), '/uploads/courses-thumbnails');
+
+       // validate the request
+        $course = new Course();
+        $course->title = $request->title;
+        $course->slug = Str::slug($request->title);
+        $course->seo_description = $request->seo_description;
+        $course->thumbnail = $thumbnailPath;
+        $course->demo_video_storage = $request->demo_video_storage;
+        $course->demo_video_source = $request->demo_video_source;
+        $course->price = $request->price;
+        $course->discount = $request->discount;
+        $course->description = $request->description;
+        $course->instructor_id = Auth::guard('web')->user()->id;
+        $course->save();
+
+        // save course id to session
+        Session::put('course_id', $course->id);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Basic Info Updated successfully',
+            'course' => $course
+        ]);
     }
 
     /**
