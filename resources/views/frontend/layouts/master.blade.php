@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <meta name="base_url" content="{{ url('/') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Learning-Core - Online Courses & Education</title>
     <link rel="icon" type="image/png" href="{{ asset('frontend/assets/images/favicon.png') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/all.min.css') }}">
@@ -29,6 +31,7 @@
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/responsive.css') }}">
 
     @vite(['resources/css/frontend.css'])
+    @stack('course_script')
 
 </head>
 
