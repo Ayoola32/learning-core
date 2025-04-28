@@ -72,3 +72,7 @@
         DASHBOARD OVERVIEW END
     ============================-->
 @endsection
+
+@push('course_script')
+    @vite('resources/js/frontend/course.js')
+@endpush
