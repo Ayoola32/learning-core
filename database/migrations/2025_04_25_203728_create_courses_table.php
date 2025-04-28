@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('time_zone')->nullable();
             $table->string('thumbnail')->nullable();
             $table->enum('demo_video_storage', ['upload', 'youtube', 'vimeo', 'external_link'])->nullable();
+            $table->text('demo_video_source')->nullable();
             $table->text('description')->nullable();
             $table->integer('capacity')->nullable();
             $table->double('price')->nullable();
