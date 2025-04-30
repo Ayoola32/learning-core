@@ -37,7 +37,10 @@ class CourseController extends Controller
      */
     public function store(CourseBasicInfoCreateRequest $request)
     {
-        $thumbnailPath = $this->uploadFile($request->file('thumbnail'), '/uploads/courses-thumbnails');
+        $thumbnailPath = null;
+        if ($request->hasFile('thumbnail') && $request->file('thumbnail')->isValid()) {
+            $thumbnailPath = $this->uploadFile($request->file('thumbnail'), 'uploads/courses-thumbnails');
+        }
 
        // validate the request
         $course = new Course();
@@ -59,7 +62,7 @@ class CourseController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Basic Info Updated successfully',
-            'course' => $course
+            'redirect' => route('instructor.courses.edit', ['course' => $course->id, 'step' => $request->next_step]),
         ]);
     }
 
@@ -74,7 +77,7 @@ class CourseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, string $id)
     {
         //
     }
