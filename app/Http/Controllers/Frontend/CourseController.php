@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\CourseBasicInfoCreateRequest;
 use App\Models\Course;
+use App\Models\CourseCategory;
+use App\Models\CourseLanguage;
+use App\Models\CourseLevel;
 use App\Traits\FileUpload;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -79,7 +82,22 @@ class CourseController extends Controller
      */
     public function edit(Request $request, string $id)
     {
-        //
+        $course = Course::where('id', $id)->where('instructor_id', Auth::guard('web')->user()->id)->first();
+        $courseLevels = CourseLevel::all();
+        $courseLanguages = CourseLanguage::all();
+        $categories = CourseCategory::where('status', 1)
+        ->with(['subCategories' => function ($query) {
+            $query->where('status', 1);
+        }])->get();
+        
+        switch ($request->step) {
+            case '1':
+                // code for step 1
+            case '2':
+                return view('frontend.instructor-dashboard.course.more-info', compact('course', 'categories', 'courseLevels', 'courseLanguages'));
+            default:
+                abort(404);
+        }
     }
 
     /**
@@ -87,7 +105,7 @@ class CourseController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        dd($request->all());
     }
 
     /**
