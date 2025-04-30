@@ -12,19 +12,23 @@
                         <div class="add_course_basic_info_imput">
                             <label for="#">Title <span class="text-danger">*</span></label>
                             <input type="text" name="title" placeholder="Title">
+                            <x-input-error :messages="$errors->get('title')" class="mt-2" />
                         </div>
                     </div>
                     <div class="col-xl-12">
                         <div class="add_course_basic_info_imput">
                             <label for="#">Seo description</label>
                             <input type="text" name="seo_description" placeholder="Seo description">
+                            <x-input-error :messages="$errors->get('seo_description')" class="mt-2" />
+
                         </div>
                     </div>
-                    <div class="col-xl-12">
+                    <div class="col-xl-12 mb-3">
                         <div class="add_course_basic_info_imput">
                             <label for="#">Thumbnail <span class="text-danger">*</span></label>
-                            <input type="file" name="thumbnail" class="mb-3">
-                            
+                            <input type="file" name="thumbnail" class="">
+                            <x-input-error :messages="$errors->get('thumbnail')" class="mt-2" />
+                            <p>Image size should be 600x400</p>                            
                         </div>
                     </div>
                     <div class="col-xl-6">
@@ -37,18 +41,21 @@
                                 <option value="vimeo">Vimeo</option>
                                 <option value="external_link">External Link</option>
                             </select>
+                            <x-input-error :messages="$errors->get('demo_video_storage')" class="mt-2" />
                         </div>
                     </div>
                     <div class="col-xl-6">
                         <div class="add_course_basic_info_imput">
                             <label for="#">Path</label>
                             <input type="file" name="demo_video_source" class="mb-3">
+                            <x-input-error :messages="$errors->get('demo_video_source')" class="mt-2" />
                         </div>
                     </div>
                     <div class="col-xl-6">
                         <div class="add_course_basic_info_imput">
                             <label for="#">Price <span class="text-danger">*</span></label>
                             <input type="text" name="price" placeholder="Price">
+                            <x-input-error :messages="$errors->get('price')" class="mt-2" />
                             <p>Put 0 for free</p>
                         </div>
                     </div>
@@ -56,6 +63,7 @@
                         <div class="add_course_basic_info_imput">
                             <label for="#">Discount Price</label>
                             <input type="text" name="discount" placeholder="Price">
+                            <x-input-error :messages="$errors->get('discount')" class="mt-2" />
                         </div>
                     </div>
                     <div class="col-xl-12">
