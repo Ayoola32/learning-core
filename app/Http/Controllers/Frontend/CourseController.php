@@ -95,6 +95,8 @@ class CourseController extends Controller
                 // code for step 1
             case '2':
                 return view('frontend.instructor-dashboard.course.more-info', compact('course', 'categories', 'courseLevels', 'courseLanguages'));
+            case '3':
+                return view('frontend.instructor-dashboard.course.course-content', compact('course'));
             default:
                 abort(404);
         }
@@ -105,8 +107,47 @@ class CourseController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        dd($request->all());
-    }
+
+        switch ($request->current_step) {
+            case '1':
+                // code for step 1
+                break;
+            case '2':
+                // Validate the request
+                $request->validate([
+                    'capacity' => 'nullable|integer|min:1',
+                    'duration' => 'required|integer|min:1',
+                    'qna' => 'nullable|boolean',
+                    'certificate' => 'nullable|boolean',
+                    'category' => 'required|exists:course_sub_categories,id',
+                    'level' => 'required|exists:course_levels,id',
+                    'language' => 'required|exists:course_languages,id',
+                ]);
+
+                $course = Course::findOrFail($id);
+                $course->capacity = $request->capacity ? (int) $request->capacity : null; 
+                $course->duration = (int) $request->duration;
+                $course->qna = $request->has('qna') ? 1 : 0;
+                $course->certificate = $request->has('certificate') ? 1 : 0;
+                $course->category_id = $request->category;
+                $course->course_level_id = $request->level;
+                $course->course_language_id = $request->language;
+                $course->save();
+        
+                // For now, redirect to the next step (you can adjust this later)
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'More Info Updated successfully',
+                    'redirect' => route('instructor.courses.edit', ['course' => $course->id, 'step' => $request->next_step]),
+                ]); 
+                break;
+            case '3':
+                // code for step 3
+                break;
+            default:
+                abort(404);
+        }
+   }
 
     /**
      * Remove the specified resource from storage.
