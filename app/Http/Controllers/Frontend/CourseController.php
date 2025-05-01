@@ -24,7 +24,8 @@ class CourseController extends Controller
      */
     public function index()
     {
-        return view('frontend.instructor-dashboard.course.index');
+        $courses = Course::where('instructor_id', Auth::guard('web')->user()->id)->get();
+        return view('frontend.instructor-dashboard.course.index', compact('courses'));
     }
 
     /**
@@ -92,7 +93,8 @@ class CourseController extends Controller
         
         switch ($request->step) {
             case '1':
-                // code for step 1
+                $course = Course::where('id', $id)->where('instructor_id', Auth::guard('web')->user()->id)->first();
+                return view('frontend.instructor-dashboard.course.edit', compact('course'));
             case '2':
                 return view('frontend.instructor-dashboard.course.more-info', compact('course', 'categories', 'courseLevels', 'courseLanguages'));
             case '3':
