@@ -112,7 +112,48 @@ class CourseController extends Controller
 
         switch ($request->current_step) {
             case '1':
-                // code for step 1
+                    // Validate the request
+                    $request->validate([
+                        'title' => ['required','string', 'max:255'],
+                        'seo_description' => ['nullable', 'string', 'max:255'],
+                        'demo_video_storage' => ['nullable', 'string', 'in:upload,vimeo,youtube,external_link'],
+                        'demo_video_source' => ['nullable', 'string', 'max:255'],
+                        'price' => ['required', 'numeric', 'min:0'],
+                        'discount_price' => ['nullable', 'numeric', 'min:0'],
+                        'description' => ['required', 'string'],
+                        'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+                    ]);
+
+
+                    $thumbnailPath = null;
+                    $course = Course::findOrFail($id);
+
+                    if ($request->hasFile('thumbnail') && $request->file('thumbnail')->isValid()) {
+                        $this->deleteFile($course->thumbnail);
+                        $thumbnailPath = $this->uploadFile($request->file('thumbnail'), 'uploads/courses-thumbnails');
+                        $course->thumbnail = $thumbnailPath;
+                    }
+            
+                    // validate the request
+                    $course->title = $request->title;
+                    $course->slug = Str::slug($request->title);
+                    $course->seo_description = $request->seo_description;
+                    $course->demo_video_storage = $request->demo_video_storage;
+                    $course->demo_video_source = $request->demo_video_source;
+                    $course->price = $request->price;
+                    $course->discount = $request->discount;
+                    $course->description = $request->description;
+                    $course->instructor_id = Auth::guard('web')->user()->id;
+                    $course->save();
+            
+                    // save course id to session
+                    Session::put('course_id', $course->id);
+            
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'Basic Info Updated successfully',
+                        'redirect' => route('instructor.courses.edit', ['course' => $course->id, 'step' => $request->next_step]),
+                    ]);
                 break;
             case '2':
                 // Validate the request
