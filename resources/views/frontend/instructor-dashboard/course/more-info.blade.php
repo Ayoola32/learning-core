@@ -91,4 +91,8 @@
             </form>
         </div>
     </div>
+
+    <script>
+        const courseId = "{{ $course->id }}";
+    </script>
 @endsection
