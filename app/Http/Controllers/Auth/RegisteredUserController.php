@@ -40,7 +40,8 @@ class RegisteredUserController extends Controller
 
         if ($request->type == 'student') {
             $user = User::create([
-                'name' => $request->name,
+                'first_name' => $request->name,
+                'last_name' => "",
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'role' => 'student',
@@ -50,7 +51,8 @@ class RegisteredUserController extends Controller
             $request->validate(['document' => ['required', 'mimes:pdf,doc,docx,jpg,png', 'max:12048']]);
             $filePath = $this->uploadFile($request->file('document'), 'uploads/instructor_documents');
             $user = User::create([
-                'name' => $request->name,
+                'first_name' => $request->name,
+                'last_name' => "",
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'role' => 'student',
