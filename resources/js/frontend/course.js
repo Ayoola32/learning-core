@@ -1,15 +1,26 @@
 const base_url = $('meta[name="base_url"]').attr('content');
-const basic_info_url = base_url + '/instructor/courses';
-const more_info_url = base_url + '/instructor/courses';
+const courses_url = base_url + '/instructor/courses';
 
-// Store New Course - Basic Info
+// Course Steps Navigation
+$(document).on('click', '.course-tab', function (e) {
+    e.preventDefault();
+    let step = $(this).data('step');
+    let courseId = window.courseId || null;
+    let url = courseId ? courses_url + '/' + courseId + '/edit?step=' + step : courses_url + '/create?step=' + step;
+    window.location.href = url;
+});
+
+
+
+
+// Store New Course - Basic Info (Step 1)
 $(document).on('submit', '.basic_info_form', function (e) {
     e.preventDefault();
 
     let formData = new FormData(this);
     $.ajax({
         type: 'POST',
-        url: basic_info_url,
+        url: courses_url,
         data: formData,
         contentType: false,
         processData: false,
@@ -22,13 +33,12 @@ $(document).on('submit', '.basic_info_form', function (e) {
             }
         },
         error: function (xhr, status, error) {
-            console.log(xhr.responseText); 
+            console.log('Basic Info Form Error:', xhr.responseText);
         }
     });
 });
 
-
-// Update Course Basic Info - Status Step 1
+// Update Course Basic Info - Step 1
 $(document).on('submit', '.basic_info_update_form', function (e) {
     e.preventDefault();
 
@@ -51,21 +61,21 @@ $(document).on('submit', '.basic_info_update_form', function (e) {
             }
         },
         error: function (xhr, status, error) {
-            console.log(xhr.responseText);
+            console.log('Basic Info Update Form Error:', xhr.responseText);
         }
     });
 });
 
-
-// Update More Info Form - Status Step 2
+// Update More Info Form - Step 2
 $(document).on('submit', '.more_info_form', function (e) {
     e.preventDefault();
 
     let formData = new FormData(this);
-    formData.append('_method', 'PUT'); 
+    formData.append('_method', 'PUT');
+    let courseId = window.courseId;
     $.ajax({
         type: 'POST',
-        url: more_info_url + '/' + courseId, 
+        url: courses_url + '/' + courseId,
         data: formData,
         contentType: false,
         processData: false,
@@ -77,9 +87,15 @@ $(document).on('submit', '.more_info_form', function (e) {
                 window.location.href = response.redirect;
             }
         },
-        error: function (xhr) {
-            console.log(xhr.responseText);
+        error: function (xhr, status, error) {
+            console.log('More Info Form Error:', xhr.responseText);
         }
     });
 });
 
+// Update Active Tab on Page Load
+$(document).ready(function () {
+    let step = new URLSearchParams(window.location.search).get('step') || '1';
+    $('.course-tab').removeClass('active');
+    $('.course-tab[data-step="' + step + '"]').addClass('active');
+});
