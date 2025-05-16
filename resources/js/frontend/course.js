@@ -1,3 +1,11 @@
+// Initialize Notyf
+const notyf = new Notyf({
+    duration: 7000, 
+    position: { x: 'right', y: 'bottom' },
+    dismissible: true 
+});
+
+
 const base_url = $('meta[name="base_url"]').attr('content');
 const courses_url = base_url + '/instructor/courses';
 
@@ -33,7 +41,14 @@ $(document).on('submit', '.basic_info_form', function (e) {
             }
         },
         error: function (xhr, status, error) {
-            console.log('Basic Info Form Error:', xhr.responseText);
+            console.log('Basic Info Form Error:', xhr);
+            let errors = xhr.responseJSON.errors;
+
+            if (errors) {
+                $.each(errors, function (key, value) {
+                    notyf.error(value[0]);  
+                });
+            }
         }
     });
 });
