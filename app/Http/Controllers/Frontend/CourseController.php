@@ -24,7 +24,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses = Course::where('instructor_id', Auth::guard('web')->user()->id)->get();
+        $courses = Course::where('instructor_id', Auth::guard('web')->user()->id)->orderBy('created_at', 'desc')->get();
         return view('frontend.instructor-dashboard.course.index', compact('courses'));
     }
 
