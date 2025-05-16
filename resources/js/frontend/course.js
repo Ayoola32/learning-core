@@ -41,7 +41,6 @@ $(document).on('submit', '.basic_info_form', function (e) {
             }
         },
         error: function (xhr, status, error) {
-            console.log('Basic Info Form Error:', xhr);
             let errors = xhr.responseJSON.errors;
 
             if (errors) {
@@ -76,7 +75,13 @@ $(document).on('submit', '.basic_info_update_form', function (e) {
             }
         },
         error: function (xhr, status, error) {
-            console.log('Basic Info Update Form Error:', xhr.responseText);
+            let errors = xhr.responseJSON.errors;
+
+            if (errors) {
+                $.each(errors, function (key, value) {
+                    notyf.error(value[0]);  
+                });
+            }
         }
     });
 });
@@ -103,7 +108,13 @@ $(document).on('submit', '.more_info_form', function (e) {
             }
         },
         error: function (xhr, status, error) {
-            console.log('More Info Form Error:', xhr.responseText);
+            let errors = xhr.responseJSON.errors;
+
+            if (errors) {
+                $.each(errors, function (key, value) {
+                    notyf.error(value[0]);  
+                });
+            }
         }
     });
 });
