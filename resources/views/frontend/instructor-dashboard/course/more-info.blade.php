@@ -3,7 +3,8 @@
 @section('course-content')
     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
         <div class="add_course_basic_info">
-            <form action="{{ route('instructor.courses.update', $course->id) }}" class="more_info_form" method="POST">
+            <form action="{{ route('instructor.courses.update', $course->id) }}" class="more_info_form cou
+                git rse-form" method="POST">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="id" value="{{ $course->id }}">
@@ -14,7 +15,7 @@
                     <div class="col-xl-6">
                         <div class="add_course_more_info_input">
                             <label for="#">Capacity</label>
-                            <input type="text" name="capacity" placeholder="Capacity" value="{{ old('capacity') }}">
+                            <input type="text" name="capacity" placeholder="Capacity"value="{{ $course->capacity }}">
                             <p>leave blank for unlimited</p>
                             <x-input-error :messages="$errors->get('capacity')" class="mt-2" />
                         </div>
@@ -22,18 +23,18 @@
                     <div class="col-xl-6">
                         <div class="add_course_more_info_input">
                             <label for="#">Course Duration (Minutes)*</label>
-                            <input type="text" name="duration" placeholder="300" value="{{ old('duration') }}">
+                            <input type="text" name="duration" placeholder="300" value="{{ $course->duration }}">
                             <x-input-error :messages="$errors->get('duration')" class="mt-2" />
                         </div>
                     </div>
                     <div class="col-xl-6">
                         <div class="add_course_more_info_checkbox">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="qna" value="1" id="flexCheckDefault" {{ old('qna') ? 'checked' : '' }}>
+                                <input class="form-check-input" type="checkbox" name="qna" value="1" id="flexCheckDefault" {{ $course->qna ? 'checked' : '' }}>
                                 <label class="form-check-label" for="flexCheckDefault">Q&A</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="certificate" value="1" id="flexCheckDefault2" {{ old('certificate') ? 'checked' : '' }}>
+                                <input class="form-check-input" type="checkbox" name="certificate" value="1" id="flexCheckDefault2" {{ $course->certificate ? 'checked' : '' }}>
                                 <label class="form-check-label" for="flexCheckDefault2">Completion Certificate</label>
                             </div>
                         </div>
@@ -47,7 +48,7 @@
                                     @if ($category->subCategories->isNotEmpty())
                                         <optgroup label="{{ $category->name }}">
                                             @foreach ($category->subCategories as $subCategory)
-                                                <option value="{{ $subCategory->id }}" {{ old('category') == $subCategory->id ? 'selected' : '' }}>{{ $subCategory->name }}</option>
+                                                <option value="{{ $subCategory->id }}" {{ $course->category_id == $subCategory->id ? 'selected' : '' }}>{{ $subCategory->name }}</option>
                                             @endforeach
                                         </optgroup>
                                     @endif
@@ -61,7 +62,7 @@
                             <h3>Level</h3>
                             @foreach ($courseLevels as $level)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" value="{{ $level->id }}" name="level" id="id-{{ $level->id }}" {{ old('level') == $level->id ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="radio" value="{{ $level->id }}" name="level" id="id-{{ $level->id }}" {{ $course->course_level_id == $level->id ? 'checked' : '' }}>
                                     <label class="form-check-label" for="id-{{ $level->id }}">
                                         {{ $level->name }}
                                     </label>
@@ -75,7 +76,7 @@
                             <h3>Language</h3>
                             @foreach ($courseLanguages as $language)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" value="{{ $language->id }}" name="language" id="id-{{ $language->id }}" {{ old('language') == $language->id ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="radio" value="{{ $language->id }}" name="language" id="id-{{ $language->id }}" {{ $course->course_language_id == $language->id ? 'checked' : '' }}>
                                     <label class="form-check-label" for="id-{{ $language->id }}">
                                         {{ $language->name }}
                                     </label>
