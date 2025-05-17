@@ -35,7 +35,7 @@
                     <div class="col-xl-6">
                         <div class="add_course_basic_info_imput">
                             <label for="#">Demo Video Storage <b>(optional)</b></label>
-                            <select class="select_js" name="demo_video_storage">
+                            <select class="select_js storage" name="demo_video_storage">
                                 <option value=""> Please Select </option>
                                 <option value="upload">Upload</option>
                                 <option value="youtube">Youtube</option>
@@ -46,9 +46,14 @@
                         </div>
                     </div>
                     <div class="col-xl-6">
-                        <div class="add_course_basic_info_imput">
+                        <div class="add_course_basic_info_imput source_upload">
                             <label for="#">Path</label>
                             <input type="file" name="demo_video_source" class="mb-3">
+                            <x-input-error :messages="$errors->get('demo_video_source')" class="mt-2" />
+                        </div>
+                        <div class="add_course_basic_info_imput source_link d-none">
+                            <label for="#">Link</label>
+                            <input type="text" name="demo_video_source" class="mb-3">
                             <x-input-error :messages="$errors->get('demo_video_source')" class="mt-2" />
                         </div>
                     </div>
