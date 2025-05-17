@@ -31,11 +31,12 @@
                             <p>Image size should be 600x400</p>                            
                         </div>
                     </div>
+                    
                     <div class="col-xl-6">
                         <div class="add_course_basic_info_imput">
-                            <label for="#">Demo Video Storage <b>(optional)</b></label>
-                            <select class="select_js storage" name="demo_video_storage">
-                                <option value=""> Please Select </option>
+                            <label for="demo_video_storage">Demo Video Storage <b>(optional)</b></label>
+                            <select class="select_js storage" name="demo_video_storage" id="demo_video_storage">
+                                <option value="">Please Select</option>
                                 <option value="upload">Upload</option>
                                 <option value="youtube">Youtube</option>
                                 <option value="vimeo">Vimeo</option>
@@ -44,18 +45,27 @@
                             <x-input-error :messages="$errors->get('demo_video_storage')" class="mt-2" />
                         </div>
                     </div>
+
                     <div class="col-xl-6">
-                        <div class="add_course_basic_info_imput source_upload">
-                            <label for="#">Path</label>
-                            <input type="file" name="demo_video_source" class="mb-3">
-                            <x-input-error :messages="$errors->get('demo_video_source')" class="mt-2" />
+                        <div class="add_course_basic_info_imput source_upload d-none">
+                            <label for="file">Path</label>
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+                                        <i class="fa fa-picture-o"></i> Choose
+                                    </a>
+                                </span>
+                                <input id="thumbnail" class="form-control source_input" type="text" name="file">
+                            </div>
+                            <x-input-error :messages="$errors->get('file')" class="mt-2" />
                         </div>
                         <div class="add_course_basic_info_imput source_link d-none">
-                            <label for="#">Link</label>
-                            <input type="text" name="demo_video_source" class="mb-3">
-                            <x-input-error :messages="$errors->get('demo_video_source')" class="mt-2" />
+                            <label for="url">Link</label>
+                            <input type="text" name="url" class="mb-3 source_input" placeholder="Link">
+                            <x-input-error :messages="$errors->get('url')" class="mt-2" />
                         </div>
                     </div>
+
                     <div class="col-xl-6">
                         <div class="add_course_basic_info_imput">
                             <label for="#">Price <span class="text-danger">*</span></label>
@@ -64,13 +74,15 @@
                             <p>Put 0 for free</p>
                         </div>
                     </div>
+
                     <div class="col-xl-6">
                         <div class="add_course_basic_info_imput">
                             <label for="#">Discount Price</label>
-                            <input type="text" name="discount" placeholder="Price">
+                            <input type="text" name="discount" placeholder="Discount Price">
                             <x-input-error :messages="$errors->get('discount')" class="mt-2" />
                         </div>
                     </div>
+
                     <div class="col-xl-12">
                         <div class="add_course_basic_info_imput mb-0">
                             <label for="#">Description</label>
