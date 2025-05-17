@@ -127,18 +127,37 @@ $(document).ready(function () {
 });
 
 
-//Show hide path input depending on the selected path
+// Initialize form state on page load for storage options
+$(document).ready(function () {
+    let storageValue = $('.storage').val();
+    if (storageValue == 'upload') {
+        $('.source_upload').removeClass('d-none');
+        $('.source_link').addClass('d-none');
+    } else if (storageValue == 'youtube' || storageValue == 'vimeo' || storageValue == 'external_link') {
+        $('.source_link').removeClass('d-none');
+        $('.source_upload').addClass('d-none');
+    } else {
+        $('.source_upload').addClass('d-none');
+        $('.source_link').addClass('d-none');
+    }
+});
+
+// Show/hide path input depending on the selected storage option
 $('.storage').on('change', function () {
     let value = $(this).val();
+    $('.source_input').val(''); // Clear inputs on change
     if (value == 'upload') {
         $('.source_upload').removeClass('d-none');
         $('.source_link').addClass('d-none');
-    } else {
+    } else if (value == 'youtube' || value == 'vimeo' || value == 'external_link') {
         $('.source_link').removeClass('d-none');
         $('.source_upload').addClass('d-none');
+    } else {
+        $('.source_upload').addClass('d-none');
+        $('.source_link').addClass('d-none');
     }
-}
-);
+});
+
 
 // Initialize File Manager
 $('#lfm').filemanager('file');
