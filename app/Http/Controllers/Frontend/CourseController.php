@@ -113,16 +113,19 @@ class CourseController extends Controller
         switch ($request->current_step) {
             case '1':
                     // Validate the request
-                    $request->validate([
+                    $rules = [
                         'title' => ['required','string', 'max:255'],
                         'seo_description' => ['nullable', 'string', 'max:255'],
                         'demo_video_storage' => ['nullable', 'string', 'in:upload,vimeo,youtube,external_link'],
                         'demo_video_source' => ['nullable', 'string', 'max:255'],
+                        'file' => ['required_if:demo_video_storage,upload', 'nullable', 'string', 'max:255'],
+                        'url' => ['required_if:demo_video_storage,youtube,vimeo,external_link', 'nullable', 'string', 'max:255'],
                         'price' => ['required', 'numeric', 'min:0'],
                         'discount_price' => ['nullable', 'numeric', 'min:0'],
                         'description' => ['required', 'string'],
                         'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-                    ]);
+                    ];
+                    $request->validate($rules);
 
 
                     $thumbnailPath = null;
@@ -133,13 +136,30 @@ class CourseController extends Controller
                         $thumbnailPath = $this->uploadFile($request->file('thumbnail'), 'uploads/courses-thumbnails');
                         $course->thumbnail = $thumbnailPath;
                     }
+
+                    // Handle demo video storage and source
+                    $demoVideoStorage = $request->demo_video_storage;
+                    $demoVideoSource = null;
+
+                    if ($demoVideoStorage) {
+                        if ($demoVideoStorage == 'upload' && $request->filled('file')) {
+                            $demoVideoSource = $request->file;
+                        } elseif (in_array($demoVideoStorage, ['youtube', 'vimeo', 'external_link']) && $request->filled('url')) {
+                            $demoVideoSource = $request->url;
+                        } else {
+                            // If the corresponding field is missing, clear both
+                            $demoVideoStorage = null;
+                            $demoVideoSource = null;
+                        }
+                    }
+
             
                     // validate the request
                     $course->title = $request->title;
                     $course->slug = Str::slug($request->title);
                     $course->seo_description = $request->seo_description;
-                    $course->demo_video_storage = $request->demo_video_storage;
-                    $course->demo_video_source = $request->demo_video_source;
+                    $course->demo_video_storage = $demoVideoStorage;
+                    $course->demo_video_source = $demoVideoSource;
                     $course->price = $request->price;
                     $course->discount = $request->discount;
                     $course->description = $request->description;
