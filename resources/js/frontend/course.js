@@ -125,3 +125,17 @@ $(document).ready(function () {
     $('.course-tab').removeClass('active');
     $('.course-tab[data-step="' + step + '"]').addClass('active');
 });
+
+
+//Show hide path input depending on the selected path
+$('.storage').on('change', function () {
+    let value = $(this).val();
+    if (value == 'upload') {
+        $('.source_upload').removeClass('d-none');
+        $('.source_link').addClass('d-none');
+    } else {
+        $('.source_link').removeClass('d-none');
+        $('.source_upload').addClass('d-none');
+    }
+}
+);
