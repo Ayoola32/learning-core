@@ -46,14 +46,33 @@ class CourseController extends Controller
             $thumbnailPath = $this->uploadFile($request->file('thumbnail'), 'uploads/courses-thumbnails');
         }
 
+
+        // Handle demo video storage and source
+        $demoVideoStorage = $request->demo_video_storage;
+        $demoVideoSource = null;
+
+        if ($demoVideoStorage) {
+            if ($demoVideoStorage == 'upload' && $request->filled('file')) {
+                $demoVideoSource = $request->file;
+            } elseif (in_array($demoVideoStorage, ['youtube', 'vimeo', 'external_link']) && $request->filled('url')) {
+                $demoVideoSource = $request->url;
+            } else {
+                // If the corresponding field is missing, clear both
+                $demoVideoStorage = null;
+                $demoVideoSource = null;
+            }
+        }
+
+
+
        // validate the request
         $course = new Course();
         $course->title = $request->title;
         $course->slug = Str::slug($request->title);
         $course->seo_description = $request->seo_description;
         $course->thumbnail = $thumbnailPath;
-        $course->demo_video_storage = $request->demo_video_storage;
-        $course->demo_video_source = $request->demo_video_source;
+        $course->demo_video_storage = $demoVideoStorage;
+        $course->demo_video_source = $demoVideoSource;
         $course->price = $request->price;
         $course->discount = $request->discount;
         $course->description = $request->description;
