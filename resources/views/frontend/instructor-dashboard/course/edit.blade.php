@@ -37,34 +37,35 @@
                             <label for="#">Demo Video Storage <b>(optional)</b></label>
                             <select class="select_js storage" name="demo_video_storage">
                                 <option value=""> Please Select </option>
-                                <option value="upload">Upload</option>
-                                <option value="youtube">Youtube</option>
-                                <option value="vimeo">Vimeo</option>
-                                <option value="external_link">External Link</option>
+                                <option value="upload" @selected($course->demo_video_storage == 'upload')>Upload</option>
+                                <option value="youtube" {{ $course->demo_video_storage == 'youtube' ? 'selected' : '' }}>Youtube</option>
+                                <option value="vimeo" {{ $course->demo_video_storage == 'vimeo' ? 'selected' : '' }}>Vimeo</option>
+                                <option value="external_link" {{ $course->demo_video_storage == 'external_link' ? 'selected' : '' }}>External Link</option>
                             </select>
                             <x-input-error :messages="$errors->get('demo_video_storage')" class="mt-2" />
                         </div>
                     </div>
+
                     <div class="col-xl-6">
-                        <div class="add_course_basic_info_imput source_upload">
+                        <div class="add_course_basic_info_imput source_upload {{ $course->demo_video_storage != 'upload' ? 'd-none' : '' }}">
                             <label for="#">Path</label>
-                            {{-- <input type="file" name="demo_video_source" class="mb-3"> --}}
                             <div class="input-group">
                                 <span class="input-group-btn">
                                   <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
                                     <i class="fa fa-picture-o"></i> Choose
                                   </a>
                                 </span>
-                                <input id="thumbnail" class="form-control" type="text" name="file">
+                                <input id="thumbnail" class="form-control source_input" type="text" name="file" value="{{ $course->demo_video_storage == 'upload' ? $course->demo_video_source : '' }}">
                             </div>
                             <x-input-error :messages="$errors->get('file')" class="mt-2" />
                         </div>
-                        <div class="add_course_basic_info_imput source_link d-none">
+                        <div class="add_course_basic_info_imput source_link d-none {{ in_array($course->demo_video_storage, ['youtube', 'vimeo', 'external_link']) ? '' : 'd-none' }}">
                             <label for="#">Link</label>
-                            <input type="text" name="url" class="mb-3">
+                            <input type="text" name="url" class="mb-3 source_input" value="{{ in_array($course->demo_video_storage, ['youtube', 'vimeo', 'external_link']) ? $course->demo_video_source : '' }}" placeholder="Link">
                             <x-input-error :messages="$errors->get('url')" class="mt-2" />
                         </div>
                     </div>
+
                     <div class="col-xl-6">
                         <div class="add_course_basic_info_imput">
                             <label for="#">Price <span class="text-danger">*</span></label>
@@ -73,6 +74,7 @@
                             <p>Put 0 for free</p>
                         </div>
                     </div>
+
                     <div class="col-xl-6">
                         <div class="add_course_basic_info_imput">
                             <label for="#">Discount Price</label>
@@ -80,6 +82,7 @@
                             <x-input-error :messages="$errors->get('discount')" class="mt-2" />
                         </div>
                     </div>
+                    
                     <div class="col-xl-12">
                         <div class="add_course_basic_info_imput mb-0">
                             <label for="#">Description</label>
