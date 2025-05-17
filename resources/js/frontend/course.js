@@ -139,3 +139,6 @@ $('.storage').on('change', function () {
     }
 }
 );
+
+// Initialize File Manager
+$('#lfm').filemanager('file');

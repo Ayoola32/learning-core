@@ -48,7 +48,15 @@
                     <div class="col-xl-6">
                         <div class="add_course_basic_info_imput source_upload">
                             <label for="#">Path</label>
-                            <input type="file" name="demo_video_source" class="mb-3">
+                            {{-- <input type="file" name="demo_video_source" class="mb-3"> --}}
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                  <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+                                    <i class="fa fa-picture-o"></i> Choose
+                                  </a>
+                                </span>
+                                <input id="thumbnail" class="form-control" type="text" name="demo_video_source">
+                            </div>
                             <x-input-error :messages="$errors->get('demo_video_source')" class="mt-2" />
                         </div>
                         <div class="add_course_basic_info_imput source_link d-none">
@@ -84,3 +92,7 @@
         </div>
     </div>
 @endsection
+
+@push('course_script')
+
+@endpush

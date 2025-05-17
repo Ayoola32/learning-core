@@ -37,7 +37,11 @@ Route::group(['middleware' => ['auth:web', 'verified', 'check_role:instructor'],
 
     // Course Management
     Route::resource('/courses', CourseController::class);
-    
+
+    //Laravel File Manager Route
+    Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+        \UniSharp\LaravelFilemanager\Lfm::routes();
+    });
 });
 
 require __DIR__.'/auth.php';
