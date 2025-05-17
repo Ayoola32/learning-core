@@ -55,14 +55,14 @@
                                     <i class="fa fa-picture-o"></i> Choose
                                   </a>
                                 </span>
-                                <input id="thumbnail" class="form-control" type="text" name="demo_video_source">
+                                <input id="thumbnail" class="form-control" type="text" name="file">
                             </div>
-                            <x-input-error :messages="$errors->get('demo_video_source')" class="mt-2" />
+                            <x-input-error :messages="$errors->get('file')" class="mt-2" />
                         </div>
                         <div class="add_course_basic_info_imput source_link d-none">
                             <label for="#">Link</label>
-                            <input type="text" name="demo_video_source" class="mb-3">
-                            <x-input-error :messages="$errors->get('demo_video_source')" class="mt-2" />
+                            <input type="text" name="url" class="mb-3">
+                            <x-input-error :messages="$errors->get('url')" class="mt-2" />
                         </div>
                     </div>
                     <div class="col-xl-6">
