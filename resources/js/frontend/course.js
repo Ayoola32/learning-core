@@ -161,3 +161,11 @@ $('.storage').on('change', function () {
 
 // Initialize File Manager
 $('#lfm').filemanager('file');
+
+
+// Modal for Course Content
+$('.dynamic-modal-btn').on('click', function (e) {
+    e.preventDefault();
+    $('#dynamic-modal').modal('show');
+});
+
