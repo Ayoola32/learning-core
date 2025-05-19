@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Frontend\CourseContentController;
 use App\Http\Controllers\Frontend\CourseController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\InstructorDashboardController;
@@ -37,6 +38,7 @@ Route::group(['middleware' => ['auth:web', 'verified', 'check_role:instructor'],
 
     // Course Management
     Route::resource('/courses', CourseController::class);
+    Route::get('/course-content/create-chapter', [CourseContentController::class, 'createChapter'])->name('course-content.create-chapter');
 
     //Laravel File Manager Route
     Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {

@@ -163,9 +163,38 @@ $('.storage').on('change', function () {
 $('#lfm').filemanager('file');
 
 
+// Loading spinner for modal
+var loader = `
+    <div class="modal-content text-center" style="padding: 20px; display:inline">
+       <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+`;
+
+
+
 // Modal for Course Content
 $('.dynamic-modal-btn').on('click', function (e) {
     e.preventDefault();
     $('#dynamic-modal').modal('show');
+
+    $.ajax({
+        url: base_url + '/instructor/course-content/create-chapter',
+        type: 'GET',
+        data: {},
+        beforeSend: function () {
+            // Optional: Add a loading state
+            $('.dynamic-modal-content').html(loader);
+
+        },
+        success: function (data) {
+            // Load the content into the modal
+            $('.dynamic-modal-content').html(data);
+        },
+        error: function (xhr, status, error) {
+            // Handle error
+        }
+    })
 });
 
