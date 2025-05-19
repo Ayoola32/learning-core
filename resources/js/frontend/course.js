@@ -178,9 +178,10 @@ var loader = `
 $('.dynamic-modal-btn').on('click', function (e) {
     e.preventDefault();
     $('#dynamic-modal').modal('show');
+    let courseId = $(this).data('id');
 
     $.ajax({
-        url: base_url + '/instructor/course-content/create-chapter',
+        url: `${base_url}/instructor/course-content/${courseId}/create-chapter`,
         type: 'GET',
         data: {},
         beforeSend: function () {
@@ -194,7 +195,42 @@ $('.dynamic-modal-btn').on('click', function (e) {
         },
         error: function (xhr, status, error) {
             // Handle error
+            console.log('Error:', error);
+            $('.dynamic-modal-content').html('<div class="modal-content text-center" style="padding: 20px;">Error loading form. Please try again.</div>');
         }
-    })
+    });
+});
+
+
+// Handle the chapter modal form submission (AJAX)
+$(document).on('submit', '.dynamic-modal-content form', function (e) {
+    e.preventDefault();
+
+    const $form = $(this);
+    const actionUrl = $form.attr('action');
+    const formData = $form.serialize();
+
+    $.ajax({
+        type: 'POST',
+        url: actionUrl,
+        data: formData,
+        success: function (response) {
+            if (response.status === 'success') {
+                if (window.Notyf) {
+                    new Notyf().success(response.message);
+                } else {
+                    alert(response.message);
+                }
+                $('#dynamic-modal').modal('hide');
+            }
+        },
+        error: function (xhr) {
+            if (window.Notyf) {
+                new Notyf().error("Something went wrong.");
+            } else {
+                alert("Error occurred.");
+            }
+        }
+    });
 });
 
