@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\CourseBasicInfoCreateRequest;
 use App\Models\Course;
 use App\Models\CourseCategory;
+use App\Models\CourseChapter;
 use App\Models\CourseLanguage;
 use App\Models\CourseLevel;
 use App\Traits\FileUpload;
@@ -117,7 +118,8 @@ class CourseController extends Controller
             case '2':
                 return view('frontend.instructor-dashboard.course.more-info', compact('course', 'categories', 'courseLevels', 'courseLanguages'));
             case '3':
-                return view('frontend.instructor-dashboard.course.course-content', compact('course'));
+                $chapters = CourseChapter::where(['course_id'=> $course->id, 'instructor_id' => Auth::guard('web')->user()->id])->get();
+                return view('frontend.instructor-dashboard.course.course-content', compact('course', 'chapters'));
             default:
                 abort(404);
         }
