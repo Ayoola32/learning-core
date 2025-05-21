@@ -12,13 +12,13 @@ use Illuminate\Support\Str;
 
 class CourseContentController extends Controller
 {
-    // createChapter
+    // CREATE CHAPTER
     public function createChapter($course)
     {
         return view('frontend.instructor-dashboard.course.partials.course-chapter-modal', compact('course'))->render();
     }
 
-    // storeChapter
+    // STORE CHAPTER
     public function storeChapter(Request $request, $course)
     {
         // Validate the request
@@ -38,6 +38,33 @@ class CourseContentController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Chapter "' . $chapter->title . '" created successfully.',
+        ]);
+    }
+
+    // EDIT CHAPTER
+    public function editChapter($course, $chapter)
+    {
+        $course = Course::where('id', $course)->where('instructor_id', Auth::guard('web')->user()->id)->firstOrFail();
+        $chapter = CourseChapter::where('id', $chapter)->where('course_id', $course->id)->firstOrFail();
+
+        return view('frontend.instructor-dashboard.course.partials.course-chapter-modal-edit', compact('course', 'chapter'))->render();
+    }
+
+    // UPDATE CHAPTER
+    public function updateChapter(Request $request, $course, $chapter)
+    {
+        $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+        ]);
+
+        $course = Course::where('id', $course)->where('instructor_id', Auth::guard('web')->user()->id)->firstOrFail();
+        $chapter = CourseChapter::where('id', $chapter)->where('course_id', $course->id)->firstOrFail();
+        $chapter->title = $request->title;
+        $chapter->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Chapter "' . $chapter->title . '" updated successfully.',
         ]);
     }
 
