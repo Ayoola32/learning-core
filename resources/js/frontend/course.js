@@ -172,9 +172,13 @@ var loader = `
     </div>
 `;
 
+// 
+// 
+// Modal for Course Chapter Create and Update
+// 
+// 
 
-
-// Modal for Course Content
+// Display modal for chapter creation
 $('.dynamic-modal-btn').on('click', function (e) {
     e.preventDefault();
     $('#dynamic-modal').modal('show');
@@ -222,6 +226,15 @@ $(document).on('submit', '.dynamic-modal-content form', function (e) {
                     alert(response.message);
                 }
                 $('#dynamic-modal').modal('hide');
+
+                // Delay the redirect/reload
+                setTimeout(function () {
+                    if (response.redirect) {
+                        window.location.href = response.redirect; 
+                    } else {
+                        window.location.reload(); 
+                    }
+                }, 2000); 
             }
         },
         error: function (xhr) {
@@ -234,8 +247,93 @@ $(document).on('submit', '.dynamic-modal-content form', function (e) {
     });
 });
 
+// Display modal for chapter update
+$('.dynamic-modal-chapter').on('click', function (e) {
+    e.preventDefault();
+    $('#dynamic-modal').modal('show');
+    let chapterId = $(this).data('chapter-id');
+    let courseId = $(this).data('course-id');
 
-// handle the lesson modal form display
+    $.ajax({
+        url: `${base_url}/instructor/course-content/${courseId}/edit-chapter/${chapterId}`,
+        type: 'GET',
+        data: {},
+        beforeSend: function () {
+            // Optional: Add a loading state
+            $('.dynamic-modal-content').html(loader);
+        },
+        success: function (data) {
+            // Load the content into the modal
+            $('.dynamic-modal-content').html(data);
+        },
+        error: function (xhr, status, error) {
+            // Handle error
+            console.log('Error:', error, 'Status:', status, 'Response:', xhr.responseText);
+            $('.dynamic-modal-content').html('<div class="modal-content text-center" style="padding: 20px;">Error loading form. Please try again.</div>');        }
+    });
+}
+);
+
+// Handle the chapter modal form submission (AJAX) for update
+$(document).on('submit', '.dynamic-modal-content chapter-update-form', function (e) {
+    e.preventDefault();
+
+    const $form = $(this);
+    const actionUrl = $form.attr('action');
+    const formData = $form.serialize();
+
+    $.ajax({
+        type: 'POST', 
+        url: actionUrl,
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (response) {
+            if (response.status === 'success') {
+                if (window.Notyf) {
+                    new Notyf().success(response.message);
+                } else {
+                    alert(response.message);
+                }
+                $('#dynamic-modal').modal('hide');
+
+                // Delay the redirect/reload
+                setTimeout(function () {
+                    if (response.redirect) {
+                        window.location.href = response.redirect; 
+                    } else {
+                        window.location.reload(); 
+                    }
+                }, 2000);            
+            }
+        },
+        error: function (xhr) {
+            const errorMessage = xhr.responseJSON?.message || 'Something went wrong.';
+            if (window.Notyf) {
+                new Notyf().error(errorMessage);
+            } else {
+                alert(errorMessage);
+            }
+            console.log('Submission Error:', xhr.responseJSON);
+        }
+    });
+});
+
+// 
+// 
+// End Modal for Course Chapter Create and Update
+// 
+// 
+
+
+
+// 
+// 
+// Handle the Lesson modal form display and submission CREATE & UPDATE
+// 
+// 
+
 $('.add_lesson').on('click', function (e) {
     e.preventDefault();
     $('#dynamic-modal').modal('show');
@@ -297,3 +395,8 @@ $(document).on('change', '.storage-lesson', function () {
     }
 });
 
+// 
+// 
+//  End Handle the Lesson modal form display and submission CREATE & UPDATE
+// 
+// 
