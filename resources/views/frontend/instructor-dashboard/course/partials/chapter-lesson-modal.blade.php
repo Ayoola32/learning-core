@@ -55,6 +55,36 @@
                         <x-input-error :messages="$errors->get('url')" class="mt-2" />
                     </div>
                 </div>
+                <div class="form-group mb-3 col-md-6">
+                    <label for="duration" class="form-label">Duration (minutes)</label>
+                    <input type="number" class="form-control" id="duration" name="duration" placeholder="Enter Duration" min="1">
+                    <x-input-error :messages="$errors->get('duration')" class="mt-2" />
+                </div>
+                <div class="form-group mb-3 col-md-6 add_course_more_info_checkbox">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="is_preview" value="1" id="preview">
+                        <label class="form-check-label" for="preview">Is Preview</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="downloadable" value="1" id="downloadable">
+                        <label class="form-check-label" for="downloadable">Downloadable</label>
+                    </div>
+                </div>
+                <div class="form-group mb-3 col-md-6">
+                    <label for="volume" class="form-label">Volume</label>
+                    <input type="number" class="form-control" id="volume" name="volume" placeholder="Enter volume" min="1">
+                    <x-input-error :messages="$errors->get('volume')" class="mt-2" />
+                </div>
+                <div class="form-group mb-3 col-md-6">
+                    <label for="status" class="form-label">Status</label>
+                    <select name="status" id="status" class="form-control">
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
+                    </select>
+                    <x-input-error :messages="$errors->get('status')" class="mt-2" />
+                </div>
+                
+
                 <div class="form-group mb-3 text-end col-md-12">
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>

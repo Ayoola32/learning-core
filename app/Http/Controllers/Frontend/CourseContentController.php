@@ -56,11 +56,14 @@ class CourseContentController extends Controller
         // Validate the request
         $rules = [
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|max:2000',
             'storage' => 'required|in:upload,youtube,vimeo,external_link',
             'file' => 'required_if:storage,upload|nullable|string|max:255',
             'url' => 'required_if:storage,youtube,vimeo,external_link|nullable|url|max:255',
             'file_type' => 'required|in:video,audio,document',
+            'duration' => 'required|integer|min:0',
+            'is_preview' => 'nullable|boolean',
+            'downloadable' => 'nullable|boolean',
         ];
         $request->validate($rules);
 
@@ -78,7 +81,7 @@ class CourseContentController extends Controller
             $filePath = null; // Clear if validation fails
         }
 
-        // Create the lesson (assuming CourseLesson model)
+        // Create Lesson
         $lesson = new courseChapterLesson();
         $lesson->instructor_id = Auth::guard('web')->user()->id;
         $lesson->course_id = $course->id;
@@ -89,12 +92,18 @@ class CourseContentController extends Controller
         $lesson->file_path = $filePath;
         $lesson->storage = $request->storage;
         $lesson->file_type = $request->file_type;
+        $lesson->duration = $request->duration ?? 0;
+        $lesson->is_preview = $request->is_preview ?? 0;
+        $lesson->downloadable = $request->downloadable ?? 0;
+        $lesson->volume = $request->volume ?? 0;
+        $lesson->lesson_type = 'lesson';
+        $lesson->order = courseChapterLesson::where('course_chapter_id', $chapter->id)->max('order') + 1;
+        $lesson->status = $request->status ?? 'active';
         $lesson->save();
 
         return response()->json([
             'status' => 'success',
             'message' => 'Lesson created successfully',
-            'redirect' => route('instructor.courses.edit', ['course' => $course->id, 'step' => 3]),
         ]);
     }
 }
