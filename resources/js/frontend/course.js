@@ -234,3 +234,66 @@ $(document).on('submit', '.dynamic-modal-content form', function (e) {
     });
 });
 
+
+// handle the lesson modal form display
+$('.add_lesson').on('click', function (e) {
+    e.preventDefault();
+    $('#dynamic-modal').modal('show');
+    let courseId = $(this).data('course-id');
+    let chapterId = $(this).data('chapter-id');
+
+    $.ajax({
+        url: `${base_url}/instructor/course-content/${courseId}/create-lesson/${chapterId}`,
+        type: 'GET',
+        data: {},
+        beforeSend: function () {
+            $('.dynamic-modal-content').html(loader);
+        },
+        success: function (data) {
+            $('.dynamic-modal-content').html(data);
+        },
+        error: function (xhr, status, error) {
+            console.log('Error loading lesson form:', error, xhr.responseText);
+            $('.dynamic-modal-content').html('<div class="modal-content text-center" style="padding: 20px;">Error loading form. Please try again.</div>');
+        }
+    });
+});
+
+
+
+// Initialize form state after modal is shown - Lesson Modal
+$('#dynamic-modal').on('shown.bs.modal', function () {
+    let storageValue = $('.storage-lesson').val();
+    if (storageValue == 'upload') {
+        $('.source_upload').removeClass('d-none');
+        $('.source_link').addClass('d-none');
+    } else if (storageValue == 'youtube' || storageValue == 'vimeo' || storageValue == 'external_link') {
+        $('.source_link').removeClass('d-none');
+        $('.source_upload').addClass('d-none');
+    } else {
+        $('.source_upload').addClass('d-none');
+        $('.source_link').addClass('d-none');
+    }
+
+    // Initialize Laravel File Manager for dynamically loaded buttons
+    if ($('#lfm').length) {
+        $('#lfm').filemanager('file', {prefix: '/filemanager'});
+    }
+});
+
+// Show/hide path input depending on the selected storage option - Lesson Modal
+$(document).on('change', '.storage-lesson', function () {
+    let value = $(this).val();
+    $('.source_input').val(''); // Clear inputs on change
+    if (value == 'upload') {
+        $('.source_upload').removeClass('d-none');
+        $('.source_link').addClass('d-none');
+    } else if (value == 'youtube' || value == 'vimeo' || value == 'external_link') {
+        $('.source_link').removeClass('d-none');
+        $('.source_upload').addClass('d-none');
+    } else {
+        $('.source_upload').addClass('d-none');
+        $('.source_link').addClass('d-none');
+    }
+});
+
