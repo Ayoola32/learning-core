@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseChapter;
-use App\Models\courseChapterLesson;
+use App\Models\CourseChapterLesson;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -82,7 +82,7 @@ class CourseContentController extends Controller
         }
 
         // Create Lesson
-        $lesson = new courseChapterLesson();
+        $lesson = new CourseChapterLesson();
         $lesson->instructor_id = Auth::guard('web')->user()->id;
         $lesson->course_id = $course->id;
         $lesson->course_chapter_id = $chapter->id;
@@ -97,7 +97,7 @@ class CourseContentController extends Controller
         $lesson->downloadable = $request->downloadable ?? 0;
         $lesson->volume = $request->volume ?? 0;
         $lesson->lesson_type = 'lesson';
-        $lesson->order = courseChapterLesson::where('course_chapter_id', $chapter->id)->max('order') + 1;
+        $lesson->order = CourseChapterLesson::where('course_chapter_id', $chapter->id)->max('order') + 1;
         $lesson->status = $request->status ?? 'active';
         $lesson->save();
 
