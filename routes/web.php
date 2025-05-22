@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth:web', 'verified', 'check_role:instructor'],
     Route::post('/course-content/{course}/store-chapter', [CourseContentController::class, 'storeChapter'])->name('course-content.store-chapter');
     Route::get('/course-content/{course}/edit-chapter/{chapter}', [CourseContentController::class, 'editChapter'])->name('course-content.edit-chapter');
     Route::put('/course-content/{course}/update-chapter/{chapter}', [CourseContentController::class, 'updateChapter'])->name('course-content.update-chapter');
+    Route::delete('/course-content/{course}/delete-chapter/{chapter}', [CourseContentController::class, 'deleteChapter'])->name('course-content.delete-chapter');
     
     Route::get('/course-content/{course}/create-lesson/{chapter}', [CourseContentController::class, 'createLesson'])->name('course-content.create-lesson');
     Route::post('/course-content/{course}/store-lesson/{chapter}', [CourseContentController::class, 'storeLesson'])->name('course-content.store-lesson');
