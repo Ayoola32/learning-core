@@ -93,6 +93,11 @@ class CourseContentController extends Controller
         ]);
     }
 
+
+
+
+
+
     // CREATE LESSON
     public function createLesson($course, $chapter)
     {
@@ -218,5 +223,22 @@ class CourseContentController extends Controller
             'status' => 'success',
             'message' => 'Lesson updated successfully',
         ]); 
+    }
+
+    // DELETE LESSON
+    public function deleteLesson($course, $chapter, $lesson)
+    {
+        // Verify course, chapter and lesson
+        $course = Course::where('id', $course)->where('instructor_id', Auth::guard('web')->user()->id)->firstOrFail();
+        $chapter = CourseChapter::where('id', $chapter)->where('course_id', $course->id)->firstOrFail();
+        $lesson = CourseChapterLesson::where('id', $lesson)->where('course_chapter_id', $chapter->id)->firstOrFail();
+
+        // Delete the lesson
+        $lesson->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Lesson deleted successfully',
+        ]);
     }
 }
