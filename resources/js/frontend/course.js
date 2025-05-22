@@ -605,3 +605,68 @@ $(document).on('click', '.delete-lesson', function (e) {
 // 
 // 
 
+
+
+// 
+// 
+// Handle Lesson Sortable
+// 
+// 
+// 
+
+$(document).ready(function () {
+    if ($('.sortable_list li').length) {
+        $('.sortable_list').each(function () {
+            let $list = $(this);
+            // Get chapterId from a parent element (e.g., the accordion header or a data attribute)
+            let chapterId = $list.closest('.accordion-item').find('.edit-lesson').data('chapter-id');
+            if (!chapterId) {
+                console.error('Chapter ID not found for sortable list');
+                return;
+            }
+
+            $list.sortable({
+                handle: '.arrow', // Use the arrow link as the drag handle
+                update: function (event, ui) {
+                    let order = [];
+                    $list.find('li').each(function (index) {
+                        order.push({
+                            id: $(this).data('lesson-id'),
+                            order: index + 1 // Order starts from 1
+                        });
+                    });
+
+                    // Send the new order to the server via AJAX
+                    $.ajax({
+                        url: `${base_url}/instructor/course-content/chapter/${chapterId}/update-lesson-order`,
+                        type: 'POST',
+                        data: {
+                            order: order,
+                            _token: $('meta[name="csrf-token"]').attr('content') // CSRF token
+                        },
+                        success: function (response) {
+                            if (response.status === 'success') {
+                                if (window.Notyf) {
+                                    new Notyf().success(response.message);
+                                } else {
+                                    alert(response.message);
+                                }
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log('Order Update Error:', error, xhr.responseText);
+                            if (window.Notyf) {
+                                new Notyf().error('Failed to update lesson order.');
+                            } else {
+                                alert('Failed to update lesson order.');
+                            }
+                        }
+                    });
+                }
+            }).disableSelection(); // Prevent text selection while dragging
+        });
+    }
+});
+
+
+
