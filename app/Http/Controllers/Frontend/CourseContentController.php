@@ -133,4 +133,14 @@ class CourseContentController extends Controller
             'message' => 'Lesson created successfully',
         ]);
     }
+
+    // EDIT LESSON
+    public function editLesson($course, $chapter, $lesson)
+    {
+        $course = Course::where('id', $course)->where('instructor_id', Auth::guard('web')->user()->id)->firstOrFail();
+        $chapter = CourseChapter::where('id', $chapter)->where('course_id', $course->id)->firstOrFail();
+        $lesson = CourseChapterLesson::where('id', $lesson)->where('course_chapter_id', $chapter->id)->firstOrFail();
+
+        return view('frontend.instructor-dashboard.course.partials.chapter-lesson-modal-edit', compact('course', 'chapter', 'lesson'))->render();
+    }
 }
