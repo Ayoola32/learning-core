@@ -241,4 +241,45 @@ class CourseContentController extends Controller
             'message' => 'Lesson deleted successfully',
         ]);
     }
+
+    // UPDATE LESSON ORDER
+    public function updateLessonOrder(Request $request, $chapter)
+    {
+        // Verify chapter and get the associated course
+        $chapter = CourseChapter::where('id', $chapter)->firstOrFail();
+        $course = Course::where('id', $chapter->course_id)
+            ->where('instructor_id', Auth::guard('web')->user()->id)
+            ->firstOrFail();
+
+        // Validate the request
+        $request->validate([
+            'order' => 'required|array',
+            'order.*.id' => 'required|exists:course_chapter_lessons,id', // Update table name to match model
+            'order.*.order' => 'required|integer|min:1',
+        ]);
+
+        // Ensure all lessons belong to the chapter
+        foreach ($request->order as $item) {
+            $lesson = CourseChapterLesson::where('id', $item['id'])
+                ->where('course_id', $course->id)
+                ->where('course_chapter_id', $chapter->id)
+                ->first();
+
+            if (!$lesson) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid lesson ID or lesson does not belong to this chapter.',
+                ], 403);
+            }
+
+            // Update the order
+            $lesson->order = $item['order'];
+            $lesson->save();
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Lesson order updated successfully',
+        ]);
+    }
 }
