@@ -68,6 +68,31 @@ class CourseContentController extends Controller
         ]);
     }
 
+    // DELETE CHAPTER
+    public function deleteChapter($course, $chapter)
+    {
+        // Verify course and chapter
+        $course = Course::where('id', $course)->where('instructor_id', Auth::guard('web')->user()->id)->firstOrFail();
+        $chapter = CourseChapter::where('id', $chapter)->where('course_id', $course->id)->firstOrFail();
+
+        // Check if the chapter has lessons
+        $lessonCount = CourseChapterLesson::where('course_chapter_id', $chapter->id)->count();
+        if ($lessonCount > 0) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Cannot delete chapter because it contains lessons. Please delete the lessons first.',
+            ], 403);
+        }
+
+        // Delete the chapter
+        $chapter->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Chapter deleted successfully',
+        ]);
+    }
+
     // CREATE LESSON
     public function createLesson($course, $chapter)
     {
