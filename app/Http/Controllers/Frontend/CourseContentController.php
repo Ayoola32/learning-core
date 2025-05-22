@@ -143,4 +143,55 @@ class CourseContentController extends Controller
 
         return view('frontend.instructor-dashboard.course.partials.chapter-lesson-modal-edit', compact('course', 'chapter', 'lesson'))->render();
     }
+
+    // UPDATE LESSON
+    public function updateLesson(Request $request, $course, $chapter, $lesson)
+    {
+        // Validate the request
+        $rules = [
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string|max:2000',
+            'storage' => 'required|in:upload,youtube,vimeo,external_link',
+            'file' => 'required_if:storage,upload|nullable|string|max:255',
+            'url' => 'required_if:storage,youtube,vimeo,external_link|nullable|url|max:255',
+            'file_type' => 'required|in:video,audio,document',
+            'duration' => 'required|integer|min:0',
+            'is_preview' => 'nullable|boolean',
+            'downloadable' => 'nullable|boolean',
+        ];
+        $request->validate($rules);
+
+        // Verify course, chapter and lesson
+        $course = Course::where('id', $course)->where('instructor_id', Auth::guard('web')->user()->id)->firstOrFail();
+        $chapter = CourseChapter::where('id', $chapter)->where('course_id', $course->id)->firstOrFail();
+        $lesson = CourseChapterLesson::where('id', $lesson)->where('course_chapter_id', $chapter->id)->firstOrFail();
+
+        // Handle file path/source
+        if ($request->storage === 'upload' && $request->filled('file')) {
+            $lesson->file_path = $request->file; 
+        } elseif (in_array($request->storage, ['youtube', 'vimeo', 'external_link']) && $request->filled('url')) {
+            $lesson->file_path = $request->url;
+        } else {
+            $lesson->file_path = null; // Clear if validation fails
+        }
+
+        // Update Lesson
+        $lesson->title = $request->title;
+        $lesson->slug = Str::slug($request->title) . '-' . time();
+        $lesson->description = $request->description;
+        $lesson->file_type = $request->file_type;
+        $lesson->storage = $request->storage;
+        $lesson->duration = $request->duration ?? 0;
+        $lesson->is_preview = $request->is_preview ?? 0;
+        $lesson->downloadable = $request->downloadable ?? 0;
+        $lesson->volume = $request->volume ?? 0;
+        if ($request->has('status')) {
+            $lesson->status = $request->status;
+        }
+        $lesson->save();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Lesson updated successfully',
+        ]); 
+    }
 }
