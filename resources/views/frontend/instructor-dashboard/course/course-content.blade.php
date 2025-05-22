@@ -41,9 +41,9 @@
                             <div id="collapse{{ $chapter->id }}" class="accordion-collapse collapse"
                                 data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    <ul class="item_list">
-                                        @foreach ($chapter->chapterLessons as $lesson)
-                                            <li>
+                                    <ul class="item_list sortable_list" data-chapter-id="{{ $chapter->id }}">
+                                        @foreach ($chapter->chapterLessons()->orderBy('order')->get() as $lesson)
+                                            <li data-lesson-id="{{ $lesson->id }}">
                                                 <span>{{ $lesson->title}}</span>
                                                 <div class="add_course_content_action_btn">
 
