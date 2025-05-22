@@ -334,6 +334,7 @@ $(document).on('submit', '.dynamic-modal-content chapter-update-form', function 
 // 
 // 
 
+// Display modal for lesson creation
 $('.add_lesson').on('click', function (e) {
     e.preventDefault();
     $('#dynamic-modal').modal('show');
@@ -393,6 +394,31 @@ $(document).on('change', '.storage-lesson', function () {
         $('.source_upload').addClass('d-none');
         $('.source_link').addClass('d-none');
     }
+});
+
+// Display modql for lesson update
+$('.edit-lesson').on('click', function (e) {
+    e.preventDefault();
+    $('#dynamic-modal').modal('show');
+    let courseId = $(this).data('course-id');
+    let chapterId = $(this).data('chapter-id');
+    let lessonId = $(this).data('lesson-id');
+
+    $.ajax({
+        url: `${base_url}/instructor/course-content/${courseId}/edit-lesson/${chapterId}/${lessonId}`,
+        type: 'GET',
+        data: {},
+        beforeSend: function () {
+            $('.dynamic-modal-content').html(loader);
+        },
+        success: function (data) {
+            $('.dynamic-modal-content').html(data);
+        },
+        error: function (xhr, status, error) {
+            console.log('Error:', error, 'Status:', status, 'Response:', xhr.responseText);
+            $('.dynamic-modal-content').html('<div class="modal-content text-center" style="padding: 20px;">Error loading form. Please try again.</div>');
+        }
+    });
 });
 
 // 
