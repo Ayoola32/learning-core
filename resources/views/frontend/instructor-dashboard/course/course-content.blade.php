@@ -47,7 +47,7 @@
                                                 <span>{{ $lesson->title}}</span>
                                                 <div class="add_course_content_action_btn">
 
-                                                    <a class="edit" href="#"><i class="far fa-edit"></i></a>
+                                                    <a class="edit edit-lesson" href="#" data-course-id="{{ $course->id }}" data-chapter-id="{{ $chapter->id }}" data-lesson-id="{{ $lesson->id }}"><i class="far fa-edit"></i></a>
                                                     <a class="del" href="#"><i class="fas fa-trash-alt"></i></a>
                                                     <a class="arrow" href="#"><i class="fas fa-arrows-alt"></i></a>
                                                 </div>
