@@ -421,6 +421,52 @@ $('.edit-lesson').on('click', function (e) {
     });
 });
 
+// Handle the lesson modal form submission (AJAX) for Update
+$(document).on('submit', '.dynamic-modal-content lesson-update-form', function (e) {
+    e.preventDefault();
+
+    const $form = $(this);
+    const actionUrl = $form.attr('action');
+    const formData = $form.serialize();
+
+    $.ajax({
+        type: 'POST',
+        url: actionUrl,
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (response) {
+            if (response.status === 'success') {
+                if (window.Notyf) {
+                    new Notyf().success(response.message);
+                } else {
+                    alert(response.message);
+                }
+                $('#dynamic-modal').modal('hide');
+
+                // Delay the redirect/reload
+                setTimeout(function () {
+                    if (response.redirect) {
+                        window.location.href = response.redirect; 
+                    } else {
+                        window.location.reload(); 
+                    }
+                }, 2000);            
+            }
+        },
+        error: function (xhr) {
+            const errorMessage = xhr.responseJSON?.message || 'Something went wrong.';
+            if (window.Notyf) {
+                new Notyf().error(errorMessage);
+            } else {
+                alert(errorMessage);
+            }
+            console.log('Submission Error:', xhr.responseJSON);
+        }
+    });
+});
+
 // 
 // 
 //  End Handle the Lesson modal form display and submission CREATE & UPDATE
