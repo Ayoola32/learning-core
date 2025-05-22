@@ -35,7 +35,7 @@
                                         </ul>
                                     </div>
                                     <a class="edit dynamic-modal-chapter" href="#" data-chapter-id="{{ $chapter->id}}" data-course-id="{{ $course->id }}"><i class="far fa-edit"></i></a>
-                                    <a class="del" href="#"><i class="fas fa-trash-alt"></i></a>
+                                    <a class="del delete-chapter" href="#" data-chapter-id="{{ $chapter->id}}" data-course-id="{{ $course->id }}"><i class="fas fa-trash-alt"></i></a>
                                 </div>
                             </h2>
                             <div id="collapse{{ $chapter->id }}" class="accordion-collapse collapse"
