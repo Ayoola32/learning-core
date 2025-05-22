@@ -4,8 +4,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-        <form action="" method="post" enctype="multipart/form-data">
+        <form action="{{ route('instructor.course-content.update-lesson', [$course->id, $chapter->id, $lesson->id])}}" method="post" enctype="multipart/form-data" class="lesson-update-form">
             @csrf
+            @method('PUT')
             <div class="row">
                 <div class="form-group mb-3 col-md-12">
                     <label for="title" class="form-label">Lesson Title</label>
@@ -86,7 +87,7 @@
                 
 
                 <div class="form-group mb-3 text-end col-md-12">
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </div>
         </form>
