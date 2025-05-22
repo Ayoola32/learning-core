@@ -483,6 +483,7 @@ $(document).on('submit', '.dynamic-modal-content lesson-update-form', function (
 // 
 // 
 
+// Delete Chapter
 $(document).on('click', '.delete-chapter', function (e) {
     e.preventDefault();
     let courseId = $(this).data('course-id');
@@ -537,4 +538,70 @@ $(document).on('click', '.delete-chapter', function (e) {
         }
     });
 });
+
+// delete lesson
+$(document).on('click', '.delete-lesson', function (e) {
+    e.preventDefault();
+    let courseId = $(this).data('course-id');
+    let chapterId = $(this).data('chapter-id');
+    let lessonId = $(this).data('lesson-id');
+    let url = `${base_url}/instructor/course-content/${courseId}/delete-lesson/${chapterId}/${lessonId}`;
+    
+    Swal.fire({
+        title: 'Are you sure?',
+        text: `You won't be able to revert this!`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: 'DELETE',
+                url: url,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Add CSRF token
+                },
+                success: function(response) {
+                    if (response.status === 'error') {
+                        Swal.fire({
+                            title: "Error!",
+                            text: response.message || "Cannot delete lesson.",
+                            icon: "error"
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: response.message,
+                            icon: "success"
+                        }).then(() => {
+                            // Reload the page after 2 seconds to show the success message
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 2000);
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log('Delete Error:', error, 'Status:', status, 'Response:', xhr.responseText);
+                    Swal.fire({
+                        title: "Error!",
+                        text: xhr.responseJSON?.message || "Something went wrong.",
+                        icon: "error"
+                    });
+                }
+            });
+        }
+    });
+}
+);
+
+//
+//
+// 
+// End of delete chapeter and lesson
+//
+// 
+// 
 
