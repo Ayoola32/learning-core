@@ -119,6 +119,53 @@ $(document).on('submit', '.more_info_form', function (e) {
     });
 });
 
+// Update Finish Course Form - Step 4
+$(document).on('submit', '.finish_course_form', function (e) {
+        e.preventDefault();
+        let formData = new FormData(this);
+        formData.append('_method', 'PUT');
+        let courseId = window.courseId;
+        $.ajax({
+            type: 'POST',
+            url: courses_url + '/' + courseId,
+            data: formData,
+            contentType: false,
+            processData: false,
+            beforeSend: function () {
+                // Optional: Add a loading state
+            },      
+            success: function (response) {
+                if (response.status === 'success') {
+                    let successMessage;
+                    if (response.course_status === 'active') {
+                        successMessage = "You have successfully added a new course. It will be in review. " +
+                            "Kindly wait for the admin to get back to you. You will receive a confirmation email if it has been approved or not. " +
+                            "Also, you can edit your course within the next 3 hours, as you won’t be able to edit it while the admin is reviewing to avoid clashes.";
+                    } else {
+                        successMessage = "You have successfully added a new course. It has been saved as a draft or inactive and is not yet in review.";
+                    }
+                    $('#successMessage').text(successMessage);
+
+                    // Show the success modal
+                    $('#successModal').modal('show');
+
+                    // Redirect after modal is closed
+                    $('#successModal').on('hidden.bs.modal', function () {
+                        window.location.href = response.redirect;
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                let errors = xhr.responseJSON.errors;
+                if (errors) {
+                    $.each(errors, function (key, value) {
+                        notyf.error(value[0]);  
+                    });
+                }
+            }
+        });
+    });
+
 // Update Active Tab on Page Load
 $(document).ready(function () {
     let step = new URLSearchParams(window.location.search).get('step') || '1';
