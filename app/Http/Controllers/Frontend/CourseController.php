@@ -121,6 +121,8 @@ class CourseController extends Controller
             case '3':
                 $chapters = CourseChapter::where(['course_id'=> $course->id, 'instructor_id' => Auth::guard('web')->user()->id])->orderBy('order', 'asc')->get();
                 return view('frontend.instructor-dashboard.course.course-content', compact('course', 'chapters'));
+            case '4':
+                return view('frontend.instructor-dashboard.course.finish', compact('course'));
             default:
                 abort(404);
         }
@@ -228,6 +230,24 @@ class CourseController extends Controller
                 break;
             case '3':
                 // code for step 3
+                break;
+            case '4':
+                $request->validate([
+                    'message_for_reviewer' => 'nullable|string|max:1000',
+                    'status' => 'required|in:draft,active,inactive',
+                ]);
+
+                $course = Course::findOrFail($id);
+                $course->message_for_reviewer = $request->message_for_reviewer;
+                $course->status = $request->status;
+                $course->save();
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Course updated successfully',
+                    'course_status' => $course->status,
+                    'redirect' => route('instructor.courses.index'),
+                ]);
                 break;
             default:
                 abort(404);
