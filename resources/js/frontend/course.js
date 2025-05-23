@@ -609,7 +609,7 @@ $(document).on('click', '.delete-lesson', function (e) {
 
 // 
 // 
-// Handle Lesson Sortable
+// Handle Sortable for Chapter and Lesson
 // 
 // 
 // 
@@ -666,7 +666,72 @@ $(document).ready(function () {
             }).disableSelection(); // Prevent text selection while dragging
         });
     }
+
+
+    // Updated sortable chapter code
+    $('.sort-chapters').on('click', function (e) {
+        e.preventDefault();
+        let courseId = $(this).data('course-id');
+        $('#dynamic-modal').modal('show');
+
+        $.ajax({
+            url: `${base_url}/instructor/course-content/${courseId}/sort-chapters`,
+            type: 'GET',
+            beforeSend: function () {
+                $('.dynamic-modal-content').html('<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>');
+            },
+            success: function (data) {
+                $('.dynamic-modal-content').html(data);
+                $('.chapter-sortable-list').sortable({
+                    handle: '.arrow',
+                    update: function (event, ui) {
+                        let order = [];
+                        $('.chapter-sortable-list li').each(function (index) {
+                            order.push({
+                                id: $(this).data('chapter-id'),
+                                order: index + 1
+                            });
+                        });
+
+                        $.ajax({
+                            url: `${base_url}/instructor/course-content/${courseId}/update-chapter-order`,
+                            type: 'POST',
+                            data: {
+                                order: order,
+                                _token: $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function (response) {
+                                if (response.status === 'success') {
+                                    if (window.Notyf) {
+                                        new Notyf().success('Chapter has been sorted successfully');
+                                    } else {
+                                        alert('Chapter has been sorted successfully');
+                                    }
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.log('Order Update Error:', error, xhr.responseText);
+                                if (window.Notyf) {
+                                    new Notyf().error('Failed to update chapter order.');
+                                } else {
+                                    alert('Failed to update chapter order.');
+                                }
+                            }
+                        });
+                    }
+                }).disableSelection();
+            },
+            error: function (xhr, status, error) {
+                console.log('Modal Load Error:', error, xhr.responseText);
+                $('.dynamic-modal-content').html('<div class="modal-content text-center" style="padding: 20px;">Error loading chapters. Please try again.</div>');
+            }
+        });
+    });
+
+    // Handle modal close to trigger page reload after 2 seconds
+    $('#dynamic-modal').on('hidden.bs.modal', function () {
+        setTimeout(function () {
+            window.location.reload();
+        }, 2000);
+    });
 });
-
-
-
