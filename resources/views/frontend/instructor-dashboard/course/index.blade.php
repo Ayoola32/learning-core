@@ -71,6 +71,7 @@
 
                                                         <th class="sale">STUDENT</th>
                                                         <th class="status">STATUS</th>
+                                                        <th class="status">IS APPROVED</th>
                                                         <th class="action">ACTION</th>
                                                     </tr>
 
@@ -106,6 +107,15 @@
                                                                     <p class="bg-danger">Decline</p>
                                                                 @elseif ($course->status == 'draft')
                                                                     <p class="bg-info">Draft</p>
+                                                                @endif
+                                                            </td>
+                                                            <td class="status">
+                                                                @if ($course->is_approved == 'approved')
+                                                                    <p class="bg-success">Approved</p>
+                                                                @elseif ($course->is_approved == 'pending')
+                                                                    <p class="bg-warning">Pending</p>
+                                                                @elseif ($course->is_approved == 'rejected')
+                                                                    <p class="bg-danger">Decline</p>
                                                                 @endif
                                                             </td>
                                                             <td class="action">
