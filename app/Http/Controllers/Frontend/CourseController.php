@@ -119,7 +119,7 @@ class CourseController extends Controller
             case '2':
                 return view('frontend.instructor-dashboard.course.more-info', compact('course', 'categories', 'courseLevels', 'courseLanguages'));
             case '3':
-                $chapters = CourseChapter::where(['course_id'=> $course->id, 'instructor_id' => Auth::guard('web')->user()->id])->get();
+                $chapters = CourseChapter::where(['course_id'=> $course->id, 'instructor_id' => Auth::guard('web')->user()->id])->orderBy('order', 'asc')->get();
                 return view('frontend.instructor-dashboard.course.course-content', compact('course', 'chapters'));
             default:
                 abort(404);
