@@ -282,4 +282,49 @@ class CourseContentController extends Controller
             'message' => 'Lesson order updated successfully',
         ]);
     }
+
+
+    // SHOW SORT CHAPTERS
+    public function showSortChapters($course)
+    {
+        $course = Course::where('id', $course)->where('instructor_id', Auth::guard('web')->user()->id)->firstOrFail();
+        $chapters = CourseChapter::where('course_id', $course->id)->orderBy('order')->get();
+
+        return view('frontend.instructor-dashboard.course.partials.course-chapter-sort-modal', compact('course', 'chapters'))->render();
+    }
+
+    // UPDATE CHAPTER ORDER
+    public function updateChapterOrder(Request $request, $course)
+    {
+        $course = Course::where('id', $course)
+            ->where('instructor_id', Auth::guard('web')->user()->id)
+            ->firstOrFail();
+
+        $request->validate([
+            'order' => 'required|array',
+            'order.*.id' => 'required|exists:course_chapters,id',
+            'order.*.order' => 'required|integer|min:1',
+        ]);
+
+        foreach ($request->order as $item) {
+            $chapter = CourseChapter::where('id', $item['id'])
+                ->where('course_id', $course->id)
+                ->first();
+
+            if (!$chapter) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid chapter ID or chapter does not belong to this course.',
+                ], 403);
+            }
+
+            $chapter->order = $item['order'];
+            $chapter->save();
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Chapter order updated successfully',
+        ]);
+    }
 }
