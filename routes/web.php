@@ -51,6 +51,8 @@ Route::group(['middleware' => ['auth:web', 'verified', 'check_role:instructor'],
     Route::delete('/course-content/{course}/delete-lesson/{chapter}/{lesson}', [CourseContentController::class, 'deleteLesson'])->name('course-content.delete-lesson');
 
     Route::post('/course-content/chapter/{chapter}/update-lesson-order', [CourseContentController::class, 'updateLessonOrder'])->name('course-content.update-lesson-order');
+    Route::get('/course-content/{course}/sort-chapters', [CourseContentController::class, 'showSortChapters'])->name('course-content.sort-chapters');
+    Route::post('/course-content/{course}/update-chapter-order', [CourseContentController::class, 'updateChapterOrder'])->name('course-content.update-chapter-order');
 
     //Laravel File Manager Route
     Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
