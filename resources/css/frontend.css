@@ -1,3 +1,71 @@
 .wsus__sign_in{
     margin-top: 100px;
 }
+
+/*  */
+/*  */
+/*  */
+/* STYLING FOR CHAPTERS SORTITNG */
+/*  */
+/*  */
+/*  */
+
+.chapter-sortable-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chapter-sortable-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border: 1px solid #ced4da;
+    /* Bootstrap form-control border */
+    border-radius: 4px;
+    /* Bootstrap form-control border-radius */
+    background-color: #fff;
+    margin-bottom: 10px;
+    /* Spacing between items */
+    transition: background-color 0.2s ease;
+}
+
+.chapter-sortable-list li:hover {
+    background-color: #f8f9fa;
+    /* Light gray hover effect */
+    cursor: move;
+    /* Indicate draggable */
+}
+
+.chapter-sortable-list .chapter-title {
+    flex: 1;
+    /* Take up remaining space */
+    font-size: 1rem;
+    color: #333;
+}
+
+.chapter-sortable-list .arrow {
+    padding: 5px 10px;
+    color: #6c757d;
+    /* Bootstrap secondary color */
+    cursor: move;
+}
+
+.chapter-sortable-list .arrow:hover {
+    color: #343a40;
+    /* Darker on hover */
+}
+
+/* Ensure the modal body has enough padding */
+.modal-body {
+    padding: 20px;
+}
+
+/*  */
+/*  */
+/*  */
+/* END STYLING FOR CHAPTERS SORTITNG  */
+/*  */
+/*  */
+/*  */
