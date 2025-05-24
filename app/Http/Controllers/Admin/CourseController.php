@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\CourseDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -58,6 +59,24 @@ class CourseController extends Controller
         //
     }
 
+    /**
+     * Change the status of the course.
+     */
+    public function isApproved(Request $request, string $id)
+    {
+        $request->validate([
+            'is_approved' => 'required|in:pending,approved,rejected',
+        ]);
+
+        $course = Course::findOrFail($id);
+        $course->is_approved = $request->is_approved;
+        $course->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Course status updated successfully',
+        ]);
+    }
     /**
      * Remove the specified resource from storage.
      */

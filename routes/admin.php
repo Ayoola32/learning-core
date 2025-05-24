@@ -66,7 +66,8 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
 
     // Course Management
         Route::resource('/courses', CourseController::class);
-
+        Route::post('/courses/is_approved/{id}', [CourseController::class, 'isApproved'])->name('courses.is_approved');
+        
         Route::resource('/course-language', CourseLanguageController::class);
         Route::resource('/course-level', CourseLevelController::class);
 

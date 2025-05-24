@@ -28,6 +28,24 @@ class CourseDataTable extends DataTable
             ->addColumn('price', function($query){
                 return $query->price ? '$' . $query->price : 'Free';
             })
+            ->addColumn('status', function ($query) {
+                return $query->is_approved == 'rejected' ? '<span class="badge bg-red text-red-fg">Rejected</span>'
+                    : ($query->is_approved == 'approved' ? '<span class="badge bg-green text-green-fg">Approved</span>'
+                    : '<span class="badge bg-yellow text-yellow-fg">Pending</span>');
+            })
+            ->addColumn('is_approved', function ($query) {
+                $selectApprove = $query->is_approved == 'approved' ? 'selected' : '';
+                $selectReject = $query->is_approved == 'rejected' ? 'selected' : '';
+                $selectPending = $query->is_approved == 'pending' ? 'selected' : '';
+
+                return '
+                    <select class="form-control form-control-sm is_approved-select" data-id="' . $query->id . '" data-value="' . $query->is_approved . '">
+                        <option value="pending" ' . $selectPending . '>Pending</option>
+                        <option value="rejected" ' . $selectReject . '>Rejected</option>
+                        <option value="approved" ' . $selectApprove . '>Approved</option>
+                    </select>
+                ';
+            })
             ->addColumn('action', function ($query) {
                 return '
                     <a href="' . route('admin.courses.edit', $query->id) . '" class="btn-sm text-info">
@@ -41,7 +59,7 @@ class CourseDataTable extends DataTable
                     </a>
                 ';
             })
-            ->rawColumns(['instructor', 'action', 'price'])
+            ->rawColumns(['instructor', 'action', 'price', 'status', 'is_approved'])
             ->setRowId('id');
     }
 
@@ -84,6 +102,7 @@ class CourseDataTable extends DataTable
             Column::make('price')->className('text-center'),
             Column::make('instructor')->className('text-center'),
             Column::make('status')->className('text-center'),
+            Column::make('is_approved')->title('Approval Status')->className('text-center'),    
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
