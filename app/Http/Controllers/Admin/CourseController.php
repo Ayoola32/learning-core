@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\CourseDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\CourseFeedbacks;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -66,11 +68,23 @@ class CourseController extends Controller
     {
         $request->validate([
             'is_approved' => 'required|in:pending,approved,rejected',
+            'feedback' => 'required_if:is_approved,approved,rejected|string|max:1000',
         ]);
 
         $course = Course::findOrFail($id);
         $course->is_approved = $request->is_approved;
         $course->save();
+
+        // Save feedback if provided
+        if ($request->filled('feedback')) {
+            CourseFeedbacks::create([
+                'course_id' => $course->id,
+                'instructor_id' => $course->instructor_id,
+                'admin_id' => Auth::guard('admin')->id(),
+                'status' => $request->is_approved,
+                'feedback' => $request->feedback,
+            ]);
+        }
 
         return response()->json([
             'success' => true,
