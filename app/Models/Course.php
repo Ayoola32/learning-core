@@ -14,4 +14,9 @@ class Course extends Model
        return $this->hasOne(User::class, 'id', 'instructor_id');
     }
 
+    public function feedbacks()
+    {
+        return $this->hasMany(CourseFeedbacks::class);
+    }
+
 }
