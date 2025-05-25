@@ -3,6 +3,7 @@
 use App\Http\Controllers\Frontend\CourseContentController;
 use App\Http\Controllers\Frontend\CourseController;
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\Frontend\FrontendCoursePages;
 use App\Http\Controllers\Frontend\InstructorDashboardController;
 use App\Http\Controllers\Frontend\InstructorProfileController;
 use App\Http\Controllers\Frontend\StudentDashboardController;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 // Frontend Routes
 Route::get('/', [FrontendController::class, 'index'])->name('home');
+Route::get('/courses', [FrontendCoursePages::class, 'index'])->name('courses');
 
 // Student Route
 Route::group(['middleware' => ['auth:web', 'verified', 'check_role:student'], 'prefix' => 'student', 'as' => 'student.'], function () {
