@@ -40,7 +40,7 @@
                             </p>
                         </div>
 
-                        <a class="title" href="#">{{ $course->title }}</a>
+                        <a class="title" href="{{ route('course.details', $course->slug)}}">{{ $course->title }}</a>
                         <ul>
                             <li>{{ $course->courseChapters->sum(fn($chapter) => $chapter->chapterLessons->count()) }} Lessons</li>
                             <li>38 Student</li>
