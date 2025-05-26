@@ -90,28 +90,9 @@
                                 aria-labelledby="pills-home-tab" tabindex="0">
                                 <div class="wsus__courses_overview box_area">
                                     <h3>Course Description</h3>
-                                    <p>Sed mi leo, accumsan vel ante at, viverra placerat nulla. Donec pharetra rutrum
-                                        ullamcorper. Ut eget convallis mi. Sed cursus aliquam efficitur. Nula sed allium
-                                        lectus fermentum enim Nam maximus pretium consectetu Vivamus lacinia finibus
-                                        ipsum, eget fermentum nulla consectetur sit amet. Pellentesque porttitor arcu
-                                        eget mauris pulvinar, id facilisis magna dictum.
+                                    <p>
+                                        {!! $course->description !!}
                                     </p>
-                                    <p>Etiam a bibendum nisi. Pellentesque faucibus, diam at mattis volutpat, odio mi
-                                        vestibulum dolor, nec pretium orci justo hendrerit velit. Nam convallis vehicula
-                                        luctus. Vivamus odio metus, aliquam tristique est et, auctor dictum nisi  leo
-                                        ligula convallis leo.</p>
-                                    <h3>What Will I Take Away from This Course?</h3>
-                                    <p>Sed mi leo, accumsan vel ante at, viverra placerat nulla. Donec pharetra rutrum
-                                        ullamcorper. Ut eget convallis mi. Sed cursus aliquam efficitur. Nula sed allium
-                                        lectus.</p>
-                                    <ul>
-                                        <li>Special Lessons & Courses.</li>
-                                        <li>Receive Comprehensive Responses.</li>
-                                        <li>Most Prevalent Linguistic Medium.</li>
-                                        <li>On-Campus Living.</li>
-                                        <li>24 Language For Beginners.</li>
-                                        <li>Acquire Generalized Solutions.</li>
-                                    </ul>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="pills-profile" role="tabpanel"

@@ -179,8 +179,17 @@ class CourseController extends Controller
 
             
                     // validate the request
-                    $course->title = $request->title;
-                    $course->slug = Str::slug($request->title) . '-' . Str::random(5) . '-' . time();
+                    if ($course->title !== $request->title) {
+                        $slug = Str::slug($request->title) . '-' . Str::random(5) . '-' . time();
+
+                        // Confirm uniqueness in the course table to double-check if the slug is already taken
+                        while (Course::where('slug', $slug)->where('id', '!=', $course->id)->exists()) {
+                            $slug = Str::slug($request->title) . '-' . Str::random(5) . '-' . time();
+                        }
+
+                        $course->title = $request->title;
+                        $course->slug = $slug;
+                    }
                     $course->seo_description = $request->seo_description;
                     $course->demo_video_storage = $demoVideoStorage;
                     $course->demo_video_source = $demoVideoSource;
