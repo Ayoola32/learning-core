@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\CourseCategory;
 use App\Models\CourseChapterLesson;
 use Illuminate\Http\Request;
 
@@ -17,6 +18,13 @@ class FrontendCoursePages extends Controller
             ->latest()
             ->paginate(9);
 
-        return view('frontend.pages.courses.course-index', compact('courses'));
+            // Fetch categories and subcategories where status = 1
+            $categories = CourseCategory::where('status', 1)
+            ->with(['subCategories' => function ($query) {
+                $query->where('status', 1);
+            }])
+            ->get();
+
+        return view('frontend.pages.courses.course-index', compact('courses', 'categories'));
     }
 }
