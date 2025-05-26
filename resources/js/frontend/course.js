@@ -5,6 +5,11 @@ const notyf = new Notyf({
     dismissible: true 
 });
 
+// EZ Share Initialization
+document.addEventListener("DOMContentLoaded", function() {
+  ezShare.execute();
+});
+
 
 const base_url = $('meta[name="base_url"]').attr('content');
 const courses_url = base_url + '/instructor/courses';

@@ -1,4 +1,12 @@
 @extends('frontend.layouts.master')
+@push('meta_tags')
+    <meta property="og:title" content="{{ $course->title }}">
+    <meta property="og:description" content="{{ $course->description }}">
+    <meta property="og:image" content="{{ asset($course->thumbnail) }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="website">
+@endpush
+
 @section('content')
     <!--===========================
             BREADCRUMB START
@@ -562,9 +570,9 @@
                         <div class="wsus__courses_sidebar_share_area">
                             <span>Share:</span>
                             <ul>
-                                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                <li class="ez-facebook"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                <li class="ez-linkedin"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                <li class="ez-x"><a href="#"><i class="fab fa-twitter"></i></a></li>
                                 <li><a href="#"><i class="fab fa-behance"></i></a></li>
                             </ul>
                         </div>
@@ -638,3 +646,7 @@
             COURSES DETAILS END
         ============================-->
 @endsection
+
+@push('course_script')
+    @vite('resources/js/frontend/course.js')
+@endpush
