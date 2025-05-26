@@ -127,7 +127,7 @@
     <!--jquery ui js-->
     <script src="{{ asset('frontend/assets/js/jquery-ui.min.js') }}"></script>
 
-    //laravel file manager
+    {{-- //laravel file manager --}}
     <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
 
     <!--main/custom js-->
