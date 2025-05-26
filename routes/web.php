@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 // Frontend Routes
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 Route::get('/courses', [FrontendCoursePages::class, 'index'])->name('courses');
+Route::get('/course/{slug}', [FrontendCoursePages::class, 'show'])->name('course.details');
 
 // Student Route
 Route::group(['middleware' => ['auth:web', 'verified', 'check_role:student'], 'prefix' => 'student', 'as' => 'student.'], function () {
