@@ -70,7 +70,7 @@ class CourseController extends Controller
        // validate the request
         $course = new Course();
         $course->title = $request->title;
-        $course->slug = Str::slug($request->title);
+        $course->slug = Str::slug($request->title) . '-' . Str::random(5) . '-' . time();
         $course->seo_description = $request->seo_description;
         $course->thumbnail = $thumbnailPath;
         $course->demo_video_storage = $demoVideoStorage;
@@ -180,7 +180,7 @@ class CourseController extends Controller
             
                     // validate the request
                     $course->title = $request->title;
-                    $course->slug = Str::slug($request->title);
+                    $course->slug = Str::slug($request->title) . '-' . Str::random(5) . '-' . time();
                     $course->seo_description = $request->seo_description;
                     $course->demo_video_storage = $demoVideoStorage;
                     $course->demo_video_source = $demoVideoSource;

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('category_id')->nullable()->constrained('course_sub_categories');
             $table->enum('course_type', ['course'])->default('course');
             $table->string('title');
-            $table->string('slug');
+            $table->string('slug')->unique();
             $table->text('seo_description')->nullable();
             $table->string('duration')->nullable();
             $table->string('time_zone')->nullable();
