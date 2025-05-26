@@ -140,24 +140,14 @@
 
                         <div class="wsus__sidebar_course_lavel duration">
                             <h3>Language</h3>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefaulte1">
-                                <label class="form-check-label" for="flexCheckDefaulte1">
-                                    Bangla
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefaulte2">
-                                <label class="form-check-label" for="flexCheckDefaulte2">
-                                    English
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefaulte3">
-                                <label class="form-check-label" for="flexCheckDefaulte3">
-                                    Hindi
-                                </label>
-                            </div>
+                            @foreach ($courseLanguages as $language)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="{{ $language->id }}" id="language_{{ $language->id }}">
+                                    <label class="form-check-label" for="language_{{ $language->id }}">
+                                        {{ $language->name }}
+                                    </label>
+                                </div>
+                            @endforeach
                         </div>
 
                         <div class="wsus__sidebar_rating">
