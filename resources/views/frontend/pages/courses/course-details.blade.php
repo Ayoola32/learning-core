@@ -527,7 +527,7 @@
                                                 alt="clock" class="img-fluid"></span>
                                         Course Duration
                                     </p>
-                                    {{ $course->duration ?  $course->duration . ' Hours' : '' }}
+                                    {{minutesToHoursAndMinutes( $course->duration) }}
                                 </li>
                                 <li>
                                     <p>
@@ -574,7 +574,7 @@
                                 <li>
                                     <span><img src="{{ asset('frontend/assets/images/video_icon_black.png') }}"
                                             alt="video" class="img-fluid"></span>
-                                    {{ $course->duration ?  $course->duration . ' Hours' : '' }} Video Lectures
+                                    {{minutesToHoursAndMinutes( $course->duration) }} Video Lectures
                                 </li>
                                 <li>
                                     <span><img src="{{ asset('frontend/assets/images/file_download_icon_black.png') }}"
