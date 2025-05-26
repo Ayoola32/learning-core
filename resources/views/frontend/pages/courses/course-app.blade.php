@@ -66,24 +66,14 @@
 
                         <div class="wsus__sidebar_course_lavel">
                             <h3>Difficulty Level</h3>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Higher
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
-                                <label class="form-check-label" for="flexCheckDefault2">
-                                    Medium
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">
-                                <label class="form-check-label" for="flexCheckDefault3">
-                                    Lowest
-                                </label>
-                            </div>
+                            @foreach ($courseLevels as $level)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="{{ $level->id }}" id="level_{{ $level->id }}">
+                                    <label class="form-check-label" for="level_{{ $level->id }}">
+                                        {{ $level->name }}
+                                    </label>
+                                </div>
+                            @endforeach
                         </div>
 
                         <div class="wsus__sidebar_course_lavel rating">

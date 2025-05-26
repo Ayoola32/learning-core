@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseCategory;
 use App\Models\CourseChapterLesson;
+use App\Models\CourseLevel;
 use Illuminate\Http\Request;
 
 class FrontendCoursePages extends Controller
@@ -25,6 +26,9 @@ class FrontendCoursePages extends Controller
             }])
             ->get();
 
-        return view('frontend.pages.courses.course-index', compact('courses', 'categories'));
+            // Fetch course Levels
+            $courseLevels = CourseLevel::all();
+
+        return view('frontend.pages.courses.course-index', compact('courses', 'categories', 'courseLevels'));
     }
 }
