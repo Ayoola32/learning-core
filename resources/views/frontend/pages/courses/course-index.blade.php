@@ -47,10 +47,9 @@
                         </ul>
                         <a class="author" href="#">
                             <div class="img">
-                                <img src="{{ asset('frontend/assets/images/author_img_2.jpg') }}" alt="Author" class="img-fluid">
+                                <img src="{{ $course->instructor->image }}" alt="Author" class="img-fluid">
                             </div>
-                            <h4>{{ $course->instructor->first_name ?? 'Instructor' }}</h4>
-                        </a>
+                        <h4>{{ $course->instructor ? ($course->instructor->first_name . ' ' . $course->instructor->last_name) : 'Instructor' }}</h4>                        </a>
                     </div>
                     <div class="wsus__single_courses_3_footer">
                         <a class="common_btn" href="#">Enroll <i class="far fa-arrow-right"></i></a>
