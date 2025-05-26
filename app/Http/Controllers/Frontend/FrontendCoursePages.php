@@ -35,4 +35,17 @@ class FrontendCoursePages extends Controller
 
         return view('frontend.pages.courses.course-index', compact('courses', 'categories', 'courseLevels', 'courseLanguages'));
     }
+
+    public function show(Request $request, $slug )
+    {
+       $course = Course::where('status', 'active')
+       ->where('is_approved', 'approved')
+       ->where('slug', $slug)
+       ->with(['instructor', 'courseChapters.chapterLessons'])
+       ->firstOrFail();
+       
+
+       return view('frontend.pages.courses.course-details', compact('course'));
+            
+    }
 }
