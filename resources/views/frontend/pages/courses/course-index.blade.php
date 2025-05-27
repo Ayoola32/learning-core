@@ -2,9 +2,9 @@
 @section('course-content')
 
     <div class="row">
+        @foreach ($courses as $course)
         <div class="col-xl-4 col-md-6 wow fadeInUp">
             <div class="wsus__single_courses_3">
-                @foreach ($courses as $course)
                     <div class="wsus__single_courses_3_img">
                         <img src="{{ $course->thumbnail }}" alt="Courses" class="img-fluid">
                         <ul>
@@ -55,9 +55,9 @@
                         <a class="common_btn" href="#">Enroll <i class="far fa-arrow-right"></i></a>
                         <p><del>$254</del> ${{$course->price}}.00</p>
                     </div>
-                @endforeach
+                </div>
             </div>
-        </div>
+            @endforeach
     </div>
     <div class="wsus__pagination mt_50 wow fadeInUp">
         <nav aria-label="Page navigation example">
