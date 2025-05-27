@@ -205,7 +205,7 @@
             </div>
             <ul>
                 <li>
-                    <a class="menu_signin" href="#">
+                    <a class="menu_signin" href="{{ route('cart.index') }}">
                         <span>
                             <img src="{{ asset('frontend/assets/images/cart_icon_black.png') }}" alt="user"
                                 class="img-fluid">

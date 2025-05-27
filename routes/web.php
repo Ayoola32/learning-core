@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CourseContentController;
 use App\Http\Controllers\Frontend\CourseController;
 use App\Http\Controllers\Frontend\FrontendController;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 Route::get('/courses', [FrontendCoursePages::class, 'index'])->name('courses');
 Route::get('/course/{slug}', [FrontendCoursePages::class, 'show'])->name('course.details');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
 // Student Route
 Route::group(['middleware' => ['auth:web', 'verified', 'check_role:student'], 'prefix' => 'student', 'as' => 'student.'], function () {
