@@ -12,7 +12,7 @@ class Course extends Model
 
     function instructor()
     {
-       return $this->hasOne(User::class, 'id', 'instructor_id');
+        return $this->belongsTo(User::class, 'instructor_id');
     }
 
     public function courseChapters()

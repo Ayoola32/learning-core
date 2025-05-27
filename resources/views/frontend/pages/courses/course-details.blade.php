@@ -151,7 +151,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-lg-4 col-md-6">
                                             <div class="wsus__courses_instructor_img">
-                                                <img src="{{$course->instructor->image}}" alt="Instructor"
+                                                <img src="{{asset($course->instructor->image)}}" alt="Instructor"
                                                     class="img-fluid">
                                             </div>
                                         </div>
@@ -163,9 +163,8 @@
                                                     <li><i class="fas fa-star"></i> <b>74,537 Reviews</b></li>
                                                     <li><strong>4.7 Rating</strong></li>
                                                     <li>
-                                                        <span><img src="{{asset('frontend/assets/images/book_icon.png')}}" alt="book"
-                                                                class="img-fluid"></span>
-                                                        1 Courses
+                                                        <span><img src="{{asset('frontend/assets/images/book_icon.png')}}" alt="book" class="img-fluid"></span>
+                                                            {{ $course->instructor->activeApprovedCoursesCount() }} Active Courses
                                                     </li>
                                                     <li>
                                                         <span><img src="{{asset('frontend/assets/images/user_icon_gray.png')}}" alt="user"
