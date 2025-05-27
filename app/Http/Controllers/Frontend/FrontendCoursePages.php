@@ -41,7 +41,7 @@ class FrontendCoursePages extends Controller
        $course = Course::where('status', 'active')
        ->where('is_approved', 'approved')
        ->where('slug', $slug)
-       ->with(['instructor', 'courseChapters.chapterLessons'])
+       ->with(['instructor', 'courseChapters.chapterLessons', 'courseChapters'])
        ->firstOrFail();
        
 
