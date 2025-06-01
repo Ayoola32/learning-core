@@ -18,6 +18,7 @@ Route::get('/courses', [FrontendCoursePages::class, 'index'])->name('courses');
 Route::get('/course/{slug}', [FrontendCoursePages::class, 'show'])->name('course.details');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{course}', [CartController::class, 'addToCart'])->name('cart.add');
+Route::delete('/cart/remove/{course}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 
 // Student Route
 Route::group(['middleware' => ['auth:web', 'verified', 'check_role:student'], 'prefix' => 'student', 'as' => 'student.'], function () {
