@@ -213,18 +213,19 @@
                         <b>06</b>
                     </a>
                 </li>
-                <li>
-                    <a class="admin" href="#">
-                        <span>
-                            <img src="{{ asset('frontend/assets/images/user_icon_black.png') }}" alt="user"
-                                class="img-fluid">
-                        </span>
-                        admin
-                    </a>
-                </li>
-                <li>
-                    <a class="common_btn" href="{{route('login')}}">Sign In</a>
-                </li>
+                    @if (auth()->check())
+                        <li>
+                            @if (auth()->user() && auth()->user()->role == 'instructor')
+                                <a class="common_btn" href="{{ route('instructor.dashboard') }}">Dashboard</a>
+                            @elseif (auth()->user() && auth()->user()->role == 'student')
+                                <a class="common_btn" href="{{ route('student.dashboard') }}">Dashboard</a>
+                            @endif
+                        </li>
+                    @else
+                        <li>
+                            <a class="common_btn" href="{{route('login')}}">Sign In</a>
+                        </li>
+                    @endif
             </ul>
         </div>
 
