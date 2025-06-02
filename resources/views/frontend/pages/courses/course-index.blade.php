@@ -20,7 +20,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="#" class="add_to_cart" data-user-id="{{ auth()->user() ? auth()->user()->id : '' }}" data-course-id="{{ $course->id }}">
                                     <img src="{{ asset('frontend/assets/images/cart_icon_black_2.png') }}" alt="Cart" class="img-fluid">
                                 </a>
                             </li>
@@ -53,7 +53,13 @@
                     </div>
                     <div class="wsus__single_courses_3_footer">
                         <a class="common_btn" href="#">Enroll <i class="far fa-arrow-right"></i></a>
-                        <p><del>$254</del> ${{$course->price}}.00</p>
+                        <p>
+                            @if ($course->discount > 0)
+                                <del>${{$course->discount}}</del> {{ $course->price }}.00
+                            @else
+                                {{ $course->price }}.00                                
+                            @endif
+                        </p>
                     </div>
                 </div>
             </div>
@@ -82,3 +88,8 @@
     </div>
 
 @endsection
+
+
+@push('course_script')
+    @vite('resources/js/frontend/cart.js')
+@endpush
