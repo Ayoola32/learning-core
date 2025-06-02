@@ -43,45 +43,35 @@
 
                                         <th class="pro_tk">Price</th>
 
-                                        <th class="pro_select">Quantity</th>
-
-                                        <th class="pro_tk">Subtotal</th>
-
                                         <th class="pro_icon">Remove</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="pro_img">
-                                            <img src="{{asset('frontend/assets/images/course_product_img_1.jpg')}}" alt="product"
-                                                class="img-fluid w-100">
-                                        </td>
+                                    @forelse($cartItems as $item)
+                                        <tr class="mb-4">
+                                            <td class="pro_img">
+                                                <img src="{{asset($item->course->thumbnail)}}" alt="product"
+                                                    class="img-fluid w-100">
+                                            </td>
 
-                                        <td class="pro_name">
-                                            <a href="#">Life Child No Plan B</a>
-                                        </td>
-                                        <td class="pro_tk">
-                                            <h6>$99.00</h6>
-                                        </td>
+                                            <td class="pro_name">
+                                                <a href="{{route('course.details', $item->course->slug)}}">{{$item->course->title}}</a>
+                                            </td>
+                                            <td class="pro_tk">
+                                                <h6>${{$item->course->price}}</h6>
+                                            </td>
 
-                                        <td class="pro_select">
-                                            <div class="quentity_btn">
-                                                <button class="btn btn-danger"><i class="fal fa-minus"
-                                                        aria-hidden="true"></i></button>
-                                                <input type="text" placeholder="1">
-                                                <button class="btn btn-success"><i class="fal fa-plus"
-                                                        aria-hidden="true"></i></button>
-                                            </div>
-                                        </td>
-
-                                        <td class="pro_tk">
-                                            <h6>$99.00</h6>
-                                        </td>
-
-                                        <td class="pro_icon">
-                                            <a href="#"><i class="fal fa-times" aria-hidden="true"></i></a>
-                                        </td>
-                                    </tr>
+                                            <td class="pro_icon">
+                                                <a href="#" class="remove_from_cart" data-course-id="{{ $item->course->id }}">
+                                                    <i class="fal fa-times" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="4" class="text-center">No items in the cart</td>
+                                            </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -116,3 +106,7 @@
         CART VIEW END
 
 @endsection
+
+@push('course_script')
+    @vite('resources/js/frontend/cart.js')
+@endpush
