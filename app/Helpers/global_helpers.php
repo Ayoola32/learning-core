@@ -33,3 +33,11 @@ if(!function_exists('cartTotal')){
         return $total;
     }
 }
+
+// Total cart items
+if(!function_exists('cartItemsCount')){
+    function cartItemsCount(){
+        $cart = Cart::where('user_id', auth()->id())->get();
+        return $cart->count();
+    }
+}
