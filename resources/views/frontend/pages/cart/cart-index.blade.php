@@ -99,7 +99,7 @@
                                 <div class="subtotal_area">
                                     <h5>Total Amount<span>${{cartTotal()}}</span></h5>
 
-                                    <a href="#" class="common_btn">proceed checkout</a>
+                                    <a href="{{ route('checkout') }}" class="common_btn">proceed checkout</a>
                                 </div>
                             </div>
                         </div>
