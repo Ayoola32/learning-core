@@ -9,6 +9,15 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PaymentController extends Controller
 {
+
+    // public function orderSuccess()
+    // {
+    //     return view('frontend.pages.cart.order-success');
+    // }
+    // public function orderFailed()
+    // {
+    //     return view('frontend.pages.cart.order-failed');
+    // }
     /**
      * Handle the incoming request for PayPal payment.
      */
@@ -78,12 +87,18 @@ class PaymentController extends Controller
                     $currency,
                     'paypal'
                 );
+                // Redirect to success page
+                return view('frontend.pages.cart.order-success')->with([
+                    'transactionId' => $transactionId,
+                    'paidAmount' => $paidAmount,
+                    'currency' => $currency,
+                ]); 
                      
             } catch (\Exception $e) {
                 throw $e;
             }
         } else {
-            return redirect()->route('cart.index')->with('error', 'Payment failed. Please try again.');
+            return view('frontend.pages.cart.order-failed');
         }
     }
 
