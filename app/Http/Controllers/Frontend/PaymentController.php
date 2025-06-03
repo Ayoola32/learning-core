@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Service\OrderService;
 use Illuminate\Http\Request;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
@@ -61,7 +62,26 @@ class PaymentController extends Controller
         $provider->getAccessToken();
         $response = $provider->capturePaymentOrder($request->token);
         if (isset($response['status']) && $response['status'] === 'COMPLETED') {
-            return redirect()->route('cart.index')->with('success', 'Payment successful!');
+            $capture = $response['purchase_units'][0]['payments']['captures'][0];
+            $transactionId = $capture['id'];
+            $currency = $capture['amount']['currency_code'];
+            $paidAmount = $capture['amount']['value'];
+
+            try {
+                // Store the order in the database
+                OrderService::storeOrder(
+                    $transactionId,
+                    auth()->user()->id, 
+                    'completed',
+                    $paidAmount,   // cartTotal(),
+                    $paidAmount,
+                    $currency,
+                    'paypal'
+                );
+                     
+            } catch (\Exception $e) {
+                throw $e;
+            }
         } else {
             return redirect()->route('cart.index')->with('error', 'Payment failed. Please try again.');
         }
