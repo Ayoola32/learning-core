@@ -29,6 +29,11 @@ Route::get('/paypal/payment', [PaymentController::class, 'paypalPayment'])->name
 Route::get('/paypal/success', [PaymentController::class, 'paypalSuccess'])->name('paypal.success');
 Route::get('/paypal/cancel', [PaymentController::class, 'paypalCancel'])->name('paypal.cancel');
 
+Route::get('/stripe/payment', [PaymentController::class, 'stripePayment'])->name('stripe.payment');
+Route::get('/stripe/success', [PaymentController::class, 'stripeSuccess'])->name('stripe.success');
+Route::get('/stripe/cancel', [PaymentController::class, 'stripeCancel'])->name('stripe.cancel');
+
+
 
 // Student Route
 Route::group(['middleware' => ['auth:web', 'verified', 'check_role:student'], 'prefix' => 'student', 'as' => 'student.'], function () {
