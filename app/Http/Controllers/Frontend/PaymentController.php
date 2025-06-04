@@ -10,20 +10,41 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 class PaymentController extends Controller
 {
 
-    // public function orderSuccess()
-    // {
-    //     return view('frontend.pages.cart.order-success');
-    // }
-    // public function orderFailed()
-    // {
-    //     return view('frontend.pages.cart.order-failed');
-    // }
+    /**
+     * Get the PayPal configuration settings.
+     *
+     * @return array
+     */
+    public function paypalConfig(): array
+    {
+        return [
+            'mode'    => config('payment_gateway.paypal_mode', 'sandbox'), // Can be 'sandbox' or 'live'
+            'sandbox' => [
+                'client_id'         => config('payment_gateway.paypal_client_id'),
+                'client_secret'     => config('payment_gateway.paypal_client_secret'),
+                'app_id'            => 'APP-80W284485P519543T',
+            ],
+            'live' => [
+                'client_id'         => config('payment_gateway.paypal_client_id'),
+                'client_secret'     => config('payment_gateway.paypal_client_secret'),
+                'app_id'            => config('payment_gateway.paypal_app_id'),
+            ],
+
+            'payment_action' => env('PAYPAL_PAYMENT_ACTION', 'Sale'),
+            'currency'       => config('payment_gateway.paypal_currency', 'USD'),
+            'notify_url'     => env('PAYPAL_NOTIFY_URL', ''),
+            'locale'         => env('PAYPAL_LOCALE', 'en_US'),
+            'validate_ssl'   => env('PAYPAL_VALIDATE_SSL', true),
+        ];
+    }
+
+
     /**
      * Handle the incoming request for PayPal payment.
      */
     public function paypalPayment(Request $request)
     {
-        $provider = new PayPalClient();
+        $provider = new PayPalClient($this->paypalConfig());
         $provider->getAccessToken();
         $payableAmount = cartTotal();
 
@@ -67,7 +88,7 @@ class PaymentController extends Controller
     public function paypalSuccess(Request $request)
     {
         // Logic for handling successful PayPal payment
-        $provider = new PayPalClient();
+        $provider = new PayPalClient($this->paypalConfig());
         $provider->getAccessToken();
         $response = $provider->capturePaymentOrder($request->token);
         if (isset($response['status']) && $response['status'] === 'COMPLETED') {
