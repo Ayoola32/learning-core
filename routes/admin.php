@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\CourseLevelController;
 use App\Http\Controllers\Admin\CourseSubCategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InstructorRequestController;
+use App\Http\Controllers\Admin\PaymentSettingsController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(["middleware" => "guest:admin", "prefix" => "admin", "as" => "admin."], function () {
@@ -78,5 +79,9 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
         Route::resource('/{course_category}/sub-category', CourseSubCategoryController::class);
         Route::post('/{course_category}/sub-category/update-status/{sub_category}', [CourseSubCategoryController::class, 'updateStatus'])->name('sub-category.update-status');
         Route::post('/{course_category}/sub-category/update-show-at-trending/{sub_category}', [CourseSubCategoryController::class, 'updateShowAtTrending'])->name('sub-category.update-show-at-trending');
+
+        // payment Settings
+        Route::get('/payment-settings', [PaymentSettingsController::class, 'index'])->name('payment-settings');
+        Route::post('/paypal-settings', [PaymentSettingsController::class, 'paypalSettings'])->name('paypal-settings.update');
 
 });
