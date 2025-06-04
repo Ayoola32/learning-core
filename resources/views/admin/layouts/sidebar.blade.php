@@ -265,6 +265,17 @@
                         </div>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('admin.payment-settings')}}">
+                        <span
+                            class="nav-link-icon d-md-none d-lg-inline-block">
+                            <i class="ti ti-cash"></i>
+                        </span>
+                        <span class="nav-link-title">
+                            Payment Settings
+                        </span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
