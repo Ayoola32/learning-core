@@ -41,4 +41,29 @@ class PaymentSettingsController extends Controller
         // redirect to relevant page with  notyf success message
         return redirect()->back()->with('success', 'Payment settings updated successfully.');
     }
+
+    // Stripe Settings
+    public function stripeSettings(Request $request): RedirectResponse
+    {
+        $validatedData = $request->validate([
+            'stripe_status' => ['required', 'string', 'in:active,inactive'],
+            'stripe_currency' => ['required', 'string'],
+            'stripe_rate' => ['required', 'numeric'],
+            'stripe_publishable_key' => ['required', 'string'],
+            'stripe_secret' => ['required'],
+        ]);
+        // Update or create the payment settings
+        foreach ($validatedData as $key => $value) {
+            PaymentSetting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );  
+        };
+
+        Cache::forget('payment_gateway_settings');
+
+        // redirect to relevant page with notyf success message
+        notyf()->success('Stripe Payment Settings Updated Successfully.');
+        return redirect()->back();
+    }
 }

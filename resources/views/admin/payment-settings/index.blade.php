@@ -31,7 +31,7 @@
                                         </li>
                                         <li class="nav-item" role="presentation">
                                             <a href="#tabs-profile-5" class="nav-link" data-bs-toggle="tab"
-                                                aria-selected="true" role="tab"><b>Profile</b></a>
+                                                aria-selected="true" role="tab"><b>Stripe Settings</b></a>
                                         </li>
                                         <li class="nav-item" role="presentation">
                                             <a href="#tabs-activity-5" class="nav-link" data-bs-toggle="tab"
@@ -106,10 +106,62 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="tabs-profile-5" role="tabpanel">
-                                            <h4>Stripe Tab</h4>
+                                            <h3>Stripe Tab</h3>
                                             <div>
-                                                Fringilla egestas nunc quis tellus diam rhoncus ultricies tristique enim at
-                                                diam, sem nunc amet, pellentesque id egestas velit sed
+                                                <form action="{{ route('admin.stripe-settings.update')}}" method="POST" class="card">
+                                                    @csrf
+                                                    <div class="row card-body">
+                                                        <div class="mb-3 col-md-5">
+                                                            <label class="form-label required">Stripe Status</label>
+                                                            <div>
+                                                                <select class="form-select" name="stripe_status">
+                                                                    <option value="">Select Mode</option>
+                                                                    <option @selected(config('payment_gateway.stripe_status') == 'active') value="active">Active</option>
+                                                                    <option @selected(config('payment_gateway.stripe_status') == 'inactive') value="inactive">Inactive</option>
+                                                                </select>
+                                                                <x-input-error :messages="$errors->get('stripe_status')" class="mt-2" />
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3 col-md-5">
+                                                            <label class="form-label required">Curency</label>
+                                                            <div>
+                                                                <select class="form-select" name="stripe_currency">
+                                                                    @foreach (config('gateway_currency.stripeCurrencies') as $key => $value)
+                                                                        <option @selected(config('payment_gateway.stripe_currency') == $value) value="{{ $value }}">
+                                                                           {{ $value }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                                <x-input-error :messages="$errors->get('stripe_currency')" class="mt-2" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3 col-md-2">
+                                                            <label class="form-label required">Rate (USD)</label>
+                                                            <div>
+                                                                <input type="text" class="form-control" name="stripe_rate" value="{{ config('payment_gateway.stripe_rate')}}" placeholder="Rate (USD)">
+                                                                <x-input-error :messages="$errors->get('stripe_rate')" class="mt-2" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3 col-md-6">
+                                                            <label class="form-label required">Publishedable Key</label>
+                                                            <div>
+                                                                <input type="text" class="form-control" name="stripe_publishable_key" value="{{ config('payment_gateway.stripe_publishable_key')}}" placeholder="Enter your Publishable Key">
+                                                                <x-input-error :messages="$errors->get('stripe_publishable_key')" class="mt-2" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3 col-md-6">
+                                                            <label class="form-label required">Stripe Secret</label>
+                                                            <div>
+                                                                <input type="text" class="form-control" name="stripe_secret" value="{{ config('payment_gateway.stripe_secret')}}" placeholder="Enter your Stripe Secret">
+                                                                <x-input-error :messages="$errors->get('stripe_secret')" class="mt-2" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-start">
+                                                            <button type="submit" class="btn btn-primary">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </form>                                            
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="tabs-activity-5" role="tabpanel">

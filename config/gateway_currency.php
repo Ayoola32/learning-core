@@ -32,5 +32,10 @@ return [
             'symbol' => '¥',
             'code' => 'JPY',
         ],   
+    ],
+    'stripeCurrencies' => [
+        'USD', 'EUR', 'GBP', 'AUD', 'CAD', 'JPY', 'NZD', 'CHF', 'CNY', 'SEK', 'MXN', 'SGD',
+        'HKD', 'NOK', 'KRW', 'TRY', 'RUB', 'INR', 'BRL', 'ZAR', 'PLN', 'TWD', 'MYR', 'NGN',
+        
     ]
 ];
