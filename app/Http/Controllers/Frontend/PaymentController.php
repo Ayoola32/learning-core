@@ -95,6 +95,7 @@ class PaymentController extends Controller
             $transactionId = $capture['id'];
             $currency = $capture['amount']['currency_code'];
             $paidAmount = $capture['amount']['value'];
+            $payment_method = 'paypal';
 
             try {
                 // Store the order in the database
@@ -105,13 +106,14 @@ class PaymentController extends Controller
                     $paidAmount,   // cartTotal(),
                     $paidAmount,
                     $currency,
-                    'paypal'
+                    $payment_method
                 );
                 // Redirect to success page
                 return view('frontend.pages.cart.order-success')->with([
                     'transactionId' => $transactionId,
                     'paidAmount' => $paidAmount,
                     'currency' => $currency,
+                    'payment_method' => $payment_method,
                 ]);
             } catch (\Exception $e) {
                 throw $e;
@@ -136,29 +138,78 @@ class PaymentController extends Controller
     // Stripe MEthods
     public function stripePayment()
     {
+        try {
+            Stripe::setApiKey(config('payment_gateway.stripe_secret'));
+
+            $payableAmount = (cartTotal() * 100);
+            $quantityCount = cartItemsCount();
+
+            $response = StripeSession::create([
+                'line_items' => [
+                    [
+                        'price_data' => [
+                                'currency' => config('payment_gateway.stripe_currency'),
+                                'product_data' => [
+                                'name' => 'Course',
+                            ],
+                            'unit_amount' => $payableAmount
+                        ],
+                        'quantity' => $quantityCount
+                    ]
+                ],
+                'mode' => 'payment',
+                'success_url' => route('stripe.success') . '?session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url' => route('stripe.cancel')
+            ]);
+
+
+            return redirect()->away($response->url);
+        } catch (\Throwable $th) {
+            //  Something went wrong, kindly contact Support  
+        }
+    }
+
+
+    public function stripeSuccess(Request $request)
+    {
         Stripe::setApiKey(config('payment_gateway.stripe_secret'));
 
-        $payableAmount = (cartTotal() * 50);
-        $quantityCount = cartItemsCount();
+        $response = StripeSession::retrieve($request->session_id);
+        if($response->payment_status === 'paid'){
+            $transactionId = $response->payment_intent;
+            $currency = $response->currency;
+            $paidAmount = $response->amount_total / 100;
+            $payment_method = 'stripe';
 
-        $response = StripeSession::create([
-            'line_items' => [
-                [
-                    'price_data' => [
-                            'currency' => config('payment_gateway.stripe_currency'),
-                            'product_data' => [
-                            'name' => 'Course',
-                        ],
-                        'unit_amount' => $payableAmount
-                    ],
-                    'quantity' => $quantityCount
-                ]
-            ],
-            'mode' => 'payment',
-            'success_url' => route('stripe.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('stripe.cancel')
-        ]);
+            try {
+                // Store the order in the database
+                OrderService::storeOrder(
+                    $transactionId,
+                    auth()->user()->id,
+                    'completed',
+                    $paidAmount,  
+                    $paidAmount,
+                    $currency,
+                    $payment_method,
+                );
+                // Redirect to success page
+                return view('frontend.pages.cart.order-success')->with([
+                    'transactionId' => $transactionId,
+                    'paidAmount' => $paidAmount,
+                    'currency' => $currency,
+                    'payment_method' => $payment_method
+                ]);
+            } catch (\Exception $e) {
+                throw $e;
+            }
+        } else {
+            return view('frontend.pages.cart.order-failed');
+        }
 
-        return redirect()->away($response->url);
+    }
+
+    public function stripeCancel(Request $request)
+    {
+        return redirect()->route('cart.index')->with('error', 'Payment canceled.');
     }
 }

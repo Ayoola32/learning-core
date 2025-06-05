@@ -50,7 +50,7 @@
                             </p>
                             <p class="card-text">
                                 <strong>Payment Method:</strong>
-                                <span class="text-success">PayPal</span>
+                                <span class="text-success">{{$payment_method}}</span>
                             </p>
                             <p class="card-text">
                                 <strong>Status:</strong>
