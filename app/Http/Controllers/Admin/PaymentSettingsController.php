@@ -66,4 +66,29 @@ class PaymentSettingsController extends Controller
         notyf()->success('Stripe Payment Settings Updated Successfully.');
         return redirect()->back();
     }
+
+    // Razorpay Settings
+    public function razorSettings(Request $request): RedirectResponse
+    {
+        $validatedData = $request->validate([
+            'razorpay_status' => ['required', 'string', 'in:active,inactive'],
+            'razorpay_currency' => ['required', 'string'],
+            'razorpay_rate' => ['required', 'numeric'],
+            'razorpay_key' => ['required', 'string'],
+            'razorpay_secret' => ['required'],
+        ]);
+        // Update or create the payment settings
+        foreach ($validatedData as $key => $value) {
+            PaymentSetting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );  
+        };
+
+        Cache::forget('payment_gateway_settings');
+
+        // redirect to relevant page with notyf success message
+        notyf()->success('RazorPay Payment Settings Updated Successfully.');
+        return redirect()->back();
+    }
 }

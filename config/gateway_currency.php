@@ -37,5 +37,10 @@ return [
         'USD', 'EUR', 'GBP', 'AUD', 'CAD', 'JPY', 'NZD', 'CHF', 'CNY', 'SEK', 'MXN', 'SGD',
         'HKD', 'NOK', 'KRW', 'TRY', 'RUB', 'INR', 'BRL', 'ZAR', 'PLN', 'TWD', 'MYR', 'NGN',
         
+    ],
+    'razorpayCurrencies' => [
+        'USD', 'EUR', 'GBP', 'AUD', 'CAD', 'JPY', 'NZD', 'CHF', 'CNY', 'SEK', 'SGD',
+        'ZAR',
     ]
+
 ];
