@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Service\OrderService;
 use Illuminate\Http\Request;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use Stripe\Checkout\Session as StripeSession;
+use Stripe\Stripe;
 
 class PaymentController extends Controller
 {
@@ -66,14 +68,11 @@ class PaymentController extends Controller
 
         if (isset($response['id']) && $response['id']) {
             foreach ($response['links'] as $link) {
-                if($link['rel'] === 'approve') {
+                if ($link['rel'] === 'approve') {
                     return redirect()->away($link['href']);
-                }elseif 
-                    ($link['rel'] === 'self') {
-                }elseif 
-                    ($link['rel'] === 'update') {
-                }elseif 
-                    ($link['rel'] === 'capture') {
+                } elseif ($link['rel'] === 'self') {
+                } elseif ($link['rel'] === 'update') {
+                } elseif ($link['rel'] === 'capture') {
                 }
             }
         } else {
@@ -101,7 +100,7 @@ class PaymentController extends Controller
                 // Store the order in the database
                 OrderService::storeOrder(
                     $transactionId,
-                    auth()->user()->id, 
+                    auth()->user()->id,
                     'completed',
                     $paidAmount,   // cartTotal(),
                     $paidAmount,
@@ -113,8 +112,7 @@ class PaymentController extends Controller
                     'transactionId' => $transactionId,
                     'paidAmount' => $paidAmount,
                     'currency' => $currency,
-                ]); 
-                     
+                ]);
             } catch (\Exception $e) {
                 throw $e;
             }
@@ -130,5 +128,37 @@ class PaymentController extends Controller
     {
         // Logic for handling canceled PayPal payment
         return redirect()->route('cart.index')->with('error', 'Payment canceled.');
+    }
+
+
+
+
+    // Stripe MEthods
+    public function stripePayment()
+    {
+        Stripe::setApiKey(config('payment_gateway.stripe_secret'));
+
+        $payableAmount = (cartTotal() * 50);
+        $quantityCount = cartItemsCount();
+
+        $response = StripeSession::create([
+            'line_items' => [
+                [
+                    'price_data' => [
+                            'currency' => config('payment_gateway.stripe_currency'),
+                            'product_data' => [
+                            'name' => 'Course',
+                        ],
+                        'unit_amount' => $payableAmount
+                    ],
+                    'quantity' => $quantityCount
+                ]
+            ],
+            'mode' => 'payment',
+            'success_url' => route('stripe.success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('stripe.cancel')
+        ]);
+
+        return redirect()->away($response->url);
     }
 }
