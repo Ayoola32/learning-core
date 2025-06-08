@@ -266,6 +266,17 @@
                     </div>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.order-courses')}}">
+                        <span
+                            class="nav-link-icon d-md-none d-lg-inline-block">
+                            <i class="ti ti-stack"></i>
+                        </span>
+                        <span class="nav-link-title">
+                            Orders Courses
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{route('admin.payment-settings')}}">
                         <span
                             class="nav-link-icon d-md-none d-lg-inline-block">
