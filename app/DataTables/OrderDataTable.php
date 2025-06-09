@@ -45,7 +45,7 @@ class OrderDataTable extends DataTable
                     ->minifiedAjax()
                     //->dom('Bfrtip')
                     ->orderBy(1)
-                    ->selectStyleSingle()
+                    // ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
@@ -62,15 +62,16 @@ class OrderDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('id'),
+            Column::make('invoice_id'),
+            Column::make('buyer_id'),
+            Column::make('paid_amount'),
+            Column::make('payment_method'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
                   ->width(60)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 
