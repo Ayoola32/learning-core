@@ -63,7 +63,7 @@ class OrderDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('invoice_id'),
+            Column::make('invoice_id')->width(60),
             Column::make('buyer_id'),
             Column::make('paid_amount'),
             Column::make('payment_method'),
